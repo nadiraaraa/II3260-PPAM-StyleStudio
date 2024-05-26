@@ -1,12 +1,17 @@
 import React from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useNavigation } from '@react-navigation/native';
+import { useRouter } from 'expo-router';
 
 const Profile = () => {
+
+  const router = useRouter();
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Pressable style={styles.backButton}>
+        <Pressable style={styles.backButton}onPress={() => router.push("/activity")}>
           <Text style={styles.headerButtonText}>Back</Text>
         </Pressable>
         <Text style={styles.headerText}>My Profile</Text>
@@ -32,7 +37,6 @@ const Profile = () => {
           <Text style={styles.infoValue}>Detail Order &gt;</Text>
         </Pressable>
       </View>
-
     </SafeAreaView>
   );
 };
