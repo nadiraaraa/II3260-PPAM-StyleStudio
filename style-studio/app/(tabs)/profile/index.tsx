@@ -32,9 +32,7 @@ const Profile = () => {
           <Text style={styles.infoValue}>Detail Order &gt;</Text>
         </Pressable>
       </View>
-      <Pressable style={styles.editProfileButton}>
-        <Text style={styles.editProfileButtonText}>Edit Profile</Text>
-      </Pressable>
+
     </SafeAreaView>
   );
 };
