@@ -14,7 +14,8 @@ module.exports = {
       'white1': '#FDFDF9',
       'grey1': '#D9D9D9',
       'brown1': '#595454',
-      'black1': '#1C1B1F'
+      'black1': '#1C1B1F',
+      'bar1': '#E6E3D1'
     }
   },
   plugins: [],
