@@ -2,12 +2,12 @@ import { router } from "expo-router";
 import { Pressable, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const Login = () => {
+const Profile = () => {
   return <>
   <SafeAreaView>
-    <Pressable onPress={() => router.push("/(tabs)/home")}><Text>Log In</Text></Pressable>
+    <Pressable onPress={() => router.push("/")}><Text>Profile</Text></Pressable>
   </SafeAreaView>
   </>;
 };
 
-export default Login;
+export default Profile;
