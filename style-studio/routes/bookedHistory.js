@@ -2,12 +2,12 @@ import supabase from "../supabaseClient.js"
 
 
 // Function to fetch book history for the logged-in customer
-async function fetchBookHistory(uid) {
+async function fetchBookedHistory(uid) {
     try {
         // Fetch books where cust_id matches the logged-in user's ID
         const { data: books, error } = await supabase
             .from('book')
-            .select('*, tailor!inner(user(name, telephone))')
+            .select('*, user(name, telephone)')
             .eq('custId', uid)
             .order('created_at', {ascending: false});
 
@@ -19,8 +19,8 @@ async function fetchBookHistory(uid) {
         const bookHistory = books.map(book => {
           const updatedBook = {
               ...book,
-              tailor_name: book.tailor.user.name,
-              tailor_telephone: book.tailor.user.telephone
+              cust_name: book.user.name,
+              cust_telephone: book.user.telephone,
           };
           delete updatedBook.tailor; // Delete the tailor property from each book object
           return updatedBook;
@@ -34,7 +34,7 @@ async function fetchBookHistory(uid) {
 
 // Example usage
 const uid = 1;
-fetchBookHistory(uid)
+fetchBookedHistory(uid)
     .then(bookHistory => {
         console.log('Book History:', bookHistory);
     })
