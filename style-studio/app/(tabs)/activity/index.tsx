@@ -3,6 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import * as Datetime from "react-datetime";
+import supabase from "../../../supabaseClient"
 
 import {
     Image,
@@ -13,39 +14,64 @@ import {
 } from "react-native";
 import { router } from "expo-router";
 
-interface ActivityProps {
-    name: string;
-    photo: string;
-    category: string;
-    size: string;
-    price: string;
-    orderDate: Datetime;
-    status: string;
+interface BookProps {
+    
 }
+
+interface OrderProps {
+    
+}
+
 
 const Activity = () => {
     const [page, setPage] = useState("Thrift");
     const [loading, setLoading] = useState(true);
-    const [activities, setActivities] = useState<ActivityProps[]>([]);
+    const [book, setBook] = useState<BookProps[]>([]);
+    const [buy, setBuy] = useState<OrderProps[]>([]);
+    const [sell, setSell] = useState<OrderProps[]>([]);
+    const id = '';
 
     useEffect(() => {
-        // const fetchData = async () => {
-        //   setLoading(true);
-        //   try {
-        //     const token = await AsyncStorage.getItem("token");
-        //     const response = await axios.get(`${API}/api/listDashboard`, {
-        //       headers: {
-        //         Authorization: `Bearer ${token}`,
-        //       },
-        //     });
-        //     setActivities(response.data.data);
-        //   } catch (error) {
-        //     Alert.alert("Error", error.message, [{ text: "OK" }]);
-        //   } finally {
-        //     setLoading(false);
-        //   }
-        // };
-        // fetchData();
+        const fetchBooks = async () => {
+            const {data, error} = await supabase
+                .from('book')
+                .select()
+                .eq('custId', id)
+                .order('id', {ascending: false})
+            if (error){
+                Alert.alert('an error happened')
+            } else if (data) {
+                setBook(data)
+            }
+        }
+        const fetchSell = async () => {
+            const {data, error} = await supabase
+                .from('order')
+                .select()
+                .eq('sellerId', id)
+                .order('id', {ascending: false})
+            if (error){
+                Alert.alert('an error happened')
+            } else if (data) {
+                setSell(data)
+            }
+        }
+        const fetchBuy = async () => {
+            const {data, error} = await supabase
+                .from('book')
+                .select()
+                .eq('custId', id)
+                .order('id', {ascending: false})
+            if (error){
+                Alert.alert('an error happened')
+            } else if (data) {
+                setBook(data)
+            }
+        }
+
+        fetchBooks();
+        fetchSell();
+        fetchBuy();
     }, []);
 
     return (
@@ -68,8 +94,10 @@ const Activity = () => {
                 </Pressable>
             </View>
             <View>
+                {(page === "Thrift" ? <></> : <></>) }
+
                 {activities?.map((act, idx) => (
-                    <View key={idx} className="flex">
+                    <View key={idx} className="flex-row">
                         <View>
                             <Image
                                 source={{ uri: act.photo }}
