@@ -12,7 +12,7 @@ const Thrift = () => {
     const [viewCategory, setViewCategory] = useState(false)
 
     const handleSearch = () => {
-        
+
     }
 
     return (
@@ -78,7 +78,8 @@ const Thrift = () => {
                 </View>
                 <ScrollView style={{marginHorizontal: 'auto', alignContent: 'center'}}>
                     <View style={{ flexDirection: 'row', flexWrap: 'wrap', columnGap: 10, marginHorizontal: 5}}>
-                        <View style={styles.card}>
+                        <Pressable onPress={()=> router.push('/home/thrift/product')}>
+                            <View style={styles.card}>
                             <Image
                                 source={require('../../../../../assets/images/contoh1.png')}
                                 style={styles.cardImage}
@@ -87,6 +88,7 @@ const Thrift = () => {
                             <Text style={{ color: '#1C1B1F' }}>Rp200.000</Text>
                             <Text style={{ color: '#595454' }}>Bandung</Text>
                         </View>
+                        </Pressable>
                         <View style={styles.card}>
                             <Image
                                 source={require('../../../../../assets/images/contoh1.png')}
