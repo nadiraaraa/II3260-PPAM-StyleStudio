@@ -45,34 +45,39 @@ const Login = () => {
         <Pressable onPress={() => navigation.navigate('Welcome', {})} style={styles.backButton}>
           <Text style={styles.backButtonText}>←</Text>
         </Pressable>
-        <Text style={styles.title}>Sign In</Text>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>Sign In</Text>
+        </View>
       </View>
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-        autoCapitalize="none"
-        placeholderTextColor="#8C8C8C" // Light gray color for placeholder text
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-        placeholderTextColor="#8C8C8C" // Light gray color for placeholder text
-      />
-      {/* <Text style={styles.forgotPassword}>Forgot your password?</Text> */}
-      <Pressable style={styles.signInButton} onPress={handleSubmit}>
-        <Text style={styles.signInButtonText}>Sign In</Text>
-      </Pressable>
-      <View style={styles.signUpContainer}>
-        <Text style={styles.needAccountText}>Need An Account? </Text>
-        <Pressable onPress={() => navigation.navigate('SignUp', {})}>
-          <Text style={styles.signUpText}>Sign Up</Text>
+
+      <View style={styles.formContainer}>
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          value={email}
+          onChangeText={setEmail}
+          keyboardType="email-address"
+          autoCapitalize="none"
+          placeholderTextColor="#8C8C8C" // Light gray color for placeholder text
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+          placeholderTextColor="#8C8C8C" // Light gray color for placeholder text
+        />
+        <Text style={styles.forgotPassword}>Forgot your password?</Text>
+        <Pressable style={styles.signInButton} onPress={handleSubmit} >
+          <Text style={styles.signInButtonText}>Sign In</Text>
         </Pressable>
+        <View style={styles.signUpContainer}>
+          <Text style={styles.needAccountText}>Need An Account? </Text>
+          <Pressable onPress={() => navigation.navigate('SignUp', {})}>
+            <Text style={styles.signUpText}>Sign Up</Text>
+          </Pressable>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -81,9 +86,8 @@ const Login = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5F5DC', // Cream background color
+    backgroundColor: '#FFFFFF', // White background color
     padding: 20,
-    justifyContent: 'center',
   },
   header: {
     flexDirection: 'row',
@@ -91,17 +95,24 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   backButton: {
-    marginRight: 10,
+    padding: 10,
   },
   backButtonText: {
     fontSize: 18,
     color: '#808080',
   },
+  titleContainer: {
+    flex: 1,
+    alignItems: 'center',
+  },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     textAlign: 'center',
+  },
+  formContainer: {
     flex: 1,
+    justifyContent: 'center',
   },
   input: {
     height: 50,

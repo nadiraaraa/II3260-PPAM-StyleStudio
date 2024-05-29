@@ -18,49 +18,51 @@ const SignUp = () => {
         </Pressable>
         <Text style={styles.title}>Sign Up</Text>
       </View>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Name"
-          placeholderTextColor="#8C8C8C" // Light gray color for placeholder text
-          value={name}
-          onChangeText={setName}
-        />
+      <View style={styles.formContainer}>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Name"
+            placeholderTextColor="#8C8C8C" // Light gray color for placeholder text
+            value={name}
+            onChangeText={setName}
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Email"
+            placeholderTextColor="#8C8C8C" // Light gray color for placeholder text
+            value={email}
+            onChangeText={setEmail}
+            keyboardType="email-address"
+            autoCapitalize="none"
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Password"
+            placeholderTextColor="#8C8C8C" // Light gray color for placeholder text
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Confirm Password"
+            placeholderTextColor="#8C8C8C" // Light gray color for placeholder text
+            value={confirmPassword}
+            onChangeText={setConfirmPassword}
+            secureTextEntry
+          />
+        </View>
+        <Pressable style={styles.createAccountButton} onPress={() => router.push("/(tabs)/home")}>
+          <Text style={styles.createAccountButtonText}>Create Account</Text>
+        </Pressable>
       </View>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          placeholderTextColor="#8C8C8C" // Light gray color for placeholder text
-          value={email}
-          onChangeText={setEmail}
-          keyboardType="email-address"
-          autoCapitalize="none"
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          placeholderTextColor="#8C8C8C" // Light gray color for placeholder text
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Confirm Password"
-          placeholderTextColor="#8C8C8C" // Light gray color for placeholder text
-          value={confirmPassword}
-          onChangeText={setConfirmPassword}
-          secureTextEntry
-        />
-      </View>
-      <Pressable style={styles.createAccountButton} onPress={() => router.push("/(tabs)/home")}>
-        <Text style={styles.createAccountButtonText}>Create Account</Text>
-      </Pressable>
     </SafeAreaView>
   );
 };
@@ -68,17 +70,17 @@ const SignUp = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5F5DC', // Cream background color
+    backgroundColor: '#FFFFFF', // White background color
     padding: 20,
-    justifyContent: 'center',
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 20,
+    justifyContent: 'space-between',
   },
   backButton: {
-    marginRight: 10,
+    padding: 10,
   },
   backButtonText: {
     fontSize: 18,
@@ -89,6 +91,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     flex: 1,
+  },
+  formContainer: {
+    flex: 1,
+    justifyContent: 'center',
   },
   inputContainer: {
     borderColor: '#CCCCCC',
