@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, Pressable, AppState } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
+import {loginUser} from '../../../routes/login';
 
 const Login = () => {
   const router = useRouter();
@@ -10,29 +11,29 @@ const Login = () => {
   const [error, setError] = useState('');
 
   const handleSubmit = async () => {
-    if (email == '' || password == ''){
-      setError('input fields can not be empty!');
-    }
-    else {
-      setError('');
+    // if (email == '' || password == ''){
+    //   setError('input fields can not be empty!');
+    // }
+    // else {
+    //   setError('');
 
-      try {
-        const id = await loginUser(email, password);
+    //   try {
+    //     const id = await loginUser(email, password);
 
-        // if (id === -1){
-        //   setError('wrong username or password');
-        // } else {
-        //   router.push(
-        //     `../(tabs)/home?id=${id}` as any
-        // )
-        // }
-      } catch (error) {
-        console.error('Something went wrong');
-        setError('something went wrong');
-        return -1;
-      }
+    //     if (id === -1){
+    //       setError('wrong username or password');
+    //     } else {
+    //       router.push(
+    //         `../(tabs)/home?id=${id}` as any
+    //     )
+    //     }
+    //   } catch (error) {
+    //     console.error('Something went wrong');
+    //     setError('something went wrong');
+    //     return -1;
+    //   }
 
-    }
+    // }
     
   }
 
@@ -151,7 +152,3 @@ const styles = StyleSheet.create({
 });
 
 export default Login;
-function loginUser(email: string, password: string) {
-  throw new Error('Function not implemented.');
-}
-

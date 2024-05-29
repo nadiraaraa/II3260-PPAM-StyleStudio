@@ -2,6 +2,7 @@ import { Link, useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Button, StyleSheet, Text, TextInput, View, Image, ScrollView, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Filter from './filter';
 
 const Thrift = () => {
     //hrs tambahin search sbg param
@@ -19,36 +20,13 @@ const Thrift = () => {
     return (
             <View style={styles.container}>
                 {viewCategory ? 
-                    <View style={styles.filter}>
-                        <Text style={{fontSize: 24, fontWeight: 'bold'}}>Filter</Text>
-                        <View>
-                            <Text style={{paddingVertical: 20}}>Category</Text>
-                            <View style={styles.filterOptions}>
-                                <Pressable onPress={() => setCategory('Top')}><Text style={[styles.filterOption, category=="Top" ? {backgroundColor: '#354A15', color: 'white'} : {backgroundColor: '#DEDD91'}]}>Top</Text></Pressable>
-                                <Pressable onPress={() => setCategory('Bottom')}><Text style={[styles.filterOption, category=="Bottom" ? {backgroundColor: '#354A15', color: 'white'} : {backgroundColor: '#DEDD91'}]}>Bottom</Text></Pressable>
-                                <Pressable onPress={() => setCategory('Dress')}><Text style={[styles.filterOption, category=="Dress" ? {backgroundColor: '#354A15', color: 'white'} : {backgroundColor: '#DEDD91'}]}>Dress</Text></Pressable>
-                                <Pressable onPress={() => setCategory('Accessory')}><Text style={[styles.filterOption, category=="Accessory" ? {backgroundColor: '#354A15', color: 'white'} : {backgroundColor: '#DEDD91'}]}>Accessory</Text></Pressable>
-                                <Pressable onPress={() => setCategory('Footwear')}><Text style={[styles.filterOption, category=="Footwear" ? {backgroundColor: '#354A15', color: 'white'} : {backgroundColor: '#DEDD91'}]}>Footwear</Text></Pressable>
-                                <Pressable onPress={() => setCategory('Set')}><Text style={[styles.filterOption, category=="Set" ? {backgroundColor: '#354A15', color: 'white'} : {backgroundColor: '#DEDD91'}]}>Set</Text></Pressable>
-                            </View>
-                        </View>
-                        <View>
-                            <Text style={{paddingVertical: 20}}>Location</Text>
-                            <View style={styles.filterOptions}>
-                                <Pressable onPress={() => setLocation('Banten')}><Text style={[styles.filterOption, location=="Banten" ? {backgroundColor: '#354A15', color: 'white'} : {backgroundColor: '#DEDD91'}]}>Banten</Text></Pressable>
-                                <Pressable onPress={() => setLocation('Jakarta')}><Text style={[styles.filterOption, location=="Jakarta" ? {backgroundColor: '#354A15', color: 'white'} : {backgroundColor: '#DEDD91'}]}>Jakarta</Text></Pressable>
-                                <Pressable onPress={() => setLocation('Jawa Barat')}><Text style={[styles.filterOption, location=="Jawa Barat" ? {backgroundColor: '#354A15', color: 'white'} : {backgroundColor: '#DEDD91'}]}>Jawa Barat</Text></Pressable>
-                                <Pressable onPress={() => setLocation('Jawa Tengah')}><Text style={[styles.filterOption, location=="Jawa Tengah" ? {backgroundColor: '#354A15', color: 'white'} : {backgroundColor: '#DEDD91'}]}>Jawa Tengah</Text></Pressable>
-                                <Pressable onPress={() => setLocation('Jawa Timur')}><Text style={[styles.filterOption, location=="Jawa Timur" ? {backgroundColor: '#354A15', color: 'white'} : {backgroundColor: '#DEDD91'}]}>Jawa Timur</Text></Pressable>
-                                <Pressable onPress={() => setLocation('Yogyakarta')}><Text style={[styles.filterOption, location=="Yogyakarta" ? {backgroundColor: '#354A15', color: 'white'} : {backgroundColor: '#DEDD91'}]}>Yogyakarta</Text></Pressable>
-                            </View>
-                        </View>
-                        <View>
-                            <Pressable onPress={() => setViewCategory(false)}>
-                                <Text style={{padding: 10, backgroundColor: '#354A15', textAlign: 'center', width: 80, color: 'white', borderRadius: 5, marginTop: 120, alignSelf: 'flex-end'}}>Save</Text>
-                            </Pressable>
-                        </View>
-                    </View>
+                    <Filter 
+                        category={category}
+                        setCategory={setCategory}
+                        location={location}
+                        setLocation={setLocation}
+                        setViewCategory={setViewCategory}
+                    />
                     : <></>
                 }
                 <View style={styles.bar}>
