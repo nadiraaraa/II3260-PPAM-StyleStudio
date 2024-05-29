@@ -1,23 +1,24 @@
 import React from "react";
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { View, Text, StyleSheet, Pressable, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useNavigation } from '@react-navigation/native';
 import { useRouter } from 'expo-router';
 
 const Profile = () => {
-
   const router = useRouter();
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Pressable style={styles.backButton}onPress={() => router.push("/activity")}>
+        <Pressable style={styles.backButton} onPress={() => router.push("/activity")}>
           <Text style={styles.headerButtonText}>Back</Text>
         </Pressable>
         <Text style={styles.headerText}>My Profile</Text>
         <Pressable style={styles.settingsButton}>
           <Text style={styles.headerButtonText}>Settings</Text>
         </Pressable>
+      </View>
+      <View style={styles.profilePicContainer}>
+        <Image source={require('../../../assets/images/profpic.png')} style={styles.profilePic} />
       </View>
       <View style={styles.infoContainer}>
         <View style={styles.infoRow}>
@@ -44,7 +45,7 @@ const Profile = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5F5DC', // Cream background color
+    backgroundColor: '#FFFFFF', // White background color
   },
   header: {
     flexDirection: 'row',
@@ -70,6 +71,15 @@ const styles = StyleSheet.create({
   settingsButton: {
     marginLeft: 10,
   },
+  profilePicContainer: {
+    alignItems: 'center',
+    marginVertical: 20,
+  },
+  profilePic: {
+    width: 80, // Adjusted width
+    height: 80, // Adjusted height
+    borderRadius: 40,
+  },
   infoContainer: {
     marginHorizontal: 20,
   },
@@ -79,7 +89,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 15,
     marginVertical: 5,
-    backgroundColor: '#F0E68C', // Light green background color for cards
+    backgroundColor: '#f4f4f4', // Light grey background color for cards
     borderRadius: 10,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -96,17 +106,6 @@ const styles = StyleSheet.create({
   infoValue: {
     fontSize: 16,
     color: '#4B5320', // Dark green color for value text
-  },
-  editProfileButton: {
-    backgroundColor: '#6D6D4E', // Medium green background color
-    padding: 15,
-    margin: 20,
-    borderRadius: 5,
-    alignItems: 'center',
-  },
-  editProfileButtonText: {
-    color: '#FFFFFF', // White text color
-    fontSize: 16,
   },
 });
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Pressable, StyleSheet } from 'react-native';
+import { View, Text, Pressable, StyleSheet, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 
@@ -9,8 +9,7 @@ const Welcome = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.logoContainer}>
-        <View style={styles.logoPlaceholder} />
-        <Text style={styles.logoText}>StyleStudio</Text>
+        <Image source={require('../assets/images/icon.png')} style={styles.logo} />
       </View>
       <Text style={styles.getStartedText}>Let's get started!</Text>
       <Pressable style={styles.signInButton} onPress={() => router.push("/login")}>
@@ -27,7 +26,7 @@ const Welcome = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5F5DC', // Cream background color
+    backgroundColor: '#FFFFFF', // White background color
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
@@ -36,17 +35,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 40,
   },
-  logoPlaceholder: {
-    width: 120,
-    height: 120,
-    backgroundColor: '#E0E0E0', // Placeholder background color
-    borderRadius: 60,
+  logo: {
+    width: 200, // Increased width
+    height: 200, // Increased height
+    resizeMode: 'contain',
     marginBottom: 10,
-  },
-  logoText: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#6D6D4E', // Medium green text color
   },
   getStartedText: {
     fontSize: 18,
@@ -76,7 +69,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   signUpButtonText: {
-    color: '#6D6D4E', // Medium green text color
+    color: '#FFFFFF', // White text color
     fontSize: 16,
     fontWeight: 'bold',
   },

@@ -1,131 +1,179 @@
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import * as Datetime from "react-datetime";
-import supabase from "../../../supabaseClient"
+import { Text, View, Pressable, StyleSheet, ScrollView } from "react-native";
+import { useRouter } from "expo-router";
 
-import {
-    Image,
-    Text,
-    View,
-    Pressable,
-    Alert,
-} from "react-native";
-import { router } from "expo-router";
-
-interface BookProps {
-    
+interface ActivityProps {
+  name: string;
+  category: string;
+  price: string;
+  orderDate: string; // Changed to string to simplify date handling
 }
-
-interface OrderProps {
-    
-}
-
 
 const Activity = () => {
-    const [page, setPage] = useState("Thrift");
-    const [loading, setLoading] = useState(true);
-    const [book, setBook] = useState<BookProps[]>([]);
-    const [buy, setBuy] = useState<OrderProps[]>([]);
-    const [sell, setSell] = useState<OrderProps[]>([]);
-    const id = '';
+  const [page, setPage] = useState("Thrift");
+  const [loading, setLoading] = useState(true);
+  const [activities, setActivities] = useState<ActivityProps[]>([]);
+  const router = useRouter();
 
-    useEffect(() => {
-        const fetchBooks = async () => {
-            const {data, error} = await supabase
-                .from('book')
-                .select()
-                .eq('custId', id)
-                .order('id', {ascending: false})
-            if (error){
-                Alert.alert('an error happened')
-            } else if (data) {
-                setBook(data)
-            }
-        }
-        const fetchSell = async () => {
-            const {data, error} = await supabase
-                .from('order')
-                .select()
-                .eq('sellerId', id)
-                .order('id', {ascending: false})
-            if (error){
-                Alert.alert('an error happened')
-            } else if (data) {
-                setSell(data)
-            }
-        }
-        const fetchBuy = async () => {
-            const {data, error} = await supabase
-                .from('book')
-                .select()
-                .eq('custId', id)
-                .order('id', {ascending: false})
-            if (error){
-                Alert.alert('an error happened')
-            } else if (data) {
-                setBook(data)
-            }
-        }
+  useEffect(() => {
+    // Example data for now
+    const exampleData = [
+      {
+        name: "Hanji Dress",
+        category: "Women’s Clothing",
+        price: "200.000",
+        orderDate: "10/4/2024",
+      },
+      {
+        name: "Uniqlo T-Shirt",
+        category: "Men’s Clothing",
+        price: "100.000",
+        orderDate: "12/3/2024",
+      },
+      {
+        name: "Zara Jacket",
+        category: "Women’s Clothing",
+        price: "150.000",
+        orderDate: "11/2/2024",
+      },
+    ];
+    setActivities(exampleData);
+    setLoading(false);
+  }, []);
 
-        fetchBooks();
-        fetchSell();
-        fetchBuy();
-    }, []);
-
-    return (
-        <SafeAreaView>
-            <View className="flex-row">
-                <Pressable onPress={() => setPage("Thrift")}>
-                    <Text className={(page === "Thrift" ? "bg-mgreen1 text-white1 " : "bg-lgreen1") + " m-1 text-center w-24 p-1 rounded-lg text-md "}>
-                        Thrift
-                    </Text>
-                </Pressable>
-                <Pressable onPress={() => setPage("Remake")}>
-                    <Text className={(page === "Remake" ? "bg-mgreen1 text-white1 " : "bg-lgreen1") + " m-1 text-center w-24 p-1 rounded-lg text-md "}>
-                        Remake
-                    </Text>
-                </Pressable>
-                <Pressable onPress={() => setPage("Sell")}>
-                    <Text className={(page === "Sell" ? "bg-mgreen1 text-white1 " : "bg-lgreen1") + " m-1 text-center w-24 p-1 rounded-lg text-md "}>
-                        Sell
-                    </Text>
-                </Pressable>
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        <Pressable style={styles.backButton} onPress={() => router.push("/profile")}>
+          <Text style={styles.backButtonText}>←</Text>
+        </Pressable>
+        <Text style={styles.headerText}>Detail Order</Text>
+      </View>
+      <View style={styles.tabs}>
+        <Pressable onPress={() => setPage("Thrift")}>
+          <Text style={[styles.tab, page === "Thrift" && styles.activeTab]}>Thrift</Text>
+        </Pressable>
+        <Pressable onPress={() => setPage("Remake")}>
+          <Text style={[styles.tab, page === "Remake" && styles.activeTab]}>Remake</Text>
+        </Pressable>
+        <Pressable onPress={() => setPage("Sell")}>
+          <Text style={[styles.tab, page === "Sell" && styles.activeTab]}>Sell</Text>
+        </Pressable>
+      </View>
+      <ScrollView>
+      {activities.map((act, idx) => (
+          <View key={idx} style={styles.card}>
+            <View style={styles.cardText}>
+              <Text style={styles.name}>{act.name}</Text>
+              <Text style={styles.category}>{act.category}</Text>
+              <Text style={styles.price}>Total Rp {act.price}</Text>
             </View>
-            <View>
-                {(page === "Thrift" ? <></> : <></>) }
-
-                {activities?.map((act, idx) => (
-                    <View key={idx} className="flex-row">
-                        <View>
-                            <Image
-                                source={{ uri: act.photo }}
-                                className="w-16"
-                                style={{ resizeMode: "contain" }}
-                            />
-                        </View>
-                        <View>
-                            <Text className="font-bold">{act.name}</Text>
-                            <Text>{act.category}</Text>
-                            <Text>Ukuran: {act.size}</Text>
-                            <Text>Rp {act.price}</Text>
-                        </View>
-                        <View>
-                            <Text>{act.orderDate.toLocaleString()}</Text>
-                            <Text>{act.status}</Text>
-                            <Pressable
-                                onPress={() => router.push(`./${idx}`)}
-                                className="bg-lgreen1 rounded-md"
-                            >
-                                <Text>Detil</Text>
-                            </Pressable>
-                        </View>
-                    </View>
-                ))}
-            </View>
-        </SafeAreaView>
-    );
+            <Text style={styles.date}>{act.orderDate}</Text>
+            <Pressable style={styles.detailsButton} onPress={() => router.push(`./${idx}`)}>
+              <Text style={styles.detailsButtonText}>Details</Text>
+            </Pressable>
+          </View>
+        ))}
+      </ScrollView>
+    </SafeAreaView>
+  );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#FFFFFF", // White background color
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#6D6D4E", // Medium green background color
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+  },
+  backButton: {
+    marginRight: 10,
+    padding: 10,
+  },
+  backButtonText: {
+    color: "#FFFFFF", // White text color
+    fontSize: 24, // Increase font size for better visibility
+  },
+  headerText: {
+    flex: 1,
+    color: "#FFFFFF", // White text color
+    fontSize: 18,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  tabs: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    backgroundColor: "#D0D0A5", // Light green background color
+    paddingVertical: 10,
+  },
+  tab: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 20,
+    backgroundColor: "#D0D0A5", // Light green background color
+    color: "#6D6D4E", // Medium green text color
+    fontWeight: "bold",
+  },
+  activeTab: {
+    backgroundColor: "#6D6D4E", // Medium green background color
+    color: "#FFFFFF", // White text color
+  },
+  card: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: 15,
+    margin: 10,
+    borderRadius: 10,
+    backgroundColor: "#FFFFFF", // White background color
+    borderWidth: 1,
+    borderColor: "#ddd",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+    elevation: 5,
+  },
+  cardText: {
+    flex: 1,
+  },
+  name: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#4B5320", // Dark green text color
+  },
+  category: {
+    fontSize: 16,
+    color: "#4B5320", // Dark green text color
+  },
+  price: {
+    fontSize: 16,
+    color: "#4B5320", // Dark green text color
+    fontWeight: "bold",
+  },
+  date: {
+    fontSize: 14,
+    color: "#4B5320", // Dark green text color
+  },
+  detailsButton: {
+    backgroundColor: "#6D6D4E", // Medium green background color
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 5,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  detailsButtonText: {
+    color: "#FFFFFF", // White text color
+    fontWeight: "bold",
+  },
+});
 
 export default Activity;
