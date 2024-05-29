@@ -12,7 +12,17 @@ const Payment = () => {
 					<Text style={[styles.text, { textAlign: 'left' }]}>Register as tailor</Text>
 				</View>
 				<View style={styles.cardContainer}>
-					<View style={styles.card}>
+					<Pressable
+						style={styles.card}
+						onPress={() => {
+							router.push({
+								pathname: '/home/remake/confirmPayment',
+								params: {
+									amount: 100000,
+								},
+							});
+						}}
+					>
 						<View>
 							<Text style={styles.cardTitle}>1 Month</Text>
 							<Text style={styles.cardSubTitle}>Total Rp 100.000</Text>
@@ -25,8 +35,18 @@ const Payment = () => {
 								Monthly
 							</Text>
 						</View>
-					</View>
-					<View style={styles.card}>
+					</Pressable>
+					<Pressable
+						style={styles.card}
+						onPress={() => {
+							router.push({
+								pathname: '/home/remake/confirmPayment',
+								params: {
+									amount: 540000,
+								},
+							});
+						}}
+					>
 						<View>
 							<Text style={styles.cardTitle}>6 Month</Text>
 							<Text style={styles.cardSubTitle}>Total Rp 540.000</Text>
@@ -39,8 +59,18 @@ const Payment = () => {
 								Monthly
 							</Text>
 						</View>
-					</View>
-					<View style={styles.card}>
+					</Pressable>
+					<Pressable
+						style={styles.card}
+						onPress={() => {
+							router.push({
+								pathname: '/home/remake/confirmPayment',
+								params: {
+									amount: 960000,
+								},
+							});
+						}}
+					>
 						<View>
 							<Text style={styles.cardTitle}>12 Month</Text>
 							<Text style={styles.cardSubTitle}>Total Rp 960.000</Text>
@@ -53,7 +83,7 @@ const Payment = () => {
 								Monthly
 							</Text>
 						</View>
-					</View>
+					</Pressable>
 				</View>
 			</SafeAreaView>
 		</>

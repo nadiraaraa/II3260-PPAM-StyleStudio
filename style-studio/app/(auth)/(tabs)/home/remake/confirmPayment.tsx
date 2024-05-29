@@ -1,62 +1,48 @@
-import { useRouter } from 'expo-router';
-import { Button, Pressable, StyleSheet, Text, View } from 'react-native';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { Button, Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const ConfirmPayment = () => {
 	const router = useRouter();
+	const { amount } = useLocalSearchParams();
 
 	return (
-		<>
-			<SafeAreaView style={styles.container}>
-				<View>
-					<Text style={[styles.text, { textAlign: 'left' }]}>Confirm paymnet</Text>
+		<SafeAreaView style={styles.container}>
+			<View style={styles.contentContainer}>
+				<View style={styles.headerContainer}>
+					<Text style={styles.titleText}>Payment</Text>
+					<Text style={[styles.titleText, { color: 'red' }]}>Change</Text>
 				</View>
-				<View style={styles.cardContainer}>
-					<View style={styles.card}>
-						<View>
-							<Text style={styles.cardTitle}>1 Month</Text>
-							<Text style={styles.cardSubTitle}>Total Rp 100.000</Text>
-						</View>
-						<View>
-							<Text style={[styles.cardSubTitle, { textAlign: 'center' }]}>
-								Rp 100.000
-							</Text>
-							<Text style={[styles.cardSubTitle, { textAlign: 'center' }]}>
-								Monthly
-							</Text>
-						</View>
+				<View style={styles.paymentContainer}>
+					<View style={styles.imageContainer}>
+						<Image
+							source={require('../../../../../assets/images/bca.png')}
+							style={styles.logoImage}
+							resizeMethod="scale"
+						/>
+						<Text>BCA</Text>
 					</View>
-					<View style={styles.card}>
-						<View>
-							<Text style={styles.cardTitle}>6 Month</Text>
-							<Text style={styles.cardSubTitle}>Total Rp 540.000</Text>
-						</View>
-						<View>
-							<Text style={[styles.cardSubTitle, { textAlign: 'center' }]}>
-								Rp 90.000
-							</Text>
-							<Text style={[styles.cardSubTitle, { textAlign: 'center' }]}>
-								Monthly
-							</Text>
-						</View>
-					</View>
-					<View style={styles.card}>
-						<View>
-							<Text style={styles.cardTitle}>12 Month</Text>
-							<Text style={styles.cardSubTitle}>Total Rp 960.000</Text>
-						</View>
-						<View>
-							<Text style={[styles.cardSubTitle, { textAlign: 'center' }]}>
-								Rp 80.000
-							</Text>
-							<Text style={[styles.cardSubTitle, { textAlign: 'center' }]}>
-								Monthly
-							</Text>
-						</View>
-					</View>
+					<Text>**** **** **** 1803</Text>
 				</View>
-			</SafeAreaView>
-		</>
+				<View style={styles.totalContainer}>
+					<Text style={styles.titleText}>Total</Text>
+					<Text style={styles.titleText}>Rp {amount}</Text>
+				</View>
+			</View>
+			<View style={styles.footer}>
+				<View style={styles.footerTextContainer}>
+					<Text style={styles.footerTotalText}>Total: Rp {amount}</Text>
+				</View>
+				<Pressable
+					style={styles.payButton}
+					onPress={() => {
+						/* Handle pay action */
+					}}
+				>
+					<Text style={styles.payButtonText}>PAY</Text>
+				</Pressable>
+			</View>
+		</SafeAreaView>
 	);
 };
 
@@ -64,56 +50,77 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: '#FFFFFF', // White background color
-		padding: 20,
 		width: '100%',
-		gap: 20,
 	},
 
-	cardContainer: {
-		flex: 1,
-		gap: 30,
+	contentContainer: {
+		flexGrow: 1,
+		paddingHorizontal: 20,
 	},
 
-	card: {
-		backgroundColor: '#E6E4BF',
-		padding: 16,
-		borderRadius: 20,
+	headerContainer: {
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		// marginBottom: 20, // Add some space below the header
+	},
+
+	paymentContainer: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
 	},
 
-	cardTitle: {
-		fontSize: 30,
-		fontWeight: 'bold',
-		marginBottom: 24,
-	},
-
-	cardSubTitle: {
-		fontSize: 15,
-		fontWeight: '600',
-	},
-
-	text: {
-		fontSize: 30,
-		fontWeight: '400',
-		textAlign: 'center',
-		color: '#616219',
-	},
-
-	button: {
-		width: '80%',
+	imageContainer: {
+		flexDirection: 'row',
 		alignItems: 'center',
-		justifyContent: 'center',
-		paddingVertical: 12,
-		paddingHorizontal: 32,
-		borderRadius: 4,
-		elevation: 3,
+		gap: 10,
+		marginVertical: 20, // Add some vertical margin to position the image
 	},
 
-	buttonText: {
+	totalContainer: {
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+	},
+
+	titleText: {
 		fontSize: 16,
-		color: 'white',
+		fontWeight: '500',
+	},
+
+	logoImage: {
+		width: 30,
+		height: 30,
+	},
+
+	footer: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'space-between',
+		backgroundColor: '#D2D2A4', // Light greenish color
+		paddingVertical: 15,
+		paddingHorizontal: 20,
+	},
+
+	footerTextContainer: {
+		flex: 1,
+	},
+
+	footerTotalText: {
+		fontSize: 16,
+		fontWeight: '500',
+	},
+
+	payButton: {
+		backgroundColor: '#65632F', // Dark greenish color
+		paddingVertical: 10,
+		paddingHorizontal: 20,
+		borderRadius: 5,
+	},
+
+	payButtonText: {
+		color: '#FFFFFF', // White text color
+		fontSize: 16,
+		fontWeight: '600',
 	},
 });
 

@@ -108,6 +108,7 @@ const Layout = () => {
 					},
 					title: 'Remake',
 
+					tabBarStyle: { display: 'none' }, // Hide bottom navigation bar
 					headerLeft: () => (
 						<TouchableOpacity onPress={() => router.back()} style={{ marginLeft: 10 }}>
 							<FontAwesome name="arrow-left" size={12} color="#FFFFFF" />
