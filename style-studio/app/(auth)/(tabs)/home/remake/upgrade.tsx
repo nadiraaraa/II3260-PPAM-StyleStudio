@@ -1,35 +1,31 @@
-import { Link, useRouter } from 'expo-router';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { useRouter } from 'expo-router';
+import { Button, Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-const Home = () => {
+const Upgrade = () => {
 	const router = useRouter();
 
 	return (
 		<>
 			<SafeAreaView style={styles.container}>
 				<View>
-					<Text style={styles.text}>Do you want to be a tailor?</Text>
+					<Text style={styles.text}>Do you want to upgrade to a tailor?</Text>
 				</View>
 				<View style={{ flex: 1, alignItems: 'center', gap: 10 }}>
-					<Link
-						href={{ pathname: '/home/remake/blomada' }}
+					<Pressable
 						style={[styles.button, { backgroundColor: '#616219' }]}
+						onPress={() => {
+							router.push('/home/remake/payment');
+						}}
 					>
-						<Text style={styles.buttonText}>I'm already a tailor</Text>
-					</Link>
-					<Link
-						href={{ pathname: '/home/remake/upgrade' }}
+						<Text style={styles.buttonText}>Yes</Text>
+					</Pressable>
+					<Pressable
 						style={[styles.button, { backgroundColor: '#CACB77' }]}
+						onPress={() => {}}
 					>
-						<Text style={styles.buttonText}>Probably</Text>
-					</Link>
-					<Link
-						href={{ pathname: '/home/remake/blomada' }}
-						style={[styles.button, { backgroundColor: '#616219' }]}
-					>
-						<Text style={styles.buttonText}>No, I'm only looking</Text>
-					</Link>
+						<Text style={styles.buttonText}>No</Text>
+					</Pressable>
 				</View>
 			</SafeAreaView>
 		</>
@@ -70,4 +66,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default Home;
+export default Upgrade;
