@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Pressable } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Pressable, AppState } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 
@@ -7,6 +7,34 @@ const Login = () => {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+
+  const handleSubmit = async () => {
+    if (email == '' || password == ''){
+      setError('input fields can not be empty!');
+    }
+    else {
+      setError('');
+
+      try {
+        const id = await loginUser(email, password);
+
+        // if (id === -1){
+        //   setError('wrong username or password');
+        // } else {
+        //   router.push(
+        //     `../(tabs)/home?id=${id}` as any
+        // )
+        // }
+      } catch (error) {
+        console.error('Something went wrong');
+        setError('something went wrong');
+        return -1;
+      }
+
+    }
+    
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -36,8 +64,8 @@ const Login = () => {
           secureTextEntry
           placeholderTextColor="#8C8C8C" // Light gray color for placeholder text
         />
-        <Text style={styles.forgotPassword}>Forgot your password?</Text>
-        <Pressable style={styles.signInButton} onPress={() => router.push("/(tabs)")}>
+        <Text style={styles.error}>{error}</Text>
+        <Pressable style={styles.signInButton} onPress={handleSubmit}>
           <Text style={styles.signInButtonText}>Sign In</Text>
         </Pressable>
         <View style={styles.signUpContainer}>
@@ -91,9 +119,9 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     backgroundColor: '#FFFFFF',
   },
-  forgotPassword: {
+  error: {
     textAlign: 'right',
-    color: '#808080',
+    color: '#FF0000',
     marginVertical: 10,
   },
   signInButton: {
@@ -123,3 +151,7 @@ const styles = StyleSheet.create({
 });
 
 export default Login;
+function loginUser(email: string, password: string) {
+  throw new Error('Function not implemented.');
+}
+
