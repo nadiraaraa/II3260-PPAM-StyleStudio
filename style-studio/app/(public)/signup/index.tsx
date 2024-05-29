@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Pressable } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Pressable, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
+import { useSession } from '@/context/SessionContext';
 
 const SignUp = () => {
 	const router = useRouter();
@@ -9,6 +10,27 @@ const SignUp = () => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
+
+	const { signUp } = useSession();
+
+	const handleSignUp = async () => {
+		if (password !== confirmPassword) {
+			Alert.alert('Passwords do not match');
+			return;
+		}
+
+		if (!name || !email || !password) {
+			Alert.alert('Please fill out all fields');
+			return;
+		}
+
+		const { data, error } = await signUp(email, password, name);
+		if (error) {
+			Alert.alert('Error', error.message || 'An error occurred');
+			return;
+		}
+		router.push('/(tabs)');
+	};
 
 	return (
 		<SafeAreaView style={styles.container}>
@@ -59,10 +81,7 @@ const SignUp = () => {
 						secureTextEntry
 					/>
 				</View>
-				<Pressable
-					style={styles.createAccountButton}
-					onPress={() => router.push('/(tabs)')}
-				>
+				<Pressable style={styles.createAccountButton} onPress={handleSignUp}>
 					<Text style={styles.createAccountButtonText}>Create Account</Text>
 				</Pressable>
 			</View>

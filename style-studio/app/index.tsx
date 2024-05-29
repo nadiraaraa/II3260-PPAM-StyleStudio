@@ -2,14 +2,25 @@ import React from 'react';
 import { View, Text, Pressable, StyleSheet, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
+import { useSession } from '@/context/SessionContext';
 
 const Welcome = () => {
 	const router = useRouter();
 
+	const { user, isLoading } = useSession();
+
+	if (isLoading) {
+		return <></>;
+	}
+
+	if (user) {
+		router.replace('/(tabs)');
+	}
+
 	return (
 		<SafeAreaView style={styles.container}>
 			<View style={styles.logoContainer}>
-				<Image source={require('../../assets/images/icon.png')} style={styles.logo} />
+				<Image source={require('../assets/images/icon.png')} style={styles.logo} />
 			</View>
 			<Text style={styles.getStartedText}>Let's get started!</Text>
 			<Pressable style={styles.signInButton} onPress={() => router.push('/login')}>
