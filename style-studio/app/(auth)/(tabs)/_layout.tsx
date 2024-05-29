@@ -117,6 +117,14 @@ const Layout = () => {
 					href: null,
 				}}
 			/>
+			<Tabs.Screen
+				name="home/remake/paymentSuccess"
+				options={{
+					headerShown: false,
+					tabBarStyle: { display: 'none' }, // Hide bottom navigation bar
+					href: null,
+				}}
+			/>
 
 			<Tabs.Screen
 				name="activity/[actId]/index"
