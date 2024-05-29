@@ -1,9 +1,13 @@
-import { Tabs } from 'expo-router';
+import { Tabs, useRouter } from 'expo-router';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { TouchableOpacity } from 'react-native';
 
 const Layout = () => {
+	const router = useRouter();
+
 	return (
 		<Tabs
+			sceneContainerStyle={{ backgroundColor: 'E6E3D1' }}
 			screenOptions={{
 				tabBarStyle: {
 					backgroundColor: '#E6E3D1', // Green background color
@@ -37,11 +41,24 @@ const Layout = () => {
 					title: 'Profile',
 					tabBarIcon: ({ color }) => <FontAwesome size={24} name="user" color={color} />,
 					headerShown: false,
+					// head
 				}}
 			/>
 			<Tabs.Screen
 				name="home/remake/index"
 				options={{
+					headerTintColor: '#FFFFFF',
+					headerTitleAlign: 'center',
+					headerStyle: {
+						backgroundColor: '#616219',
+					},
+					title: 'Remake',
+
+					headerLeft: () => (
+						<TouchableOpacity onPress={() => router.back()} style={{ marginLeft: 10 }}>
+							<FontAwesome name="arrow-left" size={12} color="#FFFFFF" />
+						</TouchableOpacity>
+					),
 					href: null,
 				}}
 			/>

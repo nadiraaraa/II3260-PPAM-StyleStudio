@@ -1,9 +1,11 @@
+import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { View, Text, Image, Pressable, StyleSheet, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Home = () => {
 	const [page, setPage] = useState('Thrift');
+	const router = useRouter();
 
 	return (
 		<SafeAreaView style={styles.container}>
@@ -27,7 +29,7 @@ const Home = () => {
 					</Pressable>
 					<Pressable
 						style={[styles.card, page === 'Remake' && styles.activeCard]}
-						onPress={() => setPage('Remake')}
+						onPress={() => router.push('/(auth)/(tabs)/home/remake')}
 					>
 						<Image
 							source={require('../../../assets/images/remake.png')}
