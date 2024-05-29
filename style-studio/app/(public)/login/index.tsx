@@ -37,7 +37,7 @@ const Login = () => {
           placeholderTextColor="#8C8C8C" // Light gray color for placeholder text
         />
         <Text style={styles.forgotPassword}>Forgot your password?</Text>
-        <Pressable style={styles.signInButton} onPress={() => router.push("/(tabs)/home")}>
+        <Pressable style={styles.signInButton} onPress={() => router.push("/(tabs)")}>
           <Text style={styles.signInButtonText}>Sign In</Text>
         </Pressable>
         <View style={styles.signUpContainer}>
