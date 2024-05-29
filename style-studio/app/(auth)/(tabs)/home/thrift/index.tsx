@@ -4,6 +4,7 @@ import { Button, StyleSheet, Text, TextInput, View, Image, ScrollView, Pressable
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Thrift = () => {
+    //hrs tambahin search sbg param
     const router = useRouter();
 
     const [search, setSearch] = useState("")

@@ -80,6 +80,24 @@ const Layout = () => {
 				href: null,
 			}}
 		/>
+		<Tabs.Screen
+			name="home/thrift/seller"
+			options={{
+				headerTintColor: '#FFFFFF',
+				headerTitleAlign: 'center',
+				headerStyle: {
+					backgroundColor: '#616219',
+				},
+				title: 'Seller Profile',
+
+				headerLeft: () => (
+					<TouchableOpacity onPress={() => router.back()} style={{ marginLeft: 10 }}>
+						<FontAwesome name="arrow-left" size={12} color="#FFFFFF" />
+					</TouchableOpacity>
+				),
+				href: null,
+			}}
+		/>
 			<Tabs.Screen
 				name="home/sell/index"
 				options={{

@@ -1,7 +1,11 @@
+import { Link, useRouter } from 'expo-router';
+
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Button, StyleSheet, Text, TextInput, View, Image, ScrollView, Pressable } from 'react-native';
 
 const Product = () => {
+    const router = useRouter();
+
     return <View style={styles.container}>
         <Image
             source={require('../../../../../assets/images/contoh1.png')}
@@ -11,7 +15,7 @@ const Product = () => {
             <Text style={{color: '#616219', fontWeight: 'bold', fontSize: 18}}>Dress Hitam</Text>
             <Text style={{fontSize: 16}}>Rp125.000</Text>
             <Text style={{fontSize: 16}}>Jakarta</Text>
-            <Pressable ><Text style={{color: '#616219', fontSize: 16}}>Offered by Nadine</Text></Pressable>
+            <Pressable  onPress={()=> router.push('/home/thrift/seller')}><Text style={{color: '#616219', fontSize: 16}}>Offered by Nadine</Text></Pressable>
         </View>
         <View style={{backgroundColor: 'white', padding: 10}}>
             <Text>Merk: ...</Text>
