@@ -1,17 +1,48 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, Pressable } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import {RootStackParamList} from '../types'
+import { StackNavigationProp } from '@react-navigation/stack';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
+import { loginUser } from '../../routes/login.js'
 
 const Login = () => {
-  const router = useRouter();
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+
+  const handleSubmit = async () => {
+    if (email == '' || password == ''){
+      setError('input fields can not be empty!');
+    }
+    else {
+      setError('');
+
+      try {
+        const id = await loginUser(email, password);
+
+        if (id === -1){
+          setError('wrong username or password');
+        } else {
+          navigation.navigate('Home', { id: id.toString() });
+        }
+      } catch (error) {
+        console.error('Something went wrong');
+        setError('something went wrong');
+        return -1;
+      }
+
+    }
+    
+  }
+
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Pressable onPress={() => router.back()} style={styles.backButton}>
+        <Pressable onPress={() => navigation.navigate('Welcome', {})} style={styles.backButton}>
           <Text style={styles.backButtonText}>←</Text>
         </Pressable>
         <Text style={styles.title}>Sign In</Text>
@@ -33,13 +64,13 @@ const Login = () => {
         secureTextEntry
         placeholderTextColor="#8C8C8C" // Light gray color for placeholder text
       />
-      <Text style={styles.forgotPassword}>Forgot your password?</Text>
-      <Pressable style={styles.signInButton} onPress={() => router.push("/(tabs)/home")}>
+      {/* <Text style={styles.forgotPassword}>Forgot your password?</Text> */}
+      <Pressable style={styles.signInButton} onPress={handleSubmit}>
         <Text style={styles.signInButtonText}>Sign In</Text>
       </Pressable>
       <View style={styles.signUpContainer}>
         <Text style={styles.needAccountText}>Need An Account? </Text>
-        <Pressable onPress={() => router.push("/signup")}>
+        <Pressable onPress={() => navigation.navigate('SignUp', {})}>
           <Text style={styles.signUpText}>Sign Up</Text>
         </Pressable>
       </View>
