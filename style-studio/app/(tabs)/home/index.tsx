@@ -1,6 +1,6 @@
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";
-import { Text, View, Pressable, StyleSheet, ScrollView } from "react-native";
+import { Text, View, Pressable, StyleSheet, ScrollView, Image } from "react-native";
 import { useNavigation, useRouter } from "expo-router";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "@/app/types";
@@ -26,19 +26,19 @@ const Home = () => {
                 </View>
                 <ScrollView contentContainerStyle={styles.scrollViewContent}>
                     <View style={styles.contentContainer}>
-                        <Pressable style={[styles.card, page === "Thrift" && styles.activeCard]} onPress={() => setPage('Thrift')}>
+                        <Pressable style={styles.card} onPress={() => setPage('Thrift')}>
                             <Image source={require('../../../assets/images/thrift.png')} style={styles.cardImage} />
                             <Text style={styles.cardTitle}>Thrift</Text>
                             <Text style={styles.cardDescription}>Shop affordable, second-hand fashion for stylish savings.</Text>
                         </Pressable>
-                        <Pressable style={[styles.card, page === "Remake" && styles.activeCard]} onPress={() => setPage('Remake')}>
+                        <Pressable style={styles.card} onPress={() => setPage('Remake')}>
                             <Image source={require('../../../assets/images/remake.png')} style={styles.cardImage} />
                             <Text style={styles.cardTitle}>Remake</Text>
                             <Text style={styles.cardDescription}>Transform old clothes into trendy, new designs with skilled tailors.</Text>
                         </Pressable>
                     </View>
                     <View style={styles.singleCardContainer}>
-                        <Pressable style={[styles.card, page === "Sell" && styles.activeCard]} onPress={() => setPage('Sell')}>
+                        <Pressable style={styles.card} onPress={() => setPage('Sell')}>
                             <Image source={require('../../../assets/images/sell.png')} style={styles.cardImage} />
                             <Text style={styles.cardTitle}>Sell</Text>
                             <Text style={styles.cardDescription}>Sell your old clothes to save more space in your wardrobe.</Text>
