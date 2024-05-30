@@ -8,7 +8,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 const ConfirmPayment = () => {
 	const router = useRouter();
 	const { profile } = useSession();
-	const { amount, month } = useLocalSearchParams();
+	const { id, month, amount } = useLocalSearchParams();
 
 	const [address, setAddress] = useState('');
 	const [alterPrice, setAlterPrice] = useState('');
@@ -20,7 +20,9 @@ const ConfirmPayment = () => {
 			address,
 			parseInt(createPrice),
 			parseInt(alterPrice),
-			parseInt(month as string)
+			parseInt(month as string),
+			parseInt(id as string),
+			"BCA M-Banking"
 		);
 		router.push('/home/remake/paymentSuccess');
 	};
@@ -28,7 +30,7 @@ const ConfirmPayment = () => {
 	return (
 		<SafeAreaView style={styles.container}>
 			<View style={styles.formContainer}>
-				<Text style={[styles.titleText, { marginBottom: 5 }]}>Seller Form</Text>
+				<Text style={[styles.titleText, { marginBottom: 5 }]}>Confirm Upgrade</Text>
 				<Text style={styles.formLabel}>Address</Text>
 				<TextInput
 					style={styles.input}

@@ -2,10 +2,31 @@ import { useSession } from '@/context/SessionContext';
 import { useRouter } from 'expo-router';
 import { Button, Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { subscriptionType } from '../../activity';
+import { useEffect, useState } from 'react';
+import { fetchSubscription } from '../../../../../routes/subscription';
 
 const Payment = () => {
 	const router = useRouter();
 	const { profile } = useSession();
+	const userId = profile?.uid;
+
+	const [subscriptions, setSubscriptions] = useState<subscriptionType[]>([]);
+
+	useEffect(() => {
+		const loadActivity = async () => {
+			try {
+				const subData = await fetchSubscription();
+				// console.log(bookData);
+				setSubscriptions(subData);
+
+			} catch (err) {
+				console.error(err.message);
+			} finally {
+			}
+		};
+		loadActivity();
+	}, []);
 
 	if (profile?.isTailor) {
 		return (
@@ -34,81 +55,36 @@ const Payment = () => {
 					<Text style={[styles.text, { textAlign: 'left' }]}>Register as tailor</Text>
 				</View>
 				<View style={styles.cardContainer}>
-					<Pressable
-						style={styles.card}
-						onPress={() => {
-							router.push({
-								pathname: '/home/remake/confirmPayment',
-								params: {
-									amount: 100000,
-									month: 1,
-								},
-							});
-						}}
-					>
-						<View>
-							<Text style={styles.cardTitle}>1 Month</Text>
-							<Text style={styles.cardSubTitle}>Total Rp 100.000</Text>
-						</View>
-						<View>
-							<Text style={[styles.cardSubTitle, { textAlign: 'center' }]}>
-								Rp 100.000
-							</Text>
-							<Text style={[styles.cardSubTitle, { textAlign: 'center' }]}>
-								Monthly
-							</Text>
-						</View>
-					</Pressable>
-					<Pressable
-						style={styles.card}
-						onPress={() => {
-							router.push({
-								pathname: '/home/remake/confirmPayment',
-								params: {
-									amount: 540000,
-									month: 6,
-								},
-							});
-						}}
-					>
-						<View>
-							<Text style={styles.cardTitle}>6 Month</Text>
-							<Text style={styles.cardSubTitle}>Total Rp 540.000</Text>
-						</View>
-						<View>
-							<Text style={[styles.cardSubTitle, { textAlign: 'center' }]}>
-								Rp 90.000
-							</Text>
-							<Text style={[styles.cardSubTitle, { textAlign: 'center' }]}>
-								Monthly
-							</Text>
-						</View>
-					</Pressable>
-					<Pressable
-						style={styles.card}
-						onPress={() => {
-							router.push({
-								pathname: '/home/remake/confirmPayment',
-								params: {
-									amount: 960000,
-									month: 12,
-								},
-							});
-						}}
-					>
-						<View>
-							<Text style={styles.cardTitle}>12 Month</Text>
-							<Text style={styles.cardSubTitle}>Total Rp 960.000</Text>
-						</View>
-						<View>
-							<Text style={[styles.cardSubTitle, { textAlign: 'center' }]}>
-								Rp 80.000
-							</Text>
-							<Text style={[styles.cardSubTitle, { textAlign: 'center' }]}>
-								Monthly
-							</Text>
-						</View>
-					</Pressable>
+					{subscriptions.map((sub, idx) =>
+						<Pressable
+							key={idx}
+							style={styles.card}
+							onPress={() => {
+								router.push({
+									pathname: `/home/remake/confirmPayment?id=${sub.id}&month=${(sub.days||1)/30}&amount=${sub.price}`,
+									params: {
+										amount: 100000,
+										month: 1,
+									},
+								});
+							}}
+						>
+							<View>
+								<Text style={styles.cardTitle}>{(sub.days || 1)/30} Months</Text>
+								<Text style={styles.cardSubTitle}>Total Rp {sub.price}</Text>
+							</View>
+							<View>
+								<Text style={[styles.cardSubTitle, { textAlign: 'center' }]}>
+									Rp {sub.price/(sub.days || 1) * 30}
+								</Text>
+								<Text style={[styles.cardSubTitle, { textAlign: 'center' }]}>
+									Monthly
+								</Text>
+							</View>
+						</Pressable>
+					)}
+
+				
 				</View>
 			</SafeAreaView>
 		</>

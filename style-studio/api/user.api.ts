@@ -28,7 +28,9 @@ export const upgradeToTailor = async (
 	address: string,
 	createPrice: number,
 	alterPrice: number,
-	month: number
+	month: number,
+	id: number,
+	paymentMethod: string
 ) => {
 	let updateResponse = await supabaseClient
 		.from('user')
@@ -39,13 +41,35 @@ export const upgradeToTailor = async (
 		throw updateResponse.error;
 	}
 
-	let createResponse = await supabaseClient.from('tailor').insert({
+	let createResponse = await supabaseClient.from('tailor')
+	.insert({
 		tailorId: userId,
 		address,
 		createPrice,
 		alterPrice,
 		contractEnd: new Date(Date.now() + month * 30 * 24 * 60 * 60 * 1000).toISOString(),
 	});
+
+	if (createResponse.error) {
+		console.log(createResponse.error);
+		throw createResponse.error;
+	}
+
+	createResponse = await supabaseClient.from('user')
+	.update({
+		isTailor: true
+	})
+	.eq('uid', userId);
+
+	if (createResponse.error) {
+		console.log(createResponse.error);
+		throw createResponse.error;
+	}
+
+	createResponse = await supabaseClient
+	.from('subscribe')
+	.insert({tailorId: userId, subId: id, paymentMethod: paymentMethod});
+
 	if (createResponse.error) {
 		console.log(createResponse.error);
 		throw createResponse.error;
