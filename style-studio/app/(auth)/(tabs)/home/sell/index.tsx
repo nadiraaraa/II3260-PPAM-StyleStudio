@@ -93,7 +93,7 @@ const Sell = () => {
                       </View>
                     </Pressable>
                         {catalogs.map((catalog, idx)=>
-                            <Pressable key={idx} onPress={()=> router.push(`/home/thrift/prodouct?detail=${JSON.stringify(catalog)}`)}>
+                            <Pressable key={idx} onPress={()=> router.push(`/home/thrift/product?detail=${JSON.stringify(catalog)}`)}>
                                 <View style={styles.card}>
                                     <Image
                                         source={require('../../../../../assets/images/contoh1.png')}
