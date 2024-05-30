@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, Pressable, StyleSheet, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
@@ -6,15 +6,16 @@ import { useSession } from '@/context/SessionContext';
 
 const Welcome = () => {
 	const router = useRouter();
-
 	const { user, isLoading } = useSession();
+
+	useEffect(() => {
+		if (user) {
+			router.replace('/(tabs)');
+		}
+	}, [user, router]);
 
 	if (isLoading) {
 		return <></>;
-	}
-
-	if (user) {
-		router.replace('/(tabs)');
 	}
 
 	return (
