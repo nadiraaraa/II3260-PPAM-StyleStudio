@@ -1,24 +1,19 @@
 import React, { ChangeEvent, useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Pressable, AppState, ScrollView } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Pressable, AppState, ScrollView, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router, useLocalSearchParams } from 'expo-router';
 import { Picker } from '@react-native-picker/picker';
+import { addThriftFeedback } from '../../../../routes/addThriftFeedback'
+import { addTailorFeedback } from '../../../../routes/addTailorFeedback'
+import { reviewType } from './review';
 
-interface inputReview {
-    type: String;
-    name: String;
-}
-
-interface formAddReview {
-    rating: Number | null;
-    comment: String;
-}
 
 const AddReview = () => {
-    const { type, name } = useLocalSearchParams()
-    const [form, setForm] = useState<formAddReview>({
+    const { page, name, id } = useLocalSearchParams()
+    const intId = parseInt(id as string);
+    const [form, setForm] = useState<reviewType>({
         rating: null,
-        comment: ','
+        comment: '',
     });
 
     const [error, setError] = useState('');
@@ -28,7 +23,33 @@ const AddReview = () => {
     };
 
     const handleSubmit = async () => {
-
+        if (form.rating == null || form.rating<1 || form.rating>5) {
+            Alert.alert(
+                'Error',
+                "Rating must be between 1 and 5",
+                [
+                    {
+                        text: 'OK',
+                    },
+                ],
+                { cancelable: false }
+            );
+            console.log(form);
+        } else {
+            if (page==="Thrift"){
+                const thriftForm={orderId: intId,
+                    rating: null,
+                    comment: '',}
+                const addedData = await addThriftFeedback(thriftForm);
+                console.log(addedData);
+            } else {
+                const thriftForm={bookId: intId,
+                    rating: null,
+                    comment: '',}
+                const addedData = await addTailorFeedback(thriftForm);
+                console.log(addedData);
+            }
+        }
 
     }
 
@@ -36,7 +57,7 @@ const AddReview = () => {
         <SafeAreaView style={styles.container}>
             <ScrollView>
                 <View style={styles.formContainer}>
-                    <Text>{type}:</Text>
+                    <Text>{page}:</Text>
                     <Text style={styles.input}>
                         {name}
                     </Text>

@@ -2,45 +2,54 @@ import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Text, View, Pressable, StyleSheet, ScrollView } from "react-native";
 import { useRouter } from "expo-router";
+import {fetchBuyHistory} from '../../../../routes/buyHistory';
+import {fetchBookHistory} from '../../../../routes/bookHistory';
+import {fetchBookedHistory} from '../../../../routes/bookedHistory';
+import {fetchSellHistory} from '../../../../routes/sellHistory';
+import { useSession } from "@/context/SessionContext";
+import { orderType, bookType } from "../activity";
 
-interface ActivityProps {
-  name: string;
-  category: string;
-  price: string;
-  orderDate: string; // Changed to string to simplify date handling
-}
+
 
 const Activity = () => {
+  const { user, isLoading } = useSession();
+  const userId = user?.id;
+
   const [page, setPage] = useState("Thrift");
   const [loading, setLoading] = useState(true);
-  const [activities, setActivities] = useState<ActivityProps[]>([]);
+  const [buys, setBuys] = useState<orderType[]>([]);
+  const [books, setBooks] = useState<bookType[]>([]);
+  const [sells, setSells] = useState<orderType[]>([]);
   const router = useRouter();
 
   useEffect(() => {
-    // Example data for now
-    const exampleData = [
-      {
-        name: "Hanji Dress",
-        category: "Women’s Clothing",
-        price: "200.000",
-        orderDate: "10/4/2024",
-      },
-      {
-        name: "Uniqlo T-Shirt",
-        category: "Men’s Clothing",
-        price: "100.000",
-        orderDate: "12/3/2024",
-      },
-      {
-        name: "Zara Jacket",
-        category: "Women’s Clothing",
-        price: "150.000",
-        orderDate: "11/2/2024",
-      },
-    ];
-    setActivities(exampleData);
-    setLoading(false);
-  }, []);
+    const loadActivity = async () => {
+        setLoading(true);
+
+        try {
+            // if (page=="Thrift"){
+              const buyData = await fetchBuyHistory(userId);
+              // console.log(buyData);
+              setBuys(buyData);
+            // } else if (page=="Remake"){
+              const bookData = await fetchBookHistory(userId);
+              // console.log(bookData);
+              setBooks(bookData);
+            // } else{
+              const sellData = await fetchSellHistory(userId);
+              // console.log(sellData);
+              setSells(sellData);
+            // }
+           
+        } catch (err) {
+            console.error(err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    loadActivity();
+}, []);
 
   return (
     <View style={styles.container}>
@@ -59,27 +68,74 @@ const Activity = () => {
         <Pressable onPress={() => setPage("Remake")}>
           <Text style={[styles.tab, page === "Remake" && styles.activeTab]}>Remake</Text>
         </Pressable>
+        {/* <Pressable onPress={() => setPage("Tailor")}>
+          <Text style={[styles.tab, page === "Sell" && styles.activeTab]}>Sell</Text>
+        </Pressable> */}
         <Pressable onPress={() => setPage("Sell")}>
           <Text style={[styles.tab, page === "Sell" && styles.activeTab]}>Sell</Text>
         </Pressable>
       </View>
       
       <ScrollView>
-      {activities.map((act, idx) => (
+      {page == "Thrift"?
+      <View>
+        {buys.map((buy, idx) => (
           <View key={idx} style={styles.card}>
             <View style={styles.cardText}>
-              <Text style={styles.name}>{act.name}</Text>
-              <Text style={styles.category}>{act.category}</Text>
-              <Text style={styles.price}>Total Rp {act.price}</Text>
+              <Text style={styles.name}>{buy.cat_name}</Text>
+              <Text style={styles.category}>{buy.cat_category}</Text>
+              <Text style={styles.price}>Total Rp {buy.cat_price?.toString()}</Text>
             </View>
             <View style={{justifyContent: 'flex-end'}}>
-              <Text style={styles.date}>{act.orderDate}</Text>
-              <Pressable style={styles.detailsButton} onPress={() => router.push(`activity/detail?type=${page}`)}>
+              <Text style={styles.date}>{buy.created_at}</Text>
+              <Pressable style={styles.detailsButton} onPress={() => router.push(`activity/detail?page=${page}&detail=${JSON.stringify(buy)}`)}>
                 <Text style={styles.detailsButtonText}>Details</Text>
               </Pressable>
             </View>
           </View>
         ))}
+      </View>
+      : page== "Remake" ?
+      <View>
+        {books.map((book, idx) => (
+          <View key={idx} style={styles.card}>
+            <View style={styles.cardText}>
+              <Text style={styles.name}>{book.tailor_name}</Text>
+              <Text style={styles.category}>Alter: {book.alterCount?.toString()}</Text>
+              <Text style={styles.category}>Create: {book.createCount?.toString()}</Text>
+              <Text style={styles.price}>Total Rp {book.total?.toString()}</Text>
+            </View>
+            <View style={{justifyContent: 'flex-end'}}>
+              <Text style={styles.date}>{book.created_at}</Text>
+              <Pressable style={styles.detailsButton} onPress={() => router.push(`activity/detail?page=${page}&detail=${JSON.stringify(book)}`)}>
+                <Text style={styles.detailsButtonText}>Details</Text>
+              </Pressable>
+            </View>
+          </View>
+        ))}
+      </View>
+      :
+      <View>
+        {sells.map((sell, idx) => (
+          <View key={idx} style={styles.card}>
+            <View style={styles.cardText}>
+              <Text style={styles.name}>{sell.cat_name}</Text>
+              <Text style={styles.category}>{sell.cat_category}</Text>
+              <Text style={styles.price}>Total Rp {sell.cat_price?.toString()}</Text>
+            </View>
+            <View style={{justifyContent: 'flex-end'}}>
+              <Text style={styles.date}>{sell.created_at}</Text>
+              <Pressable style={styles.detailsButton} onPress={() => router.push(`activity/detail?page=${page}&detail=${JSON.stringify(sell)}`)}>
+                <Text style={styles.detailsButtonText}>Details</Text>
+              </Pressable>
+            </View>
+          </View>
+        ))}
+      </View>
+      }
+
+
+      
       </ScrollView>
     </View>
   );
@@ -142,6 +198,7 @@ const styles = StyleSheet.create({
   },
   cardText: {
     flex: 1,
+    width: 460
   },
   name: {
     fontSize: 18,
@@ -160,6 +217,9 @@ const styles = StyleSheet.create({
   date: {
     fontSize: 14,
     color: "#616219", // Dark green text color
+    flexWrap: 'wrap',
+    flex: 1,
+    width: 80,
   },
   detailsButton: {
     backgroundColor: "#616219", // Medium green background color

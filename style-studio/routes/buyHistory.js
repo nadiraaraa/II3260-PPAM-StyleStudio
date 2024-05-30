@@ -2,12 +2,12 @@ import supabase from "../supabaseClient.js"
 
 
 // Function to fetch order history for the logged-in customer
-async function fetchBuyHistory(uid) {
+export async function fetchBuyHistory(uid) {
     try {
         // Fetch orders where cust_id matches the logged-in user's ID
         const { data: orders, error } = await supabase
             .from('order')
-            .select('*, catalog(*, catalog(*, (user(id, name, telephone))))')
+            .select('*, user(uid, name, telephone), catalog( *, user(uid, name, telephone))')
             .eq('buyerId', uid)
             .order('created_at', {ascending: false});
 
@@ -27,10 +27,13 @@ async function fetchBuyHistory(uid) {
               cat_material: order.catalog.material,
               cat_description: order.catalog.description,
               cat_photo: order.catalog.photo,
-              cat_price: order.catalogprice,
-              seller_id: order.catalog.user.id,
+              cat_price: order.catalog.price,
+              cat_category: order.catalog.category,
+              seller_id: order.catalog.user.uid,
               seller_name: order.catalog.user.name,
-              seller_telephone: order.catalog.user.telephone
+              seller_telephone: order.catalog.user.telephone,
+              buyer_name: order.user.name,
+              buyer_telephone: order.user.telephone
           };
           delete updateBuy.catalog; // Delete the tailor property from each order object
           return updateBuy;
@@ -42,12 +45,12 @@ async function fetchBuyHistory(uid) {
     }
 }
 
-// Example usage
-const uid = 1;
-fetchBuyHistory(uid)
-    .then(buyHistory => {
-        console.log('Buy History:', buyHistory);
-    })
-    .catch(error => {
-        console.error('Error:', error.message);
-    });
+// // Example usage
+// const uid = 1;
+// fetchBuyHistory(uid)
+//     .then(buyHistory => {
+//         console.log('Buy History:', buyHistory);
+//     })
+//     .catch(error => {
+//         console.error('Error:', error.message);
+//     });

@@ -2,7 +2,7 @@ import supabase from "../supabaseClient.js"
 
 
 // Function to fetch book history for the logged-in customer
-async function fetchBookedHistory(uid) {
+export async function fetchBookedHistory(uid) {
     try {
         // Fetch books where cust_id matches the logged-in user's ID
         const { data: books, error } = await supabase
@@ -31,13 +31,3 @@ async function fetchBookedHistory(uid) {
         return [];
     }
 }
-
-// Example usage
-const uid = 1;
-fetchBookedHistory(uid)
-    .then(bookHistory => {
-        console.log('Book History:', bookHistory);
-    })
-    .catch(error => {
-        console.error('Error:', error.message);
-    });
