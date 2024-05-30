@@ -4,7 +4,7 @@ import { Button, StyleSheet, Text, TextInput, View, Image, ScrollView, Pressable
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Filter from './filter';
 import {fetchCatalog} from '../../../../../routes/catalog'
-import catalogType from './catalog';
+import catalogType from '../../catalog';
 
 const Thrift = () => {
     // const { initSearch } = useLocalSearchParams()
@@ -25,7 +25,7 @@ const Thrift = () => {
             setError(false);
 
             try {
-                const catalogData = await fetchCatalog(search, category, location);
+                const catalogData = await fetchCatalog("", search, category, location);
                 console.log(catalogs);
             } catch (err) {
                 console.error(err.message);

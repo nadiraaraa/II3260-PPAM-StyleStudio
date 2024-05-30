@@ -2,8 +2,9 @@ import supabase from "../supabaseClient.js"
 
 
 // Function to fetch catalog history for the logged-in customer
-export async function fetchCatalog(inName, inCategory, inCity) {
+export async function fetchCatalog(userId, inName, inCategory, inCity) {
     try {
+
         let query = supabase
             .from('catalog')
             //seller
@@ -17,6 +18,9 @@ export async function fetchCatalog(inName, inCategory, inCity) {
         }
         if (inCity !== ''){
             query.eq('user(city)', inCity);
+        }
+        if (userId!=""){
+            query.eq('sellerId', userId);
         }
 
         query.eq('sold', false);
@@ -46,12 +50,12 @@ export async function fetchCatalog(inName, inCategory, inCity) {
     }
 }
 
-// Example usage
-const uid = 1;
-fetchCatalog("", "", "")
-    .then(catalog => {
-        console.log('Sell History:', catalog);
-    })
-    .catch(error => {
-        console.error('Error:', error.message);
-    });
+// // Example usage
+// const uid = 1;
+// fetchCatalog("", "", "")
+//     .then(catalog => {
+//         console.log('Sell History:', catalog);
+//     })
+//     .catch(error => {
+//         console.error('Error:', error.message);
+//     });
