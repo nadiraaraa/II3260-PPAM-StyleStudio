@@ -5,6 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Filter from './filter';
 import {fetchCatalog} from '../../../../../routes/catalog'
 import {catalogType} from '../../catalog';
+import { useSession } from '@/context/SessionContext';
 
 const images = [
     require('../../../../../assets/images/contoh1.png'),
@@ -23,6 +24,9 @@ const Thrift = () => {
     // const { initSearch } = useLocalSearchParams()
     //hrs tambahin search sbg param
     const router = useRouter();
+    const { user, isLoading } = useSession();
+    console.log("user:", user, user?.id);
+    const userId = user?.id;
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
@@ -43,7 +47,7 @@ const Thrift = () => {
             setError(false);
 
             try {
-                const catalogData = await fetchCatalog("", search, category, location);
+                const catalogData = await fetchCatalog("browse", userId, search, category, location);
                 console.log(catalogData);
                 setCatalogs(catalogData);
             } catch (err) {

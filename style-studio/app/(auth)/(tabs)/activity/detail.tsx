@@ -2,6 +2,7 @@ import { router, useLocalSearchParams } from "expo-router";
 import { useState } from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { bookType, orderType } from "../activity";
 
 interface ActDetailProps {
     name: string;
@@ -19,65 +20,97 @@ interface ActDetailProps {
     reviewed: boolean;
 }
 
-const ActDetail = ({}: ActDetailProps) => {
-        const { type, detail } = useLocalSearchParams()
+const ActDetail = ({ }: ActDetailProps) => {
+    const { page, detail } = useLocalSearchParams()
 
-        const [activity, setActivity] = useState<ActDetailProps>({
-        name: "Refal Hady",
-        photo: "",
-        category: "",
-        size: "",
-        price: "200000",
-        status: "",
-        addressName: "Refal Hady",
-        address: "Jalan Ganesha No. 10 Kecamatan Coblong, Bandung, Jawa Barat",
-        paymentMethod: "Bank BCA",
-        orderDate: new Date("2024-04-10T05:20:00"),
-        payDate: new Date("2024-04-10T05:25:00"),
-        sendDate: new Date("2024-04-10T13:15:00"),
-        reviewed: false,
-    });
+    if (page == "Thrift" || page=="Sell") {
+        const orderDetail: orderType = detail ? JSON.parse(detail as string) : {};
 
-    return (
-        <SafeAreaView style={styles.container}>
-            <View style={styles.card}>
-                <Text style={styles.boldText}>{activity.addressName}</Text>
-                <Text>{activity.address}</Text>
-            </View>
-            <View style={styles.card}>
-                <Text style={styles.boldText}>Metode Pembayaran</Text>
-                <Text>{activity.paymentMethod}</Text>
-                <Text>Total Rp {activity.price}</Text>
-            </View>
-            <View style={styles.card}>
-                <Text style={styles.boldText}>Detail</Text>
-                <View style={styles.detailRow}>
-                    <Text>Waktu Pemesanan</Text>
-                    <Text>{activity.orderDate?.toLocaleString()}</Text>
+        return (
+            <SafeAreaView style={styles.container}>
+                <View style={styles.card}>
+                    <Text style={styles.boldText}>Address</Text>
+                    <Text>Name: {orderDetail.addressName}</Text>
+                    <Text>Address: {orderDetail.address}</Text>
                 </View>
-                <View style={styles.detailRow}>
-                    <Text>Waktu Pembayaran</Text>
-                    <Text>{activity.payDate?.toLocaleString()}</Text>
+                <View style={styles.card}>
+                    <Text style={styles.boldText}>Payment Method</Text>
+                    <Text>{orderDetail.paymentMethod}</Text>
+                    <Text>Total Rp{orderDetail.cat_price?.toString()}</Text>
                 </View>
-                <View style={styles.detailRow}>
-                    <Text>Waktu Pengiriman</Text>
-                    <Text>{activity.sendDate?.toLocaleString()}</Text>
+                <View style={styles.card}>
+                    <Text style={styles.boldText}>Detail</Text>
+                    <View style={styles.detailRow}>
+                        <Text style={{width: 80}}>Ordered at</Text>
+                        <Text style={{ flexWrap: 'wrap', width: 200 }}>{orderDetail.created_at?.toLocaleString()}</Text>
+                    </View>
+                    <View style={styles.detailRow}>
+                        <Text style={{width: 80}}>Sent at</Text>
+                        <Text style={{ flexWrap: 'wrap', width: 200 }}>{orderDetail.sent_at?.toLocaleString() || '-'}</Text>
+                    </View>
+                    <View style={styles.detailRow}>
+                        <Text style={{width: 80}}>Received at</Text>
+                        <Text style={{ flexWrap: 'wrap', width: 200 }}>{orderDetail.received_at?.toLocaleString() || '-'}</Text>
+                    </View>
                 </View>
-            </View>
-            {activity.reviewed ?
-            <Text style={{ padding: 10, textAlign: 'center',margin: 10, width: 120, fontSize: 16, borderWidth: 1, borderColor: '#616219', color: 'white', borderRadius: 10, alignSelf: 'flex-end' }}>
-                Reviewed
-            </Text>
-            :
-            <Pressable style={{justifyContent: 'flex-end',}} onPress={() => router.push(`/activity/addReview?type=${'Tailor'}&name=${'Name'}` as any)}>
-                <Text style={{ padding: 10, textAlign: 'center',margin: 10, width: 120, fontSize: 16, backgroundColor: '#616219', color: 'white', borderRadius: 10, alignSelf: 'flex-end' }}>
-                    Review
-                </Text>
-            </Pressable>
-            }
-            
-        </SafeAreaView>
-    );
+                {page == "Sell" ?
+                    <></>
+
+                    : orderDetail.reviewed ?
+                        <Text style={{ padding: 10, textAlign: 'center', margin: 10, width: 120, fontSize: 16, borderWidth: 1, borderColor: '#616219', color: 'white', borderRadius: 10, alignSelf: 'flex-end' }}>
+                            Reviewed
+                        </Text>
+                        :
+                        <Pressable style={{ justifyContent: 'flex-end', }} onPress={() => router.push(`./addReview?type=${page === "Thrift" ? "Product" : "Tailor"}&name=${'Name'}` as any)}>
+                            <Text style={{ padding: 10, textAlign: 'center', margin: 10, width: 120, fontSize: 16, backgroundColor: '#616219', color: 'white', borderRadius: 10, alignSelf: 'flex-end' }}>
+                                Review
+                            </Text>
+                        </Pressable>
+                }
+
+            </SafeAreaView>
+        );
+    } else {
+        const bookDetail: bookType = detail ? JSON.parse(detail as string) : {};
+
+        return (
+            <SafeAreaView style={styles.container}>
+                <View style={styles.card}>
+                    <Text style={styles.boldText}>Tailor Name: {bookDetail.tailor_name}</Text>
+                    <Text>Alter Count: {bookDetail.alterCount?.toString()}</Text>
+                    <Text>Create Count: {bookDetail.createCount?.toString()}</Text>
+                </View>
+                <View style={styles.card}>
+                    <Text style={styles.boldText}>Payment Method</Text>
+                    <Text>{bookDetail.paymentMethod}</Text>
+                    <Text>Total Rp {bookDetail.total?.toString()}</Text>
+                </View>
+                <View style={styles.card}>
+                    <Text style={styles.boldText}>Detail</Text>
+                    <View style={styles.detailRow}>
+                        <Text>Order Time</Text>
+                        <Text style={{ flexWrap: 'wrap', width: 200 }}>{bookDetail.created_at?.toLocaleString()}</Text>
+                    </View>
+                </View>
+                {page == "Sell" ?
+                    <></>
+
+                    : bookDetail.reviewed ?
+                        <Text style={{ padding: 10, textAlign: 'center', margin: 10, width: 120, fontSize: 16, borderWidth: 1, borderColor: '#616219', color: 'white', borderRadius: 10, alignSelf: 'flex-end' }}>
+                            Reviewed
+                        </Text>
+                        :
+                        <Pressable style={{ justifyContent: 'flex-end', }} onPress={() => router.push(`./addReview?type=${page === "Thrift" ? "Product" : "Tailor"}&name=${'Name'}` as any)}>
+                            <Text style={{ padding: 10, textAlign: 'center', margin: 10, width: 120, fontSize: 16, backgroundColor: '#616219', color: 'white', borderRadius: 10, alignSelf: 'flex-end' }}>
+                                Review
+                            </Text>
+                        </Pressable>
+                }
+
+            </SafeAreaView>
+        );
+    }
+
 };
 
 const styles = StyleSheet.create({
@@ -103,8 +136,10 @@ const styles = StyleSheet.create({
     },
     detailRow: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        // justifyContent: 'space-between',
+        gap: 25,
         paddingVertical: 5,
+        width: '100%'
     },
 });
 

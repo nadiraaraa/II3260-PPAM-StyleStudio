@@ -6,7 +6,7 @@ async function fetchProfile(uid) {
     try {
         // Fetch profiles where cust_id matches the logged-in user's ID
         const { data: profiles, error } = await supabase
-            .from('profile')
+            .from('user')
             .select('*')
             .eq('id', uid)
             .order('created_at', {ascending: false});
