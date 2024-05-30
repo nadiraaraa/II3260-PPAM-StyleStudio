@@ -63,59 +63,59 @@ const Layout = () => {
 				}}
 			/>
 			<Tabs.Screen
-			name="home/thrift/product"
-			options={{
-				headerTintColor: '#FFFFFF',
-				headerTitleAlign: 'center',
-				headerStyle: {
-					backgroundColor: '#616219',
-				},
-				title: 'Thrift Product',
+				name="home/thrift/product"
+				options={{
+					headerTintColor: '#FFFFFF',
+					headerTitleAlign: 'center',
+					headerStyle: {
+						backgroundColor: '#616219',
+					},
+					title: 'Thrift Product',
 
-				headerLeft: () => (
-					<TouchableOpacity onPress={() => router.back()} style={{ marginLeft: 10 }}>
-						<FontAwesome name="arrow-left" size={12} color="#FFFFFF" />
-					</TouchableOpacity>
-				),
-				href: null,
-			}}
-		/>
-		<Tabs.Screen
-			name="home/thrift/seller"
-			options={{
-				headerTintColor: '#FFFFFF',
-				headerTitleAlign: 'center',
-				headerStyle: {
-					backgroundColor: '#616219',
-				},
-				title: 'Seller Profile',
+					headerLeft: () => (
+						<TouchableOpacity onPress={() => router.back()} style={{ marginLeft: 10 }}>
+							<FontAwesome name="arrow-left" size={12} color="#FFFFFF" />
+						</TouchableOpacity>
+					),
+					href: null,
+				}}
+			/>
+			<Tabs.Screen
+				name="home/thrift/seller"
+				options={{
+					headerTintColor: '#FFFFFF',
+					headerTitleAlign: 'center',
+					headerStyle: {
+						backgroundColor: '#616219',
+					},
+					title: 'Seller Profile',
 
-				headerLeft: () => (
-					<TouchableOpacity onPress={() => router.back()} style={{ marginLeft: 10 }}>
-						<FontAwesome name="arrow-left" size={12} color="#FFFFFF" />
-					</TouchableOpacity>
-				),
-				href: null,
-			}}
-		/>
-		<Tabs.Screen
-			name="home/thrift/filter"
-			options={{
-				headerTintColor: '#FFFFFF',
-				headerTitleAlign: 'center',
-				headerStyle: {
-					backgroundColor: '#616219',
-				},
-				tabBarStyle: { display: 'none' },
+					headerLeft: () => (
+						<TouchableOpacity onPress={() => router.back()} style={{ marginLeft: 10 }}>
+							<FontAwesome name="arrow-left" size={12} color="#FFFFFF" />
+						</TouchableOpacity>
+					),
+					href: null,
+				}}
+			/>
+			<Tabs.Screen
+				name="home/thrift/filter"
+				options={{
+					headerTintColor: '#FFFFFF',
+					headerTitleAlign: 'center',
+					headerStyle: {
+						backgroundColor: '#616219',
+					},
+					tabBarStyle: { display: 'none' },
 
-				headerLeft: () => (
-					<TouchableOpacity onPress={() => router.back()} style={{ marginLeft: 10 }}>
-						<FontAwesome name="arrow-left" size={12} color="#FFFFFF" />
-					</TouchableOpacity>
-				),
-				href: null,
-			}}
-		/>
+					headerLeft: () => (
+						<TouchableOpacity onPress={() => router.back()} style={{ marginLeft: 10 }}>
+							<FontAwesome name="arrow-left" size={12} color="#FFFFFF" />
+						</TouchableOpacity>
+					),
+					href: null,
+				}}
+			/>
 			<Tabs.Screen
 				name="home/sell/index"
 				options={{
@@ -217,6 +217,24 @@ const Layout = () => {
 					title: 'Remake',
 
 					tabBarStyle: { display: 'none' }, // Hide bottom navigation bar
+					headerLeft: () => (
+						<TouchableOpacity onPress={() => router.back()} style={{ marginLeft: 10 }}>
+							<FontAwesome name="arrow-left" size={12} color="#FFFFFF" />
+						</TouchableOpacity>
+					),
+					href: null,
+				}}
+			/>
+			<Tabs.Screen
+				name="home/remake/product/index"
+				options={{
+					headerTintColor: '#FFFFFF',
+					headerTitleAlign: 'center',
+					headerStyle: {
+						backgroundColor: '#616219',
+					},
+					title: 'Remake',
+
 					headerLeft: () => (
 						<TouchableOpacity onPress={() => router.back()} style={{ marginLeft: 10 }}>
 							<FontAwesome name="arrow-left" size={12} color="#FFFFFF" />
