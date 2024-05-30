@@ -9,7 +9,7 @@ const Layout = () => {
 		<Tabs
 			sceneContainerStyle={{ backgroundColor: 'E6E3D1' }}
 			screenOptions={{
-				
+
 				tabBarStyle: {
 					backgroundColor: '#E6E3D1', // Green background color
 					height: 60,
@@ -78,42 +78,42 @@ const Layout = () => {
 				}}
 			/>
 			<Tabs.Screen
-			name="home/thrift/product"
-			options={{
-				headerTintColor: '#FFFFFF',
-				headerTitleAlign: 'center',
-				headerStyle: {
-					backgroundColor: '#616219',
-				},
-				title: 'Thrift Product',
+				name="home/thrift/product"
+				options={{
+					headerTintColor: '#FFFFFF',
+					headerTitleAlign: 'center',
+					headerStyle: {
+						backgroundColor: '#616219',
+					},
+					title: 'Thrift Product',
 
-				headerLeft: () => (
-					<TouchableOpacity onPress={() => router.back()} style={{ marginLeft: 10 }}>
-						<FontAwesome name="arrow-left" size={12} color="#FFFFFF" />
-					</TouchableOpacity>
-				),
-				href: null,
-			}}
-		/>
-		<Tabs.Screen
-			name="home/thrift/payment"
-			options={{
-				headerTintColor: '#FFFFFF',
-				headerTitleAlign: 'center',
-				headerStyle: {
-					backgroundColor: '#616219',
-				},
-				title: 'Order Payment',
+					headerLeft: () => (
+						<TouchableOpacity onPress={() => router.back()} style={{ marginLeft: 10 }}>
+							<FontAwesome name="arrow-left" size={12} color="#FFFFFF" />
+						</TouchableOpacity>
+					),
+					href: null,
+				}}
+			/>
+			<Tabs.Screen
+				name="home/thrift/payment"
+				options={{
+					headerTintColor: '#FFFFFF',
+					headerTitleAlign: 'center',
+					headerStyle: {
+						backgroundColor: '#616219',
+					},
+					title: 'Order Payment',
 
-				headerLeft: () => (
-					<TouchableOpacity onPress={() => router.back()} style={{ marginLeft: 10 }}>
-						<FontAwesome name="arrow-left" size={12} color="#FFFFFF" />
-					</TouchableOpacity>
-				),
-				href: null,
-			}}
-		/>
-		<Tabs.Screen
+					headerLeft: () => (
+						<TouchableOpacity onPress={() => router.back()} style={{ marginLeft: 10 }}>
+							<FontAwesome name="arrow-left" size={12} color="#FFFFFF" />
+						</TouchableOpacity>
+					),
+					href: null,
+				}}
+			/>
+			<Tabs.Screen
 				name="home/thrift/paymentSuccess"
 				options={{
 					headerShown: false,
@@ -121,42 +121,42 @@ const Layout = () => {
 					href: null,
 				}}
 			/>
-		<Tabs.Screen
-			name="home/thrift/seller"
-			options={{
-				headerTintColor: '#FFFFFF',
-				headerTitleAlign: 'center',
-				headerStyle: {
-					backgroundColor: '#616219',
-				},
-				title: 'Seller Profile',
+			<Tabs.Screen
+				name="home/thrift/seller"
+				options={{
+					headerTintColor: '#FFFFFF',
+					headerTitleAlign: 'center',
+					headerStyle: {
+						backgroundColor: '#616219',
+					},
+					title: 'Seller Profile',
 
-				headerLeft: () => (
-					<TouchableOpacity onPress={() => router.back()} style={{ marginLeft: 10 }}>
-						<FontAwesome name="arrow-left" size={12} color="#FFFFFF" />
-					</TouchableOpacity>
-				),
-				href: null,
-			}}
-		/>
-		<Tabs.Screen
-			name="home/thrift/filter"
-			options={{
-				headerTintColor: '#FFFFFF',
-				headerTitleAlign: 'center',
-				headerStyle: {
-					backgroundColor: '#616219',
-				},
-				tabBarStyle: { display: 'none' },
+					headerLeft: () => (
+						<TouchableOpacity onPress={() => router.back()} style={{ marginLeft: 10 }}>
+							<FontAwesome name="arrow-left" size={12} color="#FFFFFF" />
+						</TouchableOpacity>
+					),
+					href: null,
+				}}
+			/>
+			<Tabs.Screen
+				name="home/thrift/filter"
+				options={{
+					headerTintColor: '#FFFFFF',
+					headerTitleAlign: 'center',
+					headerStyle: {
+						backgroundColor: '#616219',
+					},
+					tabBarStyle: { display: 'none' },
 
-				headerLeft: () => (
-					<TouchableOpacity onPress={() => router.back()} style={{ marginLeft: 10 }}>
-						<FontAwesome name="arrow-left" size={12} color="#FFFFFF" />
-					</TouchableOpacity>
-				),
-				href: null,
-			}}
-		/>
+					headerLeft: () => (
+						<TouchableOpacity onPress={() => router.back()} style={{ marginLeft: 10 }}>
+							<FontAwesome name="arrow-left" size={12} color="#FFFFFF" />
+						</TouchableOpacity>
+					),
+					href: null,
+				}}
+			/>
 			<Tabs.Screen
 				name="home/sell/index"
 				options={{

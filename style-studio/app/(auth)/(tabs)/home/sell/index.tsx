@@ -27,7 +27,8 @@ const Sell = () => {
 
             try {
                 const catalogData = await fetchCatalog(user?.id, search, category, location);
-                console.log(catalogs);
+                console.log(catalogData);
+                setCatalogs(catalogData);
             } catch (err) {
                 console.error(err.message);
             } finally {
