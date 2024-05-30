@@ -19,7 +19,7 @@ export async function fetchCatalog(userId, inName, inCategory, inCity) {
         if (inCity !== ''){
             query.eq('user(city)', inCity);
         }
-        if (userId!=""){
+        if (userId!==""){
             query.eq('sellerId', userId);
         }
 
