@@ -28,3 +28,12 @@ export const createBook = async (
 		throw error;
 	}
 };
+
+export const fetchTailorBooks = async (tailorId: string) => {
+	const { data, error } = await supabaseClient.from('book').select('*').eq('tailorId', tailorId);
+	if (error) {
+		console.log(error);
+		throw error;
+	}
+	return data as Book[];
+};
