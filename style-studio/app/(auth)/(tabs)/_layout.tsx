@@ -233,10 +233,60 @@ const Layout = () => {
 					href: null,
 				}}
 			/>
+			<Tabs.Screen
+				name="home/remake/book"
+				options={{
+					headerTintColor: '#FFFFFF',
+					headerTitleAlign: 'center',
+					headerStyle: {
+						backgroundColor: '#616219',
+					},
+					title: 'Book Tailor',
+					tabBarStyle: { display: 'none' }, // Hide bottom navigation bar
+					headerLeft: () => (
+						<TouchableOpacity onPress={() => router.back()} style={{ marginLeft: 10 }}>
+							<FontAwesome name="arrow-left" size={12} color="#FFFFFF" />
+						</TouchableOpacity>
+					),
+					href: null,
+				}}
+			/>
 
 			<Tabs.Screen
-				name="activity/[actId]/index"
+				name="activity/detail"
 				options={{
+					headerTintColor: '#FFFFFF',
+					headerTitleAlign: 'center',
+					headerStyle: {
+						backgroundColor: '#616219',
+					},
+					title: 'Detail',
+
+					tabBarStyle: { display: 'none' }, // Hide bottom navigation bar
+					headerLeft: () => (
+						<TouchableOpacity onPress={() => router.back()} style={{ marginLeft: 10 }}>
+							<FontAwesome name="arrow-left" size={12} color="#FFFFFF" />
+						</TouchableOpacity>
+					),
+					href: null,
+				}}
+			/>
+			<Tabs.Screen
+				name="activity/addReview"
+				options={{
+					headerTintColor: '#FFFFFF',
+					headerTitleAlign: 'center',
+					headerStyle: {
+						backgroundColor: '#616219',
+					},
+					title: 'Add Review',
+
+					tabBarStyle: { display: 'none' }, // Hide bottom navigation bar
+					headerLeft: () => (
+						<TouchableOpacity onPress={() => router.back()} style={{ marginLeft: 10 }}>
+							<FontAwesome name="arrow-left" size={12} color="#FFFFFF" />
+						</TouchableOpacity>
+					),
 					href: null,
 				}}
 			/>

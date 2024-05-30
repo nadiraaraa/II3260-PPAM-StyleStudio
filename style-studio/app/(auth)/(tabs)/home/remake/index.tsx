@@ -25,7 +25,7 @@ const Home = () => {
 						<Text style={styles.buttonText}>Probably</Text>
 					</Link>
 					<Link
-						href={{ pathname: '/home/remake/blomada' }}
+						href={{ pathname: '/home/remake/book' }}
 						style={[styles.button, { backgroundColor: '#616219' }]}
 					>
 						<Text style={styles.buttonText}>No, I'm only looking</Text>

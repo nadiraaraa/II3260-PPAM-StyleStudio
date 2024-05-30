@@ -1,5 +1,6 @@
+import { router, useLocalSearchParams } from "expo-router";
 import { useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 interface ActDetailProps {
@@ -15,10 +16,13 @@ interface ActDetailProps {
     orderDate: Date | null;
     payDate: Date | null;
     sendDate: Date | null;
+    reviewed: boolean;
 }
 
 const ActDetail = ({}: ActDetailProps) => {
-    const [activity, setActivity] = useState<ActDetailProps>({
+        const { type, detail } = useLocalSearchParams()
+
+        const [activity, setActivity] = useState<ActDetailProps>({
         name: "Refal Hady",
         photo: "",
         category: "",
@@ -31,6 +35,7 @@ const ActDetail = ({}: ActDetailProps) => {
         orderDate: new Date("2024-04-10T05:20:00"),
         payDate: new Date("2024-04-10T05:25:00"),
         sendDate: new Date("2024-04-10T13:15:00"),
+        reviewed: false,
     });
 
     return (
@@ -59,6 +64,18 @@ const ActDetail = ({}: ActDetailProps) => {
                     <Text>{activity.sendDate?.toLocaleString()}</Text>
                 </View>
             </View>
+            {activity.reviewed ?
+            <Text style={{ padding: 10, textAlign: 'center',margin: 10, width: 120, fontSize: 16, borderWidth: 1, borderColor: '#616219', color: 'white', borderRadius: 10, alignSelf: 'flex-end' }}>
+                Reviewed
+            </Text>
+            :
+            <Pressable style={{justifyContent: 'flex-end',}} onPress={() => router.push(`/activity/addReview?type=${'Tailor'}&name=${'Name'}` as any)}>
+                <Text style={{ padding: 10, textAlign: 'center',margin: 10, width: 120, fontSize: 16, backgroundColor: '#616219', color: 'white', borderRadius: 10, alignSelf: 'flex-end' }}>
+                    Review
+                </Text>
+            </Pressable>
+            }
+            
         </SafeAreaView>
     );
 };

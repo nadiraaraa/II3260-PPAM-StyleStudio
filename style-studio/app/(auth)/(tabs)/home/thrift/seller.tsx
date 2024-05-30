@@ -3,6 +3,7 @@ import { Button, StyleSheet, Text, TextInput, View, Image, ScrollView, Pressable
 
 const Product = () => {
     return <View style={styles.container}>
+        <ScrollView>
         <View style={{flexDirection: 'row'}}>
             <Image
                 source={require('../../../../../assets/images/profpic.png')}
@@ -52,6 +53,7 @@ const Product = () => {
                 
             </View>
         </View>
+        </ScrollView>
 
     </View>
 

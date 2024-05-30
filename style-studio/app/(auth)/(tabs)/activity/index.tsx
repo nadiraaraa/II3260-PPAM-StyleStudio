@@ -50,6 +50,8 @@ const Activity = () => {
         </Pressable>
         <Text style={styles.headerText}>Detail Order</Text>
       </View>
+
+
       <View style={styles.tabs}>
         <Pressable onPress={() => setPage("Thrift")}>
           <Text style={[styles.tab, page === "Thrift" && styles.activeTab]}>Thrift</Text>
@@ -61,6 +63,7 @@ const Activity = () => {
           <Text style={[styles.tab, page === "Sell" && styles.activeTab]}>Sell</Text>
         </Pressable>
       </View>
+      
       <ScrollView>
       {activities.map((act, idx) => (
           <View key={idx} style={styles.card}>
@@ -69,10 +72,12 @@ const Activity = () => {
               <Text style={styles.category}>{act.category}</Text>
               <Text style={styles.price}>Total Rp {act.price}</Text>
             </View>
-            <Text style={styles.date}>{act.orderDate}</Text>
-            <Pressable style={styles.detailsButton} onPress={() => router.push(`./${idx}`)}>
-              <Text style={styles.detailsButtonText}>Details</Text>
-            </Pressable>
+            <View style={{justifyContent: 'flex-end'}}>
+              <Text style={styles.date}>{act.orderDate}</Text>
+              <Pressable style={styles.detailsButton} onPress={() => router.push(`activity/detail?type=${page}`)}>
+                <Text style={styles.detailsButtonText}>Details</Text>
+              </Pressable>
+            </View>
           </View>
         ))}
       </ScrollView>
@@ -167,6 +172,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 15,
     borderRadius: 5,
+    marginVertical: 5,
     justifyContent: "center",
     alignItems: "center",
   },
