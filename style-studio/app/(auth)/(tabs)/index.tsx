@@ -15,8 +15,8 @@ const Home = () => {
 			<ScrollView contentContainerStyle={styles.scrollViewContent}>
 				<View style={styles.contentContainer}>
 					<Pressable
-						style={[styles.card, page === 'Thrift' && styles.activeCard]}
-						onPress={() => setPage('Thrift')}
+						style={[styles.card]}
+						onPress={() => router.push('/(auth)/(tabs)/home/thrift')}
 					>
 						<Image
 							source={require('../../../assets/images/thrift.png')}
@@ -28,7 +28,7 @@ const Home = () => {
 						</Text>
 					</Pressable>
 					<Pressable
-						style={[styles.card, page === 'Remake' && styles.activeCard]}
+						style={[styles.card]}
 						onPress={() => router.push('/(auth)/(tabs)/home/remake')}
 					>
 						<Image
@@ -43,8 +43,8 @@ const Home = () => {
 				</View>
 				<View style={styles.singleCardContainer}>
 					<Pressable
-						style={[styles.card, page === 'Sell' && styles.activeCard]}
-						onPress={() => setPage('Sell')}
+						style={[styles.card]}
+						onPress={() => router.push('/(auth)/(tabs)/home/sell')}
 					>
 						<Image
 							source={require('../../../assets/images/sell.png')}
@@ -56,7 +56,7 @@ const Home = () => {
 						</Text>
 					</Pressable>
 				</View>
-				<View style={styles.pageContent}>
+				{/* <View style={styles.pageContent}>
 					{page === 'Thrift' && (
 						<View>
 							<Text style={styles.pageTitle}>Thrift Page</Text>
@@ -77,7 +77,7 @@ const Home = () => {
 							<Text>Sell your old clothes to save more space in your wardrobe.</Text>
 						</View>
 					)}
-				</View>
+				</View> */}
 			</ScrollView>
 		</SafeAreaView>
 	);

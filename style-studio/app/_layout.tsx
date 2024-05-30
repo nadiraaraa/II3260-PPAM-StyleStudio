@@ -11,6 +11,7 @@ function RootLayoutNav() {
 				<Stack.Screen name="index" options={{ headerShown: false }} />
 			</Stack>
 		</SessionProvider>
+
 	);
 }
 

@@ -136,6 +136,7 @@ const styles = StyleSheet.create({
 		color: '#6D6D4E',
 		fontWeight: 'bold',
 	},
+
 });
 
 export default Login;
