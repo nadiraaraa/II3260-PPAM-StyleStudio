@@ -69,16 +69,16 @@ const Payment = () => {
                         style={styles.inputContainer}
                         placeholder="Name"
                         placeholderTextColor="#8C8C8C" // Light gray color for placeholder text
-                        value={address}
-                        onChangeText={setAddress}
+                        value={addressName}
+                        onChangeText={setAddressName}
                     />
                     <Text>Address:</Text>
                     <TextInput
                         style={styles.inputContainer}
                         placeholder="Address"
                         placeholderTextColor="#8C8C8C" // Light gray color for placeholder text
-                        value={addressName}
-                        onChangeText={setAddressName}
+                        value={address}
+                        onChangeText={setAddress}
                     />
                 </View>
 

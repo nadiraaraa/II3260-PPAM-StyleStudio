@@ -2,7 +2,7 @@ import supabase from "../supabaseClient.js"
 
 
 // Function to fetch catalog history for the logged-in customer
-export async function fetchCatalog(userId, inName, inCategory, inCity) {
+export async function fetchCatalog(type, userId, inName, inCategory, inCity) {
     try {
 
         let query = supabase
@@ -20,7 +20,11 @@ export async function fetchCatalog(userId, inName, inCategory, inCity) {
             query.eq('user(city)', inCity);
         }
         if (userId!==""){
-            query.eq('sellerId', userId);
+            if (type=="browse"){
+                query.neq('sellerId', userId);
+            } else {
+                query.eq('sellerId', userId);
+            }
         }
 
         query.eq('sold', false);
