@@ -36,3 +36,23 @@ export interface bookType {
     reviewed: boolean
 }
 
+export interface subType {
+    id: number | null,
+    created_at: string,
+    tailorId: number | null,
+    subId: number | null,
+    paymentMethod: string,
+    name: string,
+    days: number | null,
+    price: price | null
+}
+
+export interface subscriptionType {
+    id: number | null,
+    created_at: string,
+    name: string,
+    days: number | null,
+    price: price | null
+    boost: boolean | null
+}
+

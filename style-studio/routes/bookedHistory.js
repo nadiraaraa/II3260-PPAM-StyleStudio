@@ -8,7 +8,7 @@ export async function fetchBookedHistory(uid) {
         const { data: books, error } = await supabase
             .from('book')
             .select('*, user(name, telephone)')
-            .eq('custId', uid)
+            .eq('tailorId', uid)
             .order('created_at', {ascending: false});
 
         if (error) {
