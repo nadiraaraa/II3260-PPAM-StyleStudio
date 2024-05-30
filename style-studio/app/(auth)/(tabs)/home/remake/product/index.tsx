@@ -96,7 +96,12 @@ const RemakeProductPage = () => {
 							key={tailor.tailorId}
 							style={styles.card}
 							onPress={() => {
-								router.push('/home/remake/book');
+								router.push({
+									pathname: '/home/remake/product/book',
+									params: {
+										tailorId: tailor.tailorId,
+									},
+								});
 							}}
 						>
 							<View style={{ flexDirection: 'row' }}>
