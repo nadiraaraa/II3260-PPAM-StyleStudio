@@ -8,7 +8,7 @@ export async function addCatalog(catalogData) {
             .from('catalog') // Replace 'your_table_name' with your actual table name
             .insert(catalogData);
 
-        console.log(insertedData);
+        console.log(catalogData);
 
     } catch (error) {
         console.error('Error inserting data:', error.message);
