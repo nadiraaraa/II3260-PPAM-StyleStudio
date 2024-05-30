@@ -1,5 +1,6 @@
 import { fetchTailors, Tailor } from '@/api/tailor.api';
 import { supabaseClient } from '@/lib/supabase';
+import { useRouter } from 'expo-router';
 import React from 'react';
 import {
 	Image,
@@ -14,7 +15,26 @@ import {
 	FlatList,
 } from 'react-native';
 
+const images = [
+	require('../../../../../../assets/images/contoh1.png'),
+	require('../../../../../../assets/images/jumpsuit.jpg'),
+	require('../../../../../../assets/images/kaftan.jpg'),
+	require('../../../../../../assets/images/knit.jpg'),
+	require('../../../../../../assets/images/dress.jpg'),
+	require('../../../../../../assets/images/cardigan.jpg'),
+	require('../../../../../../assets/images/hoodie.jpg'),
+
+	// tambahkan path gambar lain yang diinginkan
+];
+
+const getRandomImage = () => {
+	const randomIndex = Math.floor(Math.random() * images.length);
+	return images[randomIndex];
+};
+
 const RemakeProductPage = () => {
+	const router = useRouter();
+
 	const [viewCategory, setViewCategory] = React.useState(false);
 	const [search, setSearch] = React.useState('');
 	const [tailors, setTailors] = React.useState<Tailor[]>([]);
@@ -72,26 +92,51 @@ const RemakeProductPage = () => {
 				/>
 				<View style={styles.tailorList}>
 					{tailors.map((tailor) => (
-						<View key={tailor.tailorId} style={styles.card}>
+						<Pressable
+							key={tailor.tailorId}
+							style={styles.card}
+							onPress={() => {
+								router.push('/home/remake/book');
+							}}
+						>
 							<View style={{ flexDirection: 'row' }}>
 								<Image
 									source={{ uri: tailor.user?.photo }}
-									style={{ width: 100, height: 100 }}
-								></Image>
-								<View style={{ padding: 15, justifyContent: 'space-between' }}>
-									<View>
-										<Text style={{ fontWeight: 'bold', fontSize: 16 }}>
-											{tailor.user?.name}
-										</Text>
+									style={{ width: 135, height: 135 }}
+								/>
+								<View style={{ flex: 1 }}>
+									<View
+										style={{
+											flexDirection: 'row',
+											justifyContent: 'space-between',
+											alignItems: 'flex-start',
+											padding: 8,
+										}}
+									>
+										<View>
+											<Text style={{ fontWeight: 'bold', fontSize: 16 }}>
+												{tailor.user?.name}
+											</Text>
+											<Text>{tailor.address}</Text>
+										</View>
 									</View>
-									<View style={{ alignItems: 'flex-end' }}>
-										<Text style={{ fontWeight: 'bold', fontSize: 16 }}>
-											{tailor.alterPrice}
-										</Text>
+									<View
+										style={{
+											marginTop: 'auto',
+											alignItems: 'flex-end',
+											marginRight: 8,
+											marginBottom: 10,
+										}}
+									>
+										{/* Pushes the price text to the bottom right */}
+										<Text>Alter Price</Text>
+										<Text style={{ fontSize: 10 }}>{tailor.alterPrice}</Text>
+										<Text>Create Price</Text>
+										<Text style={{ fontSize: 10 }}>{tailor.createPrice}</Text>
 									</View>
 								</View>
 							</View>
-						</View>
+						</Pressable>
 					))}
 				</View>
 			</ScrollView>
@@ -123,7 +168,7 @@ const styles = StyleSheet.create({
 		marginBottom: 10,
 	},
 	item: {
-		padding: 10,
+		padding: 0,
 		fontSize: 18,
 		height: 44,
 	},
