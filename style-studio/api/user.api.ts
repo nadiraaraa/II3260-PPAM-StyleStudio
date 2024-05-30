@@ -12,7 +12,7 @@ export interface User {
 }
 
 export const getUserById = async (userId: string) => {
-	const { data, error } = await supabaseClient.from('users').select('*').eq('uid', userId);
+	const { data, error } = await supabaseClient.from('user').select('*').eq('uid', userId);
 	if (error) {
 		console.log(error);
 		throw error;
