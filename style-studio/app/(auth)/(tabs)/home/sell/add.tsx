@@ -1,33 +1,29 @@
 import React, { ChangeEvent, useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Pressable, AppState, ScrollView } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Pressable, AppState, ScrollView, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { Picker } from '@react-native-picker/picker';
-
-interface formAdd {
-    name: string;
-    size: string;
-    brand: string;
-    condition: string;
-    material: string;
-    description: string;
-    price: number | null;
-    photo: string;
-    category: string;
-}
+import { newCatalogType } from '../../catalog';
+import { useSession } from '@/context/SessionContext';
+import { addCatalog } from '../../../../../routes/addCatalog'
 
 const Add = () => {
     const router = useRouter();
-    const [form, setForm] = useState<formAdd>({
+    const { user } = useSession();
+    const userId = user?.id || '';
+
+
+    const [form, setForm] = useState<newCatalogType>({
         name: '',
         size: '',
-        brand: '',
-        condition: '',
-        material: '',
-        description: '',
+        brand: null,
+        condition: null,
+        material: null,
+        description: null,
         price: null,
         photo: '',
-        category: '',
+        category: 'Top',
+        sellerId: userId,
     });
 
     const [error, setError] = useState('');
@@ -37,7 +33,30 @@ const Add = () => {
     };
 
     const handleSubmit = async () => {
+        if (form.name === '' || form.size === '' || form.category === '' || form.price === null) {
+            Alert.alert(
+                'Error',
+                "Details marked with * can't be empty.",
+                [
+                    {
+                        text: 'OK',
+                    },
+                ],
+                { cancelable: false }
+            );
+            console.log(form);
+        } else {
+            try {
+                console.log(form);
 
+                const addedData = await addCatalog(form);
+                console.log(addedData);
+            } catch (err) {
+                console.error(err.message);
+            } finally {
+                router.push('./');
+            }
+        }
 
     }
 
@@ -45,12 +64,12 @@ const Add = () => {
         <SafeAreaView style={styles.container}>
             <ScrollView>
                 <View style={styles.formContainer}>
-                    <Text>Name:</Text>
+                    <Text>Name: *</Text>
                     <TextInput
                         style={styles.input}
                         onChangeText={(e) => handleInputChange('name', e)}
                     />
-                    <Text>Size:</Text>
+                    <Text>Size: *</Text>
                     <TextInput
                         style={styles.input}
                         onChangeText={(e) => handleInputChange('size', e)}
@@ -75,7 +94,7 @@ const Add = () => {
                         style={styles.input}
                         onChangeText={(e) => handleInputChange('description', e)}
                     />
-                    <Text>Price:</Text>
+                    <Text>Price: *</Text>
                     <TextInput
                         style={styles.input}
                         keyboardType="numeric"
@@ -87,25 +106,26 @@ const Add = () => {
                         style={styles.input}
                         onChangeText={(e) => handleInputChange('photo', e)}
                     />
-                    <Text>Category:</Text>
+                    <Text>Category: *</Text>
                     <View style={[styles.input, { paddingVertical: 0 }]}>
-                    <Picker
-                        onValueChange={(itemValue: string, itemIndex) => handleInputChange('category', itemValue)}
+                        <Picker
+                            selectedValue={form.category}
+                            onValueChange={(itemValue: string, itemIndex) => handleInputChange('category', itemValue)}
 
-                    >
-                        <Picker.Item label="Top" value="Top" />
-                        <Picker.Item label="Bottom" value="Bottom" />
-                        <Picker.Item label="Dress" value="Dress" />
-                        <Picker.Item label="Accessory" value="Accessory" />
-                        <Picker.Item label="Footwear" value="Footwear" />
-                        <Picker.Item label="Set" value="Set" />
-                    </Picker>
+                        >
+                            <Picker.Item label="Top" value="Top" />
+                            <Picker.Item label="Bottom" value="Bottom" />
+                            <Picker.Item label="Dress" value="Dress" />
+                            <Picker.Item label="Accessory" value="Accessory" />
+                            <Picker.Item label="Footwear" value="Footwear" />
+                            <Picker.Item label="Set" value="Set" />
+                        </Picker>
                     </View>
                     <View>
-                    <Pressable onPress={() => handleSubmit}>
-                        <Text style={{ fontSize: 18, paddingVertical: 10, paddingHorizontal: 60, backgroundColor: '#616219', textAlign: 'center', color: 'white', borderRadius: 5, marginTop: 20, alignSelf: 'center' }}>Add Item</Text>
-                    </Pressable>
-                </View>
+                        <Pressable onPress={() => handleSubmit()}>
+                            <Text style={{ fontSize: 18, paddingVertical: 10, paddingHorizontal: 60, backgroundColor: '#616219', textAlign: 'center', color: 'white', borderRadius: 5, marginTop: 20, alignSelf: 'center' }}>Add Item</Text>
+                        </Pressable>
+                    </View>
                 </View>
             </ScrollView>
         </SafeAreaView>

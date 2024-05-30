@@ -4,7 +4,16 @@ import { Button, StyleSheet, Text, TextInput, View, Image, ScrollView, Pressable
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Filter from './filter';
 import {fetchCatalog} from '../../../../../routes/catalog'
-import catalogType from './catalog';
+import {catalogType} from '../../catalog';
+
+const images = [
+    require('../../../../../assets/images/contoh1.png'),
+    require('../../../../../assets/images/jumpsuit.jpg'),
+    require('../../../../../assets/images/kaftan.jpg'),
+    require('../../../../../assets/images/knit.jpg'),
+    require('../../../../../assets/images/dress.jpg'),
+    // tambahkan path gambar lain yang diinginkan
+  ];
 
 const Thrift = () => {
     // const { initSearch } = useLocalSearchParams()
@@ -19,14 +28,20 @@ const Thrift = () => {
     const [viewCategory, setViewCategory] = useState(false);
     const [catalogs, setCatalogs] = useState<catalogType[]>([]);
 
+    const getRandomImage = () => {
+        const randomIndex = Math.floor(Math.random() * images.length);
+        return images[randomIndex];
+      };
+    
     useEffect(() => {
         const loadCatalog = async () => {
             setLoading(true);
             setError(false);
 
             try {
-                const catalogData = await fetchCatalog(search, category, location);
-                console.log(catalogs);
+                const catalogData = await fetchCatalog("", search, category, location);
+                console.log(catalogData);
+                setCatalogs(catalogData);
             } catch (err) {
                 console.error(err.message);
             } finally {
@@ -88,7 +103,7 @@ const Thrift = () => {
                                         style={styles.cardImage}
                                     />
                                     <Text style={{ color: '#616219', fontWeight: 'bold' }}>{catalog.name}</Text>
-                                    <Text style={{ color: '#1C1B1F' }}>Rp{catalog.price.toString()}</Text>
+                                    <Text style={{ color: '#1C1B1F' }}>Rp{catalog.price?.toString()}</Text>
                                     <View style={{flex: 1, justifyContent:'flex-end'}}>
                                         <Text style={{ color: '#595454' , justifyContent: 'flex-end'}}>{catalog.seller_city}</Text>
                                     </View>

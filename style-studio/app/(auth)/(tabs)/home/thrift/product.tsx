@@ -2,7 +2,7 @@ import { Link, useLocalSearchParams, useRouter } from 'expo-router';
 
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Button, StyleSheet, Text, TextInput, View, Image, ScrollView, Pressable } from 'react-native';
-import catalogType from './catalog';
+import catalogType from '../../catalog';
 
 
 const Product = () => {
