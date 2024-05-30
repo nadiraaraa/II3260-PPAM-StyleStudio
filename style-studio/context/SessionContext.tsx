@@ -1,13 +1,21 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User, Session } from '@supabase/supabase-js';
+import { getUserById, User as MyUser } from '@/api/user.api';
 import { supabaseClient, SignInResponse, SignUpResponse } from '@/lib/supabase';
 
 interface SessionContextProps {
 	user: User | null;
+	profile: MyUser | null;
 	session: Session | null;
 	isLoading: boolean;
 	signIn: (email: string, password: string) => Promise<SignInResponse>;
-	signUp: (email: string, password: string, full_name: string, city: string, telephone: string) => Promise<SignUpResponse>;
+	signUp: (
+		email: string,
+		password: string,
+		full_name: string,
+		city: string,
+		telephone: string
+	) => Promise<SignUpResponse>;
 	signOut: () => Promise<void>;
 }
 
@@ -23,6 +31,7 @@ export const useSession = () => {
 
 export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 	const [user, setUser] = useState<User | null>(null);
+	const [profile, setProfile] = useState<MyUser | null>(null);
 	const [session, setSession] = useState<Session | null>(null);
 	const [isLoading, setIsLoading] = useState(true);
 
@@ -31,19 +40,22 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({ child
 			const { data } = await supabaseClient.auth.getSession();
 			setSession(data.session);
 			setUser(data.session?.user ?? null);
-			console.log(data);
+			setProfile(await getUserById(data.session?.user?.id!));
+			console.log(profile);
 			setIsLoading(false);
 		};
 
 		getSession();
 
-		const { data: listener } = supabaseClient.auth.onAuthStateChange((event, session) => {
+		const { data: listener } = supabaseClient.auth.onAuthStateChange(async (event, session) => {
 			if (event === 'SIGNED_IN') {
 				setSession(session);
 				setUser(session?.user ?? null);
+				setProfile(await getUserById(session?.user?.id!));
 			} else if (event === 'SIGNED_OUT') {
 				setSession(null);
 				setUser(null);
+				setProfile(null);
 			}
 		});
 	}, []);
@@ -85,7 +97,9 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({ child
 	};
 
 	return (
-		<SessionContext.Provider value={{ user, session, isLoading, signIn, signUp, signOut }}>
+		<SessionContext.Provider
+			value={{ user, profile, session, isLoading, signIn, signUp, signOut }}
+		>
 			{children}
 		</SessionContext.Provider>
 	);

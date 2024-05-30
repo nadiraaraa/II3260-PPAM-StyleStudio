@@ -1,13 +1,66 @@
+import { upgradeToTailor } from '@/api/user.api';
+import { useSession } from '@/context/SessionContext';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { Button, Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { useState } from 'react';
+import { Button, Image, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const ConfirmPayment = () => {
 	const router = useRouter();
-	const { amount } = useLocalSearchParams();
+	const { profile } = useSession();
+	const { amount, month } = useLocalSearchParams();
+
+	const [address, setAddress] = useState('');
+	const [alterPrice, setAlterPrice] = useState('');
+	const [createPrice, setCreatePrice] = useState('');
+
+	const handlePayment = async () => {
+		await upgradeToTailor(
+			profile?.uid!,
+			address,
+			parseInt(createPrice),
+			parseInt(alterPrice),
+			parseInt(month as string)
+		);
+		router.push('/home/remake/paymentSuccess');
+	};
 
 	return (
 		<SafeAreaView style={styles.container}>
+			<View style={styles.formContainer}>
+				<Text style={[styles.titleText, { marginBottom: 5 }]}>Seller Form</Text>
+				<Text style={styles.formLabel}>Address</Text>
+				<TextInput
+					style={styles.input}
+					placeholder="Fill your address here"
+					value={address}
+					onChangeText={setAddress}
+					keyboardType="default"
+					autoCapitalize="none"
+					placeholderTextColor="#8C8C8C"
+				/>
+				<Text style={styles.formLabel}>Create Price</Text>
+				<TextInput
+					style={styles.input}
+					placeholder="Fill your create price here"
+					value={createPrice}
+					onChangeText={setCreatePrice}
+					keyboardType="numeric"
+					autoCapitalize="none"
+					placeholderTextColor="#8C8C8C"
+				/>
+				<Text style={styles.formLabel}>Alter Price</Text>
+				<TextInput
+					style={styles.input}
+					placeholder="Fill your alter price here"
+					value={alterPrice}
+					onChangeText={setAlterPrice}
+					keyboardType="numeric"
+					autoCapitalize="none"
+					placeholderTextColor="#8C8C8C"
+				/>
+			</View>
+
 			<View style={styles.contentContainer}>
 				<View style={styles.headerContainer}>
 					<Text style={styles.titleText}>Payment</Text>
@@ -33,12 +86,7 @@ const ConfirmPayment = () => {
 				<View style={styles.footerTextContainer}>
 					<Text style={styles.footerTotalText}>Total: Rp {amount}</Text>
 				</View>
-				<Pressable
-					style={styles.payButton}
-					onPress={() => {
-						router.push('/home/remake/paymentSuccess');
-					}}
-				>
+				<Pressable style={styles.payButton} onPress={handlePayment}>
 					<Text style={styles.payButtonText}>PAY</Text>
 				</Pressable>
 			</View>
@@ -51,6 +99,27 @@ const styles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: '#FFFFFF', // White background color
 		width: '100%',
+	},
+
+	formContainer: {
+		// flexGrow: 1,
+		paddingHorizontal: 20,
+		marginBottom: 20,
+	},
+	formLabel: {
+		fontSize: 13,
+		// fontWeight: '500',
+		marginTop: 5,
+	},
+
+	input: {
+		height: 50,
+		borderColor: '#CCCCCC',
+		borderWidth: 1,
+		borderRadius: 5,
+		paddingHorizontal: 10,
+		marginVertical: 5,
+		backgroundColor: '#FFFFFF',
 	},
 
 	contentContainer: {
