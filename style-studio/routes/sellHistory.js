@@ -42,12 +42,12 @@ async function fetchsellHistory(uid) {
     }
 }
 
-// Example usage
-const uid = 1;
-fetchsellHistory(uid)
-    .then(sellHistory => {
-        console.log('Sell History:', sellHistory);
-    })
-    .catch(error => {
-        console.error('Error:', error.message);
-    });
+// // Example usage
+// const uid = 1;
+// fetchsellHistory(uid)
+//     .then(sellHistory => {
+//         console.log('Sell History:', sellHistory);
+//     })
+//     .catch(error => {
+//         console.error('Error:', error.message);
+//     });
