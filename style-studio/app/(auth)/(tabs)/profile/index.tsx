@@ -2,9 +2,17 @@ import React from 'react';
 import { View, Text, StyleSheet, Pressable, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
+import { useSession } from '@/context/SessionContext';
 
 const Profile = () => {
 	const router = useRouter();
+
+	const { signOut } = useSession();
+
+	const handleLogout = async () => {
+		await signOut();
+		router.replace('/');
+	};
 
 	return (
 		<SafeAreaView style={styles.container}>
@@ -39,6 +47,9 @@ const Profile = () => {
 				<Pressable style={styles.infoRow}>
 					<Text style={styles.infoLabel}>Pesanan Saya</Text>
 					<Text style={styles.infoValue}>Detail Order &gt;</Text>
+				</Pressable>
+				<Pressable onPress={handleLogout}>
+					<Text style={styles.infoLabel}>Logout</Text>
 				</Pressable>
 			</View>
 		</SafeAreaView>

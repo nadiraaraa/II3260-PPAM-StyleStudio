@@ -36,7 +36,7 @@ const ConfirmPayment = () => {
 				<Pressable
 					style={styles.payButton}
 					onPress={() => {
-						/* Handle pay action */
+						router.push('/home/remake/paymentSuccess');
 					}}
 				>
 					<Text style={styles.payButtonText}>PAY</Text>
