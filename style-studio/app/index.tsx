@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
 		marginBottom: 20,
 	},
 	signInButton: {
-		backgroundColor: '#6D6D4E', // Medium green background color
+		backgroundColor: '#616219', // Medium green background color
 		paddingVertical: 15,
 		paddingHorizontal: 80,
 		borderRadius: 5,
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
 		marginVertical: 10,
 	},
 	signUpButton: {
-		backgroundColor: '#D0D0A5', // Light green background color
+		backgroundColor: '#DEDD91', // Light green background color
 		paddingVertical: 15,
 		paddingHorizontal: 80,
 		borderRadius: 5,

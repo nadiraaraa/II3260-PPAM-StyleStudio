@@ -9,9 +9,11 @@ const Layout = () => {
 		<Tabs
 			sceneContainerStyle={{ backgroundColor: 'E6E3D1' }}
 			screenOptions={{
+				
 				tabBarStyle: {
 					backgroundColor: '#E6E3D1', // Green background color
 					height: 60,
+					padding: 5
 				},
 				tabBarActiveTintColor: '#FFFFF', // White color for the active tab icon/text
 				tabBarInactiveTintColor: '#49454F', // Black color for the inactive tab icon/text
@@ -20,27 +22,40 @@ const Layout = () => {
 			<Tabs.Screen
 				name="activity/index"
 				options={{
+					headerTintColor: '#FFFFFF',
+					headerTitleAlign: 'center',
+					headerStyle: {
+						backgroundColor: '#616219',
+					},
 					title: 'Activity',
 					tabBarIcon: ({ color }) => (
 						<FontAwesome size={24} name="list-ul" color={color} />
 					),
-					headerShown: false,
+					// headerShown: false,
 				}}
 			/>
 			<Tabs.Screen
 				name="index"
 				options={{
+					headerTintColor: '#FFFFFF',
+					headerTitleAlign: 'center',
+					headerStyle: {
+						backgroundColor: '#616219',
+					},
 					title: 'Home',
 					tabBarIcon: ({ color }) => <FontAwesome size={24} name="home" color={color} />,
-					headerShown: false,
 				}}
 			/>
 			<Tabs.Screen
 				name="profile/index"
 				options={{
-					title: 'Profile',
+					headerTintColor: '#FFFFFF',
+					headerTitleAlign: 'center',
+					headerStyle: {
+						backgroundColor: '#616219',
+					},
+					title: 'My Profile',
 					tabBarIcon: ({ color }) => <FontAwesome size={24} name="user" color={color} />,
-					headerShown: false,
 					// head
 				}}
 			/>

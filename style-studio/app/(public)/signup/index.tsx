@@ -66,7 +66,7 @@ const SignUp = () => {
 				<View style={styles.inputContainer}>
 					<TextInput
 						style={styles.input}
-						placeholder="City"
+						placeholder="Province"
 						placeholderTextColor="#8C8C8C" // Light gray color for placeholder text
 						value={city}
 						onChangeText={setCity}
@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
 		fontWeight: 'bold',
 	},
 	createAccountButton: {
-		backgroundColor: '#6D6D4E', // Medium green background color
+		backgroundColor: '#616219', // Medium green background color
 		paddingVertical: 15,
 		borderRadius: 5,
 		alignItems: 'center',

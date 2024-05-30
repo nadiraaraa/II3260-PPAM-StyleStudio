@@ -1,12 +1,20 @@
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Button, StyleSheet, Text, TextInput, View, Image, ScrollView, Pressable } from 'react-native';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { router } from "expo-router";
 
 const Book = () => {
-    const [alter, setAlter] = useState(0);
-    const [create, setCreate] = useState(0);
+    const [alterCount, setAlterCount] = useState(0);
+    const [createCount, setCreateCount] = useState(0);
     const [total, setTotal] = useState(0);
+
+    // const countTotal = (ac: number, cc: number) => {
+    //     setTotal(ac * 5 + cc *10);
+    // }
+
+    useEffect(() => {
+        setTotal(alterCount * 5 + createCount * 10);
+    }, [alterCount, createCount]);
 
 
     return <View style={styles.container}>
@@ -28,15 +36,19 @@ const Book = () => {
                 <Text style={{textAlign: 'center'}}>Rp50.000</Text>
             </View>
             <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 'auto', margin: 10 }}>
-                <Image
+                <Pressable onPress={() =>{setAlterCount(alterCount === 0 ? 0 : alterCount-1);}}>
+                    <Image
                     source={require('../../../../../assets/images/minus.png')}
                     // style={{ width: 40, height: 40, resizeMode: 'cover' }}
-                />
-                <Text>1</Text>
-                <Image
-                    source={require('../../../../../assets/images/plus.png')}
-                    // style={{ width: 40, height: 40, resizeMode: 'cover' }}
-                />
+                    />
+                </Pressable>
+                <Text>{alterCount}</Text>
+                <Pressable onPress={() => {setAlterCount(alterCount+1);}}>
+                    <Image
+                        source={require('../../../../../assets/images/plus.png')}
+                        // style={{ width: 40, height: 40, resizeMode: 'cover' }}
+                    />
+                </Pressable>
             </View>
 
             <View style={styles.bar}>
@@ -44,20 +56,24 @@ const Book = () => {
                 <Text style={{textAlign: 'center'}}>Rp10.000</Text>
             </View>
             <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: 'auto', margin: 10 }}>
-                <Image
+                <Pressable onPress={() =>{setCreateCount(createCount === 0 ? 0 : createCount-1);}}>
+                    <Image
                     source={require('../../../../../assets/images/minus.png')}
                     // style={{ width: 40, height: 40, resizeMode: 'cover' }}
-                />
-                <Text>1</Text>
-                <Image
-                    source={require('../../../../../assets/images/plus.png')}
-                    // style={{ width: 40, height: 40, resizeMode: 'cover' }}
-                />
+                    />
+                </Pressable>
+                <Text>{createCount}</Text>
+                <Pressable onPress={() => {setCreateCount(createCount+1);}}>
+                    <Image
+                        source={require('../../../../../assets/images/plus.png')}
+                        // style={{ width: 40, height: 40, resizeMode: 'cover' }}
+                    />
+                </Pressable>
             </View>
 
             <View style={styles.bar}>
                 <Text style={{color: '#616219', fontWeight: 'bold',textAlign: 'center', fontSize: 16}}>Total: </Text>
-                <Text style={{textAlign: 'center'}}>Rp50.000</Text>
+                <Text style={{textAlign: 'center'}}>Rp{total.toString()}</Text>
             </View>
 
             <Pressable onPress={() => router.push('/home/remake/payment')}>

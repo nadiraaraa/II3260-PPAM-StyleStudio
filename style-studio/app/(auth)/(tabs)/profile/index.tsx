@@ -7,7 +7,13 @@ import { useSession } from '@/context/SessionContext';
 const Profile = () => {
 	const router = useRouter();
 
-	const { signOut } = useSession();
+	const { user, isLoading, signOut } = useSession();
+
+	// console.log(user?.user_metadata);
+
+    if (isLoading) {
+        return <Text>Loading...</Text>;
+    }
 
 	const handleLogout = async () => {
 		await signOut();
@@ -16,7 +22,7 @@ const Profile = () => {
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<View style={styles.header}>
+			{/* <View style={styles.header}>
 				<Pressable style={styles.backButton} onPress={() => router.push('/activity')}>
 					<Text style={styles.headerButtonText}>Back</Text>
 				</Pressable>
@@ -24,30 +30,34 @@ const Profile = () => {
 				<Pressable style={styles.settingsButton}>
 					<Text style={styles.headerButtonText}>Settings</Text>
 				</Pressable>
-			</View>
+			</View> */}
 			<View style={styles.profilePicContainer}>
 				<Image
-					source={require('../../../../assets/images/profpic.png')}
+					source={require('../../../../assets/images/profile.png')}
 					style={styles.profilePic}
 				/>
 			</View>
 			<View style={styles.infoContainer}>
 				<View style={styles.infoRow}>
 					<Text style={styles.infoLabel}>Nama</Text>
-					<Text style={styles.infoValue}>Refal Hady</Text>
+					<Text style={styles.infoValue}>{user?.user_metadata?.full_name}</Text>
 				</View>
 				<View style={styles.infoRow}>
 					<Text style={styles.infoLabel}>No. Handphone</Text>
-					<Text style={styles.infoValue}>081312311234</Text>
+					<Text style={styles.infoValue}>{user?.user_metadata?.telephone}</Text>
 				</View>
 				<View style={styles.infoRow}>
 					<Text style={styles.infoLabel}>Email</Text>
-					<Text style={styles.infoValue}>refalhady@gmail.com</Text>
+					<Text style={styles.infoValue}>{user?.user_metadata?.email}</Text>
 				</View>
-				<Pressable style={styles.infoRow}>
-					<Text style={styles.infoLabel}>Pesanan Saya</Text>
-					<Text style={styles.infoValue}>Detail Order &gt;</Text>
-				</Pressable>
+				<View style={styles.infoRow}>
+					<Text style={styles.infoLabel}>Lokasi</Text>
+					<Text style={styles.infoValue}>{user?.user_metadata?.city}</Text>
+				</View>
+				{/* <Pressable style={styles.infoRow}>
+					<Text style={styles.infoLabel}>Review Saya</Text>
+					<Text style={styles.infoValue}>Detail Review &gt;</Text>
+				</Pressable> */}
 				<Pressable style={{justifyContent: 'flex-end',}} onPress={handleLogout}>
                 <Text style={{ padding: 10, textAlign: 'center',margin: 80, width: 120, fontSize: 16, borderWidth: 1, borderColor: '#616219', color: '#616219', fontWeight: 'bold', borderRadius: 10, alignSelf: 'center' }}>
                     Log Out

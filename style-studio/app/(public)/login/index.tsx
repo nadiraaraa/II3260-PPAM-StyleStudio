@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
 		marginVertical: 10,
 	},
 	signInButton: {
-		backgroundColor: '#6D6D4E',
+		backgroundColor: '#616219',
 		paddingVertical: 15,
 		borderRadius: 5,
 		alignItems: 'center',
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
 		color: '#808080',
 	},
 	signUpText: {
-		color: '#6D6D4E',
+		color: '#616219',
 		fontWeight: 'bold',
 	},
 
