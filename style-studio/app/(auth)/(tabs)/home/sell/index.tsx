@@ -3,13 +3,18 @@ import { useEffect, useState } from 'react';
 import { Button, StyleSheet, Text, TextInput, View, Image, ScrollView, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Filter from '../thrift/filter';
-import {fetchCatalog} from '../../../../../routes/catalog'
-import {catalogType} from '../../catalog';
+import { fetchCatalog } from '../../../../../routes/catalog'
+import { catalogType, FileObject } from '../../catalog';
 import { useSession } from '@/context/SessionContext';
+import supabase from '@/supabaseClient';
+import ImageItem from '@/components/ImageItem';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const Sell = () => {
-  const { user } = useSession();
+    const { user } = useSession();
 
+    const [files, setFiles] = useState<FileObject[]>([])
     const router = useRouter();
 
     const [loading, setLoading] = useState(true);
@@ -20,14 +25,23 @@ const Sell = () => {
     const [viewCategory, setViewCategory] = useState(false);
     const [catalogs, setCatalogs] = useState<catalogType[]>([]);
 
+    
+
     useEffect(() => {
+        // const loadImages = async () => {
+        //     const { data, error } = await supabase.storage.from('files').list(user.id)
+        //     if (data) {
+        //         setFiles(data)
+        //     }
+        // };
+
         const loadCatalog = async () => {
             setLoading(true);
             setError(false);
 
             try {
                 const catalogData = await fetchCatalog("sell", user?.id, search, category, location);
-                console.log(catalogData);
+                console.log("catalog", catalogData);
                 setCatalogs(catalogData);
             } catch (err) {
                 console.error(err.message);
@@ -37,82 +51,100 @@ const Sell = () => {
         };
 
         loadCatalog();
-    }, []);
+
+        // if (!user) return
+
+        // Load user images
+        // loadImages()
+    }, [])
+
+   
+
+
+
     const handleSearch = () => {
 
     }
 
     return (
-            <View style={styles.container}>
-                {viewCategory ? 
-                    <Filter 
-                        category={category}
-                        setCategory={setCategory}
-                        location={location}
-                        setLocation={setLocation}
-                        setViewCategory={setViewCategory}
+        <View style={styles.container}>
+            {viewCategory ?
+                <Filter
+                    category={category}
+                    setCategory={setCategory}
+                    location={location}
+                    setLocation={setLocation}
+                    setViewCategory={setViewCategory}
+                />
+                : <></>
+            }
+            <View style={styles.bar}>
+                <View style={styles.input}>
+                    <TextInput
+                        // style={styles.input}
+                        placeholder="Search..."
+                        value={search}
+                        onChangeText={setSearch}
+                        keyboardType="email-address"
+                        autoCapitalize="none"
+                        placeholderTextColor="#8C8C8C" // Light gray color for placeholder text
                     />
-                    : <></>
-                }
-                <View style={styles.bar}>
-                    <View style={styles.input}>
-                        <TextInput
-                            // style={styles.input}
-                            placeholder="Search..."
-                            value={search}
-                            onChangeText={setSearch}
-                            keyboardType="email-address"
-                            autoCapitalize="none"
-                            placeholderTextColor="#8C8C8C" // Light gray color for placeholder text
-                        />
-                        <Pressable onPress={handleSearch}>
-                            <Image
-                                source={require('../../../../../assets/images/search.png')}
-                                style={styles.icon}
-                            />
-                        </Pressable>
-                    </View>
-                    <Pressable onPress={() => {setViewCategory(true); console.log(viewCategory);}}>
+                    <Pressable onPress={handleSearch}>
                         <Image
-                            source={require('../../../../../assets/images/category.png')}
+                            source={require('../../../../../assets/images/search.png')}
                             style={styles.icon}
-                            
                         />
                     </Pressable>
                 </View>
-                <ScrollView style={{marginHorizontal: 'auto', alignContent: 'center'}}>
-                  
-                    <View style={{ flexDirection: 'row', flexWrap: 'wrap', columnGap: 10, marginHorizontal: 5}}>
+                <Pressable onPress={() => { setViewCategory(true); console.log(viewCategory); }}>
+                    <Image
+                        source={require('../../../../../assets/images/category.png')}
+                        style={styles.icon}
+
+                    />
+                </Pressable>
+            </View>
+            <ScrollView style={{ marginHorizontal: 'auto', alignContent: 'center' }}>
+
+                <View style={{ flexDirection: 'row', flexWrap: 'wrap', columnGap: 10, marginHorizontal: 5 }}>
                     <Pressable onPress={() => router.push('/home/sell/add')}>
-                      <View style={[styles.card, {justifyContent: 'center'}]}>
-                        <Image
-                          source={require('../../../../../assets/images/add.png')}
-                          style={{alignContent: 'center', width: 100, marginBottom: 10, resizeMode: 'contain', justifyContent: 'center', marginHorizontal: 'auto'}}
-                        />
-                        <Text style={{ color: '#616219', fontWeight: 'bold' , textAlign: 'center'}}>Add Item</Text>
-                      </View>
+                        <View style={[styles.card, { justifyContent: 'center' }]}>
+                            <Image
+                                source={require('../../../../../assets/images/add.png')}
+                                style={{ alignContent: 'center', width: 100, marginBottom: 10, resizeMode: 'contain', justifyContent: 'center', marginHorizontal: 'auto' }}
+                            />
+                            <Text style={{ color: '#616219', fontWeight: 'bold', textAlign: 'center' }}>Add Item</Text>
+                        </View>
                     </Pressable>
-                        {catalogs.map((catalog, idx)=>
-                            <Pressable key={idx} onPress={()=> router.push(`/home/thrift/prodouct?detail=${JSON.stringify(catalog)}`)}>
-                                <View style={styles.card}>
-                                    <Image
+                    {/* {catalogs.map((catalog, idx) => */}
+                        <Pressable  onPress={() => router.push(`/home/thrift/product?detail=${JSON.stringify(catalogs)}`)}>
+                            <View style={styles.card}>
+                                {/* <Image
                                         source={require('../../../../../assets/images/contoh1.png')}
                                         style={styles.cardImage}
-                                    />
-                                    <Text style={{ color: '#616219', fontWeight: 'bold' }}>{catalog.name}</Text>
-                                    <Text style={{ color: '#1C1B1F' }}>Rp{catalog.price?.toString()}</Text>
-                                    <View style={{flex: 1, justifyContent:'flex-end'}}>
-                                        <Text style={{ color: '#595454' , justifyContent: 'flex-end'}}>{catalog.seller_city}</Text>
-                                    </View>
+                                    /> */}
+                                    {catalogs[0] ? <>
+                                <ImageItem
+                                    item={catalogs[0].photo}
+                                    userId={user!.id}
+                                // onRemoveImage={() => onRemoveImage(item, index)}
+                                />
+                                <Text style={{ color: '#616219', fontWeight: 'bold' }}>{catalogs[0].name}</Text>
+                                <Text style={{ color: '#1C1B1F' }}>Rp{catalogs[0].price?.toString()}</Text>
+                                <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+                                    <Text style={{ color: '#595454', justifyContent: 'flex-end' }}>{catalogs[0].seller_city}</Text>
                                 </View>
-                            </Pressable>
-                        )}
-                        
-                        
-                    </View>
-                </ScrollView>
-            </View>
-        
+                                </>
+                                : <></>}
+                            </View>
+                        </Pressable>
+                    {/* )} */}
+
+
+                </View>
+            </ScrollView>
+        </View>
+
     );
 };
 
@@ -189,7 +221,7 @@ const styles = StyleSheet.create({
         // justifyContent: 'center',
         textAlign: 'left',
         marginBottom: 5,
-        flex:1
+        flex: 1
     },
     filter: {
         backgroundColor: '#FDF9EC',
@@ -215,7 +247,7 @@ const styles = StyleSheet.create({
         width: 140,
         height: 30,
         fontSize: 13,
-        textAlign: 'center' 
+        textAlign: 'center'
     }
 });
 

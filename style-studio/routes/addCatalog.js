@@ -14,7 +14,7 @@ export async function addCatalog(catalogData) {
         console.error('Error inserting data:', error.message);
     }
 
-    return insertedData;
+    return catalogData;
 }
 
 // Example data to insert

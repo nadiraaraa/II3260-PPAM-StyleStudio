@@ -1,17 +1,18 @@
-import React, { ChangeEvent, useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Pressable, AppState, ScrollView, Alert } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TextInput, StyleSheet, Pressable, ScrollView, Alert, Button, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { Picker } from '@react-native-picker/picker';
-import { newCatalogType } from '../../catalog';
+import { FileObject, newCatalogType } from '../../catalog';
 import { useSession } from '@/context/SessionContext';
-import { addCatalog } from '../../../../../routes/addCatalog'
+import { addCatalog } from '../../../../../routes/addCatalog';
+import * as ImagePicker from 'expo-image-picker';
+import { supabase } from '../../../../../supabaseClient';
 
 const Add = () => {
     const router = useRouter();
     const { user } = useSession();
     const userId = user?.id || '';
-
 
     const [form, setForm] = useState<newCatalogType>({
         name: '',
@@ -21,15 +22,50 @@ const Add = () => {
         material: null,
         description: null,
         price: null,
-        photo: '',
+        photo: null,
         category: 'Top',
         sellerId: userId,
     });
 
     const [error, setError] = useState('');
+    const [imageUri, setImageUri] = useState<string | null>(null);
 
-    const handleInputChange = (name: string, value: string | number) => {
-        setForm((prevFrom) => ({ ...prevFrom, [name]: value }));
+    const handleInputChange = (name: string, value: string | number | FileObject) => {
+        setForm((prevForm) => ({ ...prevForm, [name]: value }));
+    };
+
+    const pickImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+        });
+
+        if (!result.canceled) {
+            setImageUri(result.assets[0].uri);
+        }
+    };
+
+    const uploadImage = async (uri: string) => {
+        try {
+            const response = await fetch(uri);
+            const blob = await response.blob();
+            const fileName = `${userId}/${Date.now()}`;
+            const { data, error } = await supabase.storage
+                .from('files')
+                .upload(fileName, blob);
+
+            if (error) {
+                throw error;
+            }
+
+            const { publicURL } = supabase.storage.from('files').getPublicUrl(data.path);
+            return publicURL;
+        } catch (error) {
+            console.error('Error uploading image:', error.message);
+            return null;
+        }
     };
 
     const handleSubmit = async () => {
@@ -44,21 +80,26 @@ const Add = () => {
                 ],
                 { cancelable: false }
             );
-            console.log(form);
-        } else {
-            try {
-                console.log(form);
+            return;
+        }
 
-                const addedData = await addCatalog(form);
-                console.log(addedData);
-            } catch (err) {
-                console.error(err.message);
-            } finally {
-                router.push('./');
+        let imageUrl = form.photo;
+        if (imageUri) {
+            imageUrl = await uploadImage(imageUri);
+            if (imageUrl) {
+                handleInputChange('photo', imageUrl);
             }
         }
 
-    }
+        try {
+            const addedData = await addCatalog({ ...form, photo: imageUrl });
+            console.log(addedData);
+        } catch (err) {
+            console.error('Error adding catalog:', err.message);
+        } finally {
+            router.push('./');
+        }
+    };
 
     return (
         <SafeAreaView style={styles.container}>
@@ -98,20 +139,19 @@ const Add = () => {
                     <TextInput
                         style={styles.input}
                         keyboardType="numeric"
-                        placeholderTextColor="#8C8C8C" // Light gray color for placeholder text
+                        placeholderTextColor="#8C8C8C"
                         onChangeText={(e) => handleInputChange('price', parseInt(e))}
                     />
                     <Text>Photo:</Text>
-                    <TextInput
-                        style={styles.input}
-                        onChangeText={(e) => handleInputChange('photo', e)}
-                    />
+                    <View style={styles.container}>
+                        <Button title="Pick an image from camera roll" onPress={pickImage} />
+                        {imageUri && <Image source={{ uri: imageUri }} style={styles.image} />}
+                    </View>
                     <Text>Category: *</Text>
                     <View style={[styles.input, { paddingVertical: 0 }]}>
                         <Picker
                             selectedValue={form.category}
-                            onValueChange={(itemValue: string, itemIndex) => handleInputChange('category', itemValue)}
-
+                            onValueChange={(itemValue: string) => handleInputChange('category', itemValue)}
                         >
                             <Picker.Item label="Top" value="Top" />
                             <Picker.Item label="Bottom" value="Bottom" />
@@ -122,7 +162,7 @@ const Add = () => {
                         </Picker>
                     </View>
                     <View>
-                        <Pressable onPress={() => handleSubmit()}>
+                        <Pressable onPress={handleSubmit}>
                             <Text style={{ fontSize: 18, paddingVertical: 10, paddingHorizontal: 60, backgroundColor: '#616219', textAlign: 'center', color: 'white', borderRadius: 5, marginTop: 20, alignSelf: 'center' }}>Add Item</Text>
                         </Pressable>
                     </View>
@@ -135,29 +175,8 @@ const Add = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#FDF9EC', // White background color
+        backgroundColor: '#FDF9EC',
         padding: 20,
-    },
-    header: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginBottom: 20,
-    },
-    backButton: {
-        padding: 10,
-    },
-    backButtonText: {
-        fontSize: 18,
-        color: '#808080',
-    },
-    titleContainer: {
-        flex: 1,
-        alignItems: 'center',
-    },
-    title: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        textAlign: 'center',
     },
     formContainer: {
         flex: 1,
@@ -172,34 +191,10 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         backgroundColor: '#FDFDF9',
     },
-    error: {
-        textAlign: 'right',
-        color: '#FF0000',
-        marginVertical: 10,
-    },
-    button: {
-        backgroundColor: '#6D6D4E', // Medium green background color
-        paddingVertical: 15,
-        borderRadius: 5,
-        alignItems: 'center',
-        marginVertical: 20,
-    },
-    buttonText: {
-        color: '#FFFFFF', // White text color
-        fontSize: 16,
-        fontWeight: 'bold',
-    },
-    formContain: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        marginTop: 20,
-    },
-    needAccountText: {
-        color: '#808080',
-    },
-    formText: {
-        color: '#6D6D4E',
-        fontWeight: 'bold',
+    image: {
+        width: 150,
+        height: 150,
+        resizeMode: 'cover',
     },
 });
 
