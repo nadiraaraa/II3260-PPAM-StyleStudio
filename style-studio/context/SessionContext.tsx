@@ -7,7 +7,7 @@ interface SessionContextProps {
 	session: Session | null;
 	isLoading: boolean;
 	signIn: (email: string, password: string) => Promise<SignInResponse>;
-	signUp: (email: string, password: string, full_name: string) => Promise<SignUpResponse>;
+	signUp: (email: string, password: string, full_name: string, city: string, telephone: string) => Promise<SignUpResponse>;
 	signOut: () => Promise<void>;
 }
 
@@ -61,12 +61,14 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({ child
 	const signUp = async (
 		email: string,
 		password: string,
-		full_name: string
+		full_name: string,
+		city: string,
+		telephone: string
 	): Promise<SignUpResponse> => {
 		const response = await supabaseClient.auth.signUp({
 			email,
 			password,
-			options: { data: { full_name } },
+			options: { data: { full_name, city, telephone } },
 		});
 		if (response.error) {
 			return { data: null, error: response.error };

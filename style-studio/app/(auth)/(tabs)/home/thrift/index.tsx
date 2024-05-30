@@ -1,18 +1,41 @@
-import { Link, useRouter } from 'expo-router';
-import { useState } from 'react';
+import { Link, useLocalSearchParams, useRouter } from 'expo-router';
+import { useEffect, useState } from 'react';
 import { Button, StyleSheet, Text, TextInput, View, Image, ScrollView, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Filter from './filter';
+import {fetchCatalog} from '../../../../../routes/catalog'
+import catalogType from './catalog';
 
 const Thrift = () => {
+    // const { initSearch } = useLocalSearchParams()
     //hrs tambahin search sbg param
     const router = useRouter();
 
-    const [search, setSearch] = useState("")
-    const [category, setCategory] = useState("")
-    const [location, setLocation] = useState("")
-    const [viewCategory, setViewCategory] = useState(false)
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
+    const [search, setSearch] = useState("");
+    const [category, setCategory] = useState("");
+    const [location, setLocation] = useState("");
+    const [viewCategory, setViewCategory] = useState(false);
+    const [catalogs, setCatalogs] = useState<catalogType[]>([]);
 
+    useEffect(() => {
+        const loadCatalog = async () => {
+            setLoading(true);
+            setError(false);
+
+            try {
+                const catalogData = await fetchCatalog(search, category, location);
+                console.log(catalogs);
+            } catch (err) {
+                console.error(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        loadCatalog();
+    }, []);
     const handleSearch = () => {
 
     }
@@ -57,62 +80,23 @@ const Thrift = () => {
                 </View>
                 <ScrollView style={{marginHorizontal: 'auto', alignContent: 'center'}}>
                     <View style={{ flexDirection: 'row', flexWrap: 'wrap', columnGap: 10, marginHorizontal: 5}}>
-                        <Pressable onPress={()=> router.push('/home/thrift/product')}>
-                            <View style={styles.card}>
-                            <Image
-                                source={require('../../../../../assets/images/contoh1.png')}
-                                style={styles.cardImage}
-                            />
-                            <Text style={{ color: '#616219', fontWeight: 'bold' }}>Jeans Skirt</Text>
-                            <Text style={{ color: '#1C1B1F' }}>Rp200.000</Text>
-                            <Text style={{ color: '#595454' }}>Bandung</Text>
-                        </View>
-                        </Pressable>
-                        <View style={styles.card}>
-                            <Image
-                                source={require('../../../../../assets/images/contoh1.png')}
-                                style={styles.cardImage}
-                            />
-                            <Text style={{ color: '#616219', fontWeight: 'bold' }}>Jeans Skirt</Text>
-                            <Text style={{ color: '#1C1B1F' }}>Rp200.000</Text>
-                            <Text style={{ color: '#595454' }}>Bandung</Text>
-                        </View>
-                        <View style={styles.card}>
-                            <Image
-                                source={require('../../../../../assets/images/contoh1.png')}
-                                style={styles.cardImage}
-                            />
-                            <Text style={{ color: '#616219', fontWeight: 'bold' }}>Jeans Skirt</Text>
-                            <Text style={{ color: '#1C1B1F' }}>Rp200.000</Text>
-                            <Text style={{ color: '#595454' }}>Bandung</Text>
-                        </View>
-                        <View style={styles.card}>
-                            <Image
-                                source={require('../../../../../assets/images/contoh1.png')}
-                                style={styles.cardImage}
-                            />
-                            <Text style={{ color: '#616219', fontWeight: 'bold' }}>Jeans Skirt</Text>
-                            <Text style={{ color: '#1C1B1F' }}>Rp200.000</Text>
-                            <Text style={{ color: '#595454' }}>Bandung</Text>
-                        </View>
-                        <View style={styles.card}>
-                            <Image
-                                source={require('../../../../../assets/images/contoh1.png')}
-                                style={styles.cardImage}
-                            />
-                            <Text style={{ color: '#616219', fontWeight: 'bold' }}>Jeans Skirt</Text>
-                            <Text style={{ color: '#1C1B1F' }}>Rp200.000</Text>
-                            <Text style={{ color: '#595454' }}>Bandung</Text>
-                        </View>
-                        <View style={styles.card}>
-                            <Image
-                                source={require('../../../../../assets/images/contoh1.png')}
-                                style={styles.cardImage}
-                            />
-                            <Text style={{ color: '#616219', fontWeight: 'bold' }}>Jeans Skirt</Text>
-                            <Text style={{ color: '#1C1B1F' }}>Rp200.000</Text>
-                            <Text style={{ color: '#595454' }}>Bandung</Text>
-                        </View>
+                        {catalogs.map((catalog, idx)=>
+                            <Pressable key={idx} onPress={()=> router.push(`/home/thrift/product?detail=${JSON.stringify(catalog)}`)}>
+                                <View style={styles.card}>
+                                    <Image
+                                        source={require('../../../../../assets/images/contoh1.png')}
+                                        style={styles.cardImage}
+                                    />
+                                    <Text style={{ color: '#616219', fontWeight: 'bold' }}>{catalog.name}</Text>
+                                    <Text style={{ color: '#1C1B1F' }}>Rp{catalog.price.toString()}</Text>
+                                    <View style={{flex: 1, justifyContent:'flex-end'}}>
+                                        <Text style={{ color: '#595454' , justifyContent: 'flex-end'}}>{catalog.seller_city}</Text>
+                                    </View>
+                                </View>
+                            </Pressable>
+                        )}
+                        
+                        
                     </View>
                 </ScrollView>
             </View>
@@ -185,14 +169,15 @@ const styles = StyleSheet.create({
     },
     card: {
         width: 180, // Adjusted width
-        height: 250, // Adjusted height
+        height: 280, // Adjusted height
         backgroundColor: '#FDFDF9', // Light green background color
         padding: 15,
         borderRadius: 5,
         // alignItems: 'center',
-        justifyContent: 'center',
+        // justifyContent: 'center',
         textAlign: 'left',
         marginBottom: 5,
+        flex:1
     },
     filter: {
         backgroundColor: '#FDF9EC',

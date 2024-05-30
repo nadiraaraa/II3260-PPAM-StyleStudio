@@ -8,6 +8,8 @@ const SignUp = () => {
 	const router = useRouter();
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
+	const [city, setCity] = useState('');
+	const [telephone, setTelephone] = useState('');
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
 
@@ -24,7 +26,7 @@ const SignUp = () => {
 			return;
 		}
 
-		const { data, error } = await signUp(email, password, name);
+		const { data, error } = await signUp(email, password, name, city, telephone);
 		if (error) {
 			Alert.alert('Error', error.message || 'An error occurred');
 			return;
@@ -59,6 +61,25 @@ const SignUp = () => {
 						onChangeText={setEmail}
 						keyboardType="email-address"
 						autoCapitalize="none"
+					/>
+				</View>
+				<View style={styles.inputContainer}>
+					<TextInput
+						style={styles.input}
+						placeholder="Province"
+						placeholderTextColor="#8C8C8C" // Light gray color for placeholder text
+						value={city}
+						onChangeText={setCity}
+					/>
+				</View>
+				<View style={styles.inputContainer}>
+					<TextInput
+						style={styles.input}
+						placeholder="Telephone"
+						placeholderTextColor="#8C8C8C" // Light gray color for placeholder text
+						keyboardType='number-pad'
+						value={telephone}
+						onChangeText={setTelephone}
 					/>
 				</View>
 				<View style={styles.inputContainer}>
@@ -132,7 +153,7 @@ const styles = StyleSheet.create({
 		fontWeight: 'bold',
 	},
 	createAccountButton: {
-		backgroundColor: '#6D6D4E', // Medium green background color
+		backgroundColor: '#616219', // Medium green background color
 		paddingVertical: 15,
 		borderRadius: 5,
 		alignItems: 'center',

@@ -9,6 +9,8 @@ function RootLayoutNav() {
 			<Stack>
 				<Stack.Screen name="(auth)/(tabs)" options={{ headerShown: false }} />
 				<Stack.Screen name="index" options={{ headerShown: false }} />
+				<Stack.Screen name="(public)/login/index" options={{ headerShown: false }} />
+				<Stack.Screen name="(public)/signup/index" options={{ headerShown: false }} />
 			</Stack>
 		</SessionProvider>
 

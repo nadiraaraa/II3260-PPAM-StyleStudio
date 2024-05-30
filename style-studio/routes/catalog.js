@@ -2,17 +2,15 @@ import supabase from "../supabaseClient.js"
 
 
 // Function to fetch catalog history for the logged-in customer
-async function fetchCatalog(inName, inSize, inCategory, inCity) {
+export async function fetchCatalog(inName, inCategory, inCity) {
     try {
         let query = supabase
             .from('catalog')
-            .select('*, user(id, name, city)')
+            //seller
+            .select('*, user(uid, name, city)')
 
         if(inName !== ''){
             query.ilike('name', inName);
-        }
-        if (inSize !== ''){
-            query.eq('size', inSize);
         }
         if(inCategory !== ''){
             query.ilike('category', inCategory);
@@ -20,6 +18,8 @@ async function fetchCatalog(inName, inSize, inCategory, inCity) {
         if (inCity !== ''){
             query.eq('user(city)', inCity);
         }
+
+        query.eq('sold', false);
 
         query = query.order('created_at', { ascending: false });
 
@@ -33,7 +33,6 @@ async function fetchCatalog(inName, inSize, inCategory, inCity) {
         const catalog = catalogs.map(catalog => {
           const updateCatalog = {
               ...catalog,
-              seller_id: catalog.user.id,
               seller_name: catalog.user.name,
               seller_city: catalog.user.city,
           };
@@ -49,7 +48,7 @@ async function fetchCatalog(inName, inSize, inCategory, inCity) {
 
 // Example usage
 const uid = 1;
-fetchCatalog("", "", "", "")
+fetchCatalog("", "", "")
     .then(catalog => {
         console.log('Sell History:', catalog);
     })

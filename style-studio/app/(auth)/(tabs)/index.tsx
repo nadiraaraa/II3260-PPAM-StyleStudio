@@ -9,9 +9,9 @@ const Home = () => {
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<View style={styles.header}>
+			{/* <View style={styles.header}>
 				<Text style={styles.welcomeText}>Hello, Welcome Back</Text>
-			</View>
+			</View> */}
 			<ScrollView contentContainerStyle={styles.scrollViewContent}>
 				<View style={styles.contentContainer}>
 					<Pressable

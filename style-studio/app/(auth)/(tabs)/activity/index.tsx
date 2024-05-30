@@ -43,13 +43,15 @@ const Activity = () => {
   }, []);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
+    <View style={styles.container}>
+      {/* <View style={styles.header}>
         <Pressable style={styles.backButton} onPress={() => router.push("/profile")}>
           <Text style={styles.backButtonText}>←</Text>
         </Pressable>
         <Text style={styles.headerText}>Detail Order</Text>
-      </View>
+      </View> */}
+
+
       <View style={styles.tabs}>
         <Pressable onPress={() => setPage("Thrift")}>
           <Text style={[styles.tab, page === "Thrift" && styles.activeTab]}>Thrift</Text>
@@ -61,6 +63,7 @@ const Activity = () => {
           <Text style={[styles.tab, page === "Sell" && styles.activeTab]}>Sell</Text>
         </Pressable>
       </View>
+      
       <ScrollView>
       {activities.map((act, idx) => (
           <View key={idx} style={styles.card}>
@@ -69,14 +72,16 @@ const Activity = () => {
               <Text style={styles.category}>{act.category}</Text>
               <Text style={styles.price}>Total Rp {act.price}</Text>
             </View>
-            <Text style={styles.date}>{act.orderDate}</Text>
-            <Pressable style={styles.detailsButton} onPress={() => router.push(`./${idx}`)}>
-              <Text style={styles.detailsButtonText}>Details</Text>
-            </Pressable>
+            <View style={{justifyContent: 'flex-end'}}>
+              <Text style={styles.date}>{act.orderDate}</Text>
+              <Pressable style={styles.detailsButton} onPress={() => router.push(`activity/detail?type=${page}`)}>
+                <Text style={styles.detailsButtonText}>Details</Text>
+              </Pressable>
+            </View>
           </View>
         ))}
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -85,13 +90,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#FFFFFF", // White background color
   },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#6D6D4E", // Medium green background color
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-  },
+
   backButton: {
     marginRight: 10,
     padding: 10,
@@ -122,7 +121,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   activeTab: {
-    backgroundColor: "#6D6D4E", // Medium green background color
+    backgroundColor: "#616219", // Medium green background color
     color: "#FFFFFF", // White text color
   },
   card: {
@@ -147,26 +146,27 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#4B5320", // Dark green text color
+    color: "#616219", // Dark green text color
   },
   category: {
     fontSize: 16,
-    color: "#4B5320", // Dark green text color
+    color: "#616219", // Dark green text color
   },
   price: {
     fontSize: 16,
-    color: "#4B5320", // Dark green text color
+    color: "#616219", // Dark green text color
     fontWeight: "bold",
   },
   date: {
     fontSize: 14,
-    color: "#4B5320", // Dark green text color
+    color: "#616219", // Dark green text color
   },
   detailsButton: {
-    backgroundColor: "#6D6D4E", // Medium green background color
+    backgroundColor: "#616219", // Medium green background color
     paddingVertical: 10,
     paddingHorizontal: 15,
     borderRadius: 5,
+    marginVertical: 5,
     justifyContent: "center",
     alignItems: "center",
   },
