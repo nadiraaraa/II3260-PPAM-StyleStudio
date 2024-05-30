@@ -9,11 +9,10 @@ const Layout = () => {
 		<Tabs
 			sceneContainerStyle={{ backgroundColor: 'E6E3D1' }}
 			screenOptions={{
-
 				tabBarStyle: {
 					backgroundColor: '#E6E3D1', // Green background color
 					height: 60,
-					padding: 5
+					padding: 5,
 				},
 				tabBarActiveTintColor: '#FFFFF', // White color for the active tab icon/text
 				tabBarInactiveTintColor: '#49454F', // Black color for the inactive tab icon/text
@@ -323,6 +322,24 @@ const Layout = () => {
 					title: 'Add Review',
 
 					tabBarStyle: { display: 'none' }, // Hide bottom navigation bar
+					headerLeft: () => (
+						<TouchableOpacity onPress={() => router.back()} style={{ marginLeft: 10 }}>
+							<FontAwesome name="arrow-left" size={12} color="#FFFFFF" />
+						</TouchableOpacity>
+					),
+					href: null,
+				}}
+			/>
+			<Tabs.Screen
+				name="home/remake/product/index"
+				options={{
+					headerTintColor: '#FFFFFF',
+					headerTitleAlign: 'center',
+					headerStyle: {
+						backgroundColor: '#616219',
+					},
+					title: 'Remake',
+
 					headerLeft: () => (
 						<TouchableOpacity onPress={() => router.back()} style={{ marginLeft: 10 }}>
 							<FontAwesome name="arrow-left" size={12} color="#FFFFFF" />

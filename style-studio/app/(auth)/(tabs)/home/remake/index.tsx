@@ -13,7 +13,7 @@ const Home = () => {
 				</View>
 				<View style={{ flex: 1, alignItems: 'center', gap: 10 }}>
 					<Link
-						href={{ pathname: '/home/remake/blomada' }}
+						href={{ pathname: '/home/remake/seller' }}
 						style={[styles.button, { backgroundColor: '#616219' }]}
 					>
 						<Text style={styles.buttonText}>I'm already a tailor</Text>
@@ -25,7 +25,7 @@ const Home = () => {
 						<Text style={styles.buttonText}>Probably</Text>
 					</Link>
 					<Link
-						href={{ pathname: '/home/remake/book' }}
+						href={{ pathname: '/home/remake/product' }}
 						style={[styles.button, { backgroundColor: '#616219' }]}
 					>
 						<Text style={styles.buttonText}>No, I'm only looking</Text>
