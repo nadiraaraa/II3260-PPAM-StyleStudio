@@ -22,3 +22,32 @@ export const getUserById = async (userId: string) => {
 		return data[0] as User;
 	}
 };
+
+export const upgradeToTailor = async (
+	userId: string,
+	address: string,
+	createPrice: number,
+	alterPrice: number,
+	month: number
+) => {
+	let updateResponse = await supabaseClient
+		.from('user')
+		.update({ isTailor: true })
+		.eq('uid', userId);
+	if (updateResponse.error) {
+		console.log(updateResponse.error);
+		throw updateResponse.error;
+	}
+
+	let createResponse = await supabaseClient.from('tailor').insert({
+		tailorId: userId,
+		address,
+		createPrice,
+		alterPrice,
+		contractEnd: new Date(Date.now() + month * 30 * 24 * 60 * 60 * 1000).toISOString(),
+	});
+	if (createResponse.error) {
+		console.log(createResponse.error);
+		throw createResponse.error;
+	}
+};

@@ -1,9 +1,31 @@
+import { useSession } from '@/context/SessionContext';
 import { useRouter } from 'expo-router';
 import { Button, Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Payment = () => {
 	const router = useRouter();
+	const { profile } = useSession();
+
+	if (profile?.isTailor) {
+		return (
+			<SafeAreaView
+				style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]}
+			>
+				<Text style={{ fontSize: 36, textAlign: 'center', fontWeight: 'bold' }}>
+					You are already a tailor
+				</Text>
+				<Pressable
+					style={styles.endButton}
+					onPress={() => {
+						router.push('/home/remake/');
+					}}
+				>
+					<Text style={{ color: 'white' }}>GO BACK TO REMAKE</Text>
+				</Pressable>
+			</SafeAreaView>
+		);
+	}
 
 	return (
 		<>
@@ -19,6 +41,7 @@ const Payment = () => {
 								pathname: '/home/remake/confirmPayment',
 								params: {
 									amount: 100000,
+									month: 1,
 								},
 							});
 						}}
@@ -43,6 +66,7 @@ const Payment = () => {
 								pathname: '/home/remake/confirmPayment',
 								params: {
 									amount: 540000,
+									month: 6,
 								},
 							});
 						}}
@@ -67,6 +91,7 @@ const Payment = () => {
 								pathname: '/home/remake/confirmPayment',
 								params: {
 									amount: 960000,
+									month: 12,
 								},
 							});
 						}}
@@ -144,6 +169,12 @@ const styles = StyleSheet.create({
 	buttonText: {
 		fontSize: 16,
 		color: 'white',
+	},
+	endButton: {
+		backgroundColor: '#616219',
+		padding: 15,
+		paddingHorizontal: 40,
+		borderRadius: 25,
 	},
 });
 
