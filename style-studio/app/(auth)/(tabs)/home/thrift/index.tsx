@@ -12,6 +12,10 @@ const images = [
     require('../../../../../assets/images/kaftan.jpg'),
     require('../../../../../assets/images/knit.jpg'),
     require('../../../../../assets/images/dress.jpg'),
+    require('../../../../../assets/images/cardigan.jpg'),
+    require('../../../../../assets/images/hoodie.jpg')
+
+
     // tambahkan path gambar lain yang diinginkan
   ];
 
