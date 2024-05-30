@@ -44,35 +44,30 @@ const Thrift = () => {
 	const [viewCategory, setViewCategory] = useState(false);
 	const [catalogs, setCatalogs] = useState<catalogType[]>([]);
 
-	// const getRandomImage = () => {
-	// 	const randomIndex = Math.floor(Math.random() * images.length);
-	// 	return images[randomIndex];
-	// };
+	const getRandomImage = () => {
+        const randomIndex = Math.floor(Math.random() * images.length);
+        return images[randomIndex];
+      };
+    
+    useEffect(() => {
+        const loadCatalog = async () => {
+            setLoading(true);
+            setError(false);
 
-	//         try {
-	//             const catalogData = await fetchCatalog("browse", userId, search, category, location);
-	//             console.log(catalogData);
-	//             setCatalogs(catalogData);
-	//         } catch (err) {
-	//             console.error(err.message);
-	//         } finally {
-	//             setLoading(false);
-	//         }
-	//     };
+            try {
+                const catalogData = await fetchCatalog("browse", userId, search, category, location);
+                console.log(catalogData);
+                setCatalogs(catalogData);
+            } catch (err) {
+                console.error(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
 
-	// 		try {
-	// 			const catalogData = await fetchCatalog('', search, category, location);
-	// 			console.log(catalogData);
-	// 			setCatalogs(catalogData);
-	// 		} catch (err) {
-	// 			console.error(err.message);
-	// 		} finally {
-	// 			setLoading(false);
-	// 		}
-	// 	};
+        loadCatalog();
+    }, []);
 
-	// 	loadCatalog();
-	// }, []);
 	const handleSearch = () => {};
 
 	return (
