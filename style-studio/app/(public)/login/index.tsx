@@ -9,7 +9,7 @@ const Login = () => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 
-	const { signIn } = usesSession();
+	const { signIn } = useSession();
 
 	const handleLogin = async () => {
 		if (email && password) {
