@@ -9,7 +9,7 @@ const Profile = () => {
 
 	const { user, isLoading, signOut } = useSession();
 
-	// console.log(user?.user_metadata);
+	console.log(user?.user_metadata);
 
     if (isLoading) {
         return <Text>Loading...</Text>;
@@ -19,6 +19,7 @@ const Profile = () => {
 		await signOut();
 		router.replace('/');
 	};
+	
 
 	return (
 		<SafeAreaView style={styles.container}>
