@@ -22,7 +22,7 @@ const Upgrade = () => {
 					</Pressable>
 					<Pressable
 						style={[styles.button, { backgroundColor: '#CACB77' }]}
-						onPress={() => {}}
+						onPress={() => router.push('/home/remake/product/book')}
 					>
 						<Text style={styles.buttonText}>No</Text>
 					</Pressable>

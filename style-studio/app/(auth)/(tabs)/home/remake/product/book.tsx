@@ -168,7 +168,7 @@ const Book = () => {
 					<Text style={{ textAlign: 'center' }}>Rp{total.toString() || '0'}</Text>
 				</View>
 
-				<Pressable onPress={handleBook}>
+				<Pressable onPress={()=>handleBook()}>
 					<Text
 						style={{
 							paddingVertical: 10,

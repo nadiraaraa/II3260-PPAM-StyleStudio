@@ -102,7 +102,7 @@ const SignUp = () => {
 						secureTextEntry
 					/>
 				</View>
-				<Pressable style={styles.createAccountButton} onPress={handleSignUp}>
+				<Pressable style={styles.createAccountButton} onPress={() =>handleSignUp()}>
 					<Text style={styles.createAccountButtonText}>Create Account</Text>
 				</Pressable>
 			</View>

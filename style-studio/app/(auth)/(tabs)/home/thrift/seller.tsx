@@ -17,17 +17,11 @@ const Seller = () => {
     useEffect(() => {
         const loadFeedback = async () => {
             setLoading(true);
-
-            try {
  
                 const feedbackData = await fetchFeedback(userId);
                 // console.log(feedbackData);
                 setFeedbacks(feedbackData);
-            } catch (err) {
-                console.error(err.message);
-            } finally {
                 setLoading(false);
-            }
         };
 
         loadFeedback();

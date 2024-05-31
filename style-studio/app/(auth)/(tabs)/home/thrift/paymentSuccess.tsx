@@ -20,10 +20,10 @@ const PaymentSuccess = () => {
 			<Pressable
 				style={styles.button}
 				onPress={() => {
-					router.push('/home/remake');
+					router.push('/home/thrift');
 				}}
 			>
-				<Text style={{ color: 'white' }}>CONTINUE TO REMAKE PAGE</Text>
+				<Text style={{ color: 'white' }}>CONTINUE TO THRIFT PAGE</Text>
 			</Pressable>
 		</SafeAreaView>
 	);

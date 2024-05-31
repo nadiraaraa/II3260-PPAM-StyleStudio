@@ -34,7 +34,6 @@ const Payment = () => {
                 { cancelable: false }
               );        
         } else{
-            try{
                 const form = {
                     catalogId: catalogId,
                     paymentMethod: "M-Banking BCA",
@@ -46,11 +45,8 @@ const Payment = () => {
                 console.log(form);
                 const addedData = await order(user, form);
                 console.log(addedData);
-            } catch (err){
-                console.error(err.message);
-            } finally {
+
                 router.push('/home/thrift/paymentSuccess');
-            }
         }
 
     }

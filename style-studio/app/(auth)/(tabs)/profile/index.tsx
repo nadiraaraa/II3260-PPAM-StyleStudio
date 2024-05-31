@@ -59,7 +59,7 @@ const Profile = () => {
 					<Text style={styles.infoLabel}>Review Saya</Text>
 					<Text style={styles.infoValue}>Detail Review &gt;</Text>
 				</Pressable> */}
-				<Pressable style={{justifyContent: 'flex-end',}} onPress={handleLogout}>
+				<Pressable style={{justifyContent: 'flex-end',}} onPress={()=>handleLogout()}>
                 <Text style={{ padding: 10, textAlign: 'center',margin: 80, width: 120, fontSize: 16, borderWidth: 1, borderColor: '#616219', color: '#616219', fontWeight: 'bold', borderRadius: 10, alignSelf: 'center' }}>
                     Log Out
                 </Text>

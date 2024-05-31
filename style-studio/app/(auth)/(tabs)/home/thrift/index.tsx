@@ -89,7 +89,7 @@ const Thrift = () => {
 						autoCapitalize="none"
 						placeholderTextColor="#8C8C8C" // Light gray color for placeholder text
 					/>
-					<Pressable onPress={handleSearch}>
+					<Pressable onPress={()=>handleSearch()}>
 						<Image
 							source={require('../../../../../assets/images/search.png')}
 							style={styles.icon}

@@ -53,7 +53,7 @@ const Login = () => {
 					placeholderTextColor="#8C8C8C"
 				/>
 				<Text style={styles.forgotPassword}>Forgot your password?</Text>
-				<Pressable style={styles.signInButton} onPress={handleLogin}>
+				<Pressable style={styles.signInButton} onPress={()=>handleLogin()}>
 					<Text style={styles.signInButtonText}>Sign In</Text>
 				</Pressable>
 				<View style={styles.signUpContainer}>

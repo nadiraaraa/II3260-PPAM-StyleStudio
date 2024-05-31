@@ -2,7 +2,7 @@ import { useSession } from '@/context/SessionContext';
 import { useRouter } from 'expo-router';
 import { Button, Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { subscriptionType } from '../../activity';
+import { subscriptionType } from '../../../../../components/activity';
 import { useEffect, useState } from 'react';
 import { fetchSubscription } from '../../../../../routes/subscription';
 
@@ -15,15 +15,10 @@ const Payment = () => {
 
 	useEffect(() => {
 		const loadActivity = async () => {
-			try {
 				const subData = await fetchSubscription();
 				// console.log(bookData);
 				setSubscriptions(subData);
 
-			} catch (err) {
-				console.error(err.message);
-			} finally {
-			}
 		};
 		loadActivity();
 	}, []);

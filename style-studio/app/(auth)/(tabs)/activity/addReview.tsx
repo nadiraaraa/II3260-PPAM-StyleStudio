@@ -5,7 +5,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { Picker } from '@react-native-picker/picker';
 import { addThriftFeedback } from '../../../../routes/addThriftFeedback'
 import { addTailorFeedback } from '../../../../routes/addTailorFeedback'
-import { reviewType } from './review';
+import { reviewType } from '../../../../components/review';
 
 
 const AddReview = () => {
