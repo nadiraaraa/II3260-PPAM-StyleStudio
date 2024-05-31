@@ -88,7 +88,7 @@ const ConfirmPayment = () => {
 				<View style={styles.footerTextContainer}>
 					<Text style={styles.footerTotalText}>Total: Rp {amount}</Text>
 				</View>
-				<Pressable style={styles.payButton} onPress={handlePayment}>
+				<Pressable style={styles.payButton} onPress={() =>handlePayment()}>
 					<Text style={styles.payButtonText}>PAY</Text>
 				</Pressable>
 			</View>

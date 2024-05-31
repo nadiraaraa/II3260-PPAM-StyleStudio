@@ -82,7 +82,7 @@ const AddReview = () => {
 
                 </View>
                 <View>
-                    <Pressable onPress={() => handleSubmit}>
+                    <Pressable onPress={() => handleSubmit()}>
                         <Text style={{ fontSize: 18, paddingVertical: 10, paddingHorizontal: 60, backgroundColor: '#616219', textAlign: 'center', color: 'white', borderRadius: 5, marginTop: 20, alignSelf: 'center' }}>Add Review</Text>
                     </Pressable>
                 </View>
