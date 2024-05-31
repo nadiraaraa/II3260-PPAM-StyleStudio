@@ -61,7 +61,7 @@ const ActDetail = ({ }: ActDetailProps) => {
                             Reviewed
                         </Text>
                         :
-                        <Pressable style={{ justifyContent: 'flex-end', }} onPress={() => router.push(`./addReview?type=${page === "Thrift" ? "Product" : "Tailor"}&name=${'Name'}` as any)}>
+                        <Pressable style={{ justifyContent: 'flex-end', }} onPress={() => router.push(`./addReview?page=${page === "Thrift" ? "Product" : "Tailor"}&name=${'Name'}&id=${orderDetail.id}`)}>
                             <Text style={{ padding: 10, textAlign: 'center', margin: 10, width: 120, fontSize: 16, backgroundColor: '#616219', color: 'white', borderRadius: 10, alignSelf: 'flex-end' }}>
                                 Review
                             </Text>

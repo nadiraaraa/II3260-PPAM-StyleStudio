@@ -12,12 +12,13 @@ const Tailor = () => {
 	const router = useRouter();
 	const { profile } = useSession();
 	const userId = profile?.uid;
+	const isT = profile?.isTailor;
 
 	const [books, setBooks] = useState<bookType[]>([]);
 	const [subs, setSubs] = useState<subType[]>([]);
 	const [page, setPage] = useState("Incoming Orders");
 
-	if (profile?.isTailor) {
+	if (isT) {
 		useEffect(() => {
 			const loadActivity = async () => {
 					const bookData = await fetchBookedHistory(userId);
