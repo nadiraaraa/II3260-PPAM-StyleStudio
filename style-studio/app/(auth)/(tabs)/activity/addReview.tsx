@@ -12,7 +12,7 @@ const AddReview = () => {
     const { page, name, id } = useLocalSearchParams()
     const intId = parseInt(id as string);
     const [form, setForm] = useState<reviewType>({
-        rating: null,
+        rating: 1,
         comment: '',
     });
 
@@ -38,15 +38,15 @@ const AddReview = () => {
         } else {
             if (page==="Thrift"){
                 const thriftForm={orderId: intId,
-                    rating: null,
+                    rating: 1,
                     comment: '',}
                 const addedData = await addThriftFeedback(thriftForm);
                 console.log(addedData);
             } else {
-                const thriftForm={bookId: intId,
-                    rating: null,
+                const tailorForm={bookId: intId,
+                    rating: 1,
                     comment: '',}
-                const addedData = await addTailorFeedback(thriftForm);
+                const addedData = await addTailorFeedback(tailorForm);
                 console.log(addedData);
             }
         }
@@ -65,6 +65,7 @@ const AddReview = () => {
                     <Text>Rating:</Text>
                     <View style={[styles.input, { paddingVertical: 0 }]}>
                         <Picker
+                            selectedValue={form.rating?.toString()}
                             onValueChange={(itemValue: string, itemIndex) => handleInputChange('rating', itemValue)}
                         >
                             <Picker.Item label="1" value={1} />
