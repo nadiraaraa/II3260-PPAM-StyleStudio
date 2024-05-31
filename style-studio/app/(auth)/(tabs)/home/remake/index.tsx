@@ -13,6 +13,7 @@ const Tailor = () => {
 	const { profile } = useSession();
 	const userId = profile?.uid;
 	const isT = profile?.isTailor;
+	console.log(profile);
 
 	const [books, setBooks] = useState<bookType[]>([]);
 	const [subs, setSubs] = useState<subType[]>([]);

@@ -37,19 +37,17 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
 	useEffect(() => {
 		const getSession = async () => {
-			try{
+			try {
 				const { data } = await supabaseClient.auth.getSession();
 				setSession(data.session);
 				setUser(data.session?.user ?? null);
+				console.log(data.session)
 				setProfile(await getUserById(data.session?.user?.id!));
 				console.log(profile);
 				setIsLoading(false);
-			} catch (error){
-				setSession(null);
-				setUser(null);
-				setProfile(null);
+			} catch (error) {
+				setIsLoading(false);
 			}
-			
 		};
 
 		getSession();
