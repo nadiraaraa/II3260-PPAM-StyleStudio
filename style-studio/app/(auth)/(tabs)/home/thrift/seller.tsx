@@ -1,7 +1,7 @@
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Button, StyleSheet, Text, TextInput, View, Image, ScrollView, Pressable } from 'react-native';
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { feedbackType } from "../../feedback";
+import { feedbackType } from "../../../../../components/feedback";
 import { useState, useEffect } from "react";
 import { fetchFeedback } from '../../../../../routes/sellerFeedback'
 

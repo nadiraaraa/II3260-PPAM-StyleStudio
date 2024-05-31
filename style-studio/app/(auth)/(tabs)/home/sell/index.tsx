@@ -4,7 +4,7 @@ import { Button, StyleSheet, Text, TextInput, View, Image, ScrollView, Pressable
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Filter from '../thrift/filter';
 import {fetchCatalog} from '../../../../../routes/catalog'
-import {catalogType} from '../../catalog';
+import {catalogType} from '../../../../../components/catalog';
 import { useSession } from '@/context/SessionContext';
 
 const Sell = () => {
@@ -25,15 +25,11 @@ const Sell = () => {
             setLoading(true);
             setError(false);
 
-            try {
                 const catalogData = await fetchCatalog("sell", user?.id, search, category, location);
                 console.log(catalogData);
                 setCatalogs(catalogData);
-            } catch (err) {
-                console.error(err.message);
-            } finally {
+
                 setLoading(false);
-            }
         };
 
         loadCatalog();

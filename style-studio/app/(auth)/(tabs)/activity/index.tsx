@@ -7,7 +7,7 @@ import {fetchBookHistory} from '../../../../routes/bookHistory';
 import {fetchBookedHistory} from '../../../../routes/bookedHistory';
 import {fetchSellHistory} from '../../../../routes/sellHistory';
 import { useSession } from "@/context/SessionContext";
-import { orderType, bookType } from "../activity";
+import { bookType, orderType } from '../../../../components/activity';
 
 
 
@@ -26,7 +26,6 @@ const Activity = () => {
     const loadActivity = async () => {
         setLoading(true);
 
-        try {
             // if (page=="Thrift"){
               const buyData = await fetchBuyHistory(userId);
               // console.log(buyData);
@@ -41,11 +40,7 @@ const Activity = () => {
               setSells(sellData);
             // }
            
-        } catch (err) {
-            console.error(err.message);
-        } finally {
             setLoading(false);
-        }
     };
 
     loadActivity();

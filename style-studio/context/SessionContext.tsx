@@ -37,28 +37,36 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
 	useEffect(() => {
 		const getSession = async () => {
+		  try {
 			const { data } = await supabaseClient.auth.getSession();
 			setSession(data.session);
 			setUser(data.session?.user ?? null);
 			setProfile(await getUserById(data.session?.user?.id!));
-			console.log(profile);
 			setIsLoading(false);
-		};
-
-		getSession();
-
-		const { data: listener } = supabaseClient.auth.onAuthStateChange(async (event, session) => {
-			if (event === 'SIGNED_IN') {
+	  
+			const { data: listener } = supabaseClient.auth.onAuthStateChange(async (event, session) => {
+			  if (event === 'SIGNED_IN') {
 				setSession(session);
 				setUser(session?.user ?? null);
 				setProfile(await getUserById(session?.user?.id!));
-			} else if (event === 'SIGNED_OUT') {
+			  } else if (event === 'SIGNED_OUT') {
 				setSession(null);
 				setUser(null);
 				setProfile(null);
-			}
-		});
-	}, []);
+			  }
+			});
+		  } catch (error) {
+			console.error(error);
+			setSession(null);
+			setUser(null);
+			setProfile(null);
+			setIsLoading(false);
+		  }
+		};
+	  
+		getSession();
+	  }, []);
+	  
 
 	const signIn = async (email: string, password: string): Promise<SignInResponse> => {
 		const response = await supabaseClient.auth.signInWithPassword({ email, password });

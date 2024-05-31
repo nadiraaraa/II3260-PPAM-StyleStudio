@@ -3,7 +3,7 @@ import { View, Text, TextInput, StyleSheet, Pressable, AppState, ScrollView, Ale
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { Picker } from '@react-native-picker/picker';
-import { newCatalogType } from '../../catalog';
+import { newCatalogType } from '../../../../../components/catalog';
 import { useSession } from '@/context/SessionContext';
 import { addCatalog } from '../../../../../routes/addCatalog'
 
@@ -46,16 +46,12 @@ const Add = () => {
             );
             console.log(form);
         } else {
-            try {
                 console.log(form);
 
                 const addedData = await addCatalog(form);
                 console.log(addedData);
-            } catch (err) {
-                console.error(err.message);
-            } finally {
+
                 router.push('./');
-            }
         }
 
     }

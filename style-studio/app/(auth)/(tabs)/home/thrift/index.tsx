@@ -13,7 +13,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Filter from './filter';
 import { fetchCatalog } from '../../../../../routes/catalog';
-import { catalogType } from '../../catalog';
+import { catalogType } from '../../../../../components/catalog';
 import { useSession } from '@/context/SessionContext';
 
 const images = [
@@ -53,16 +53,11 @@ const Thrift = () => {
         const loadCatalog = async () => {
             setLoading(true);
             setError(false);
-
-            try {
                 const catalogData = await fetchCatalog("browse", userId, search, category, location);
                 console.log(catalogData);
                 setCatalogs(catalogData);
-            } catch (err) {
-                console.error(err.message);
-            } finally {
+
                 setLoading(false);
-            }
         };
 
         loadCatalog();

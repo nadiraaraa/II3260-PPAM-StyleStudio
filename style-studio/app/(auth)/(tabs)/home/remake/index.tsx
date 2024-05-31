@@ -5,7 +5,7 @@ import { Button, Pressable, ScrollView, StyleSheet, Text, View } from 'react-nat
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { fetchBookedHistory } from '../../../../../routes/bookedHistory';
 import { fetchSubHistory } from '../../../../../routes/subHistory';
-import { bookType, subType } from '../../activity';
+import { bookType, subType } from '../../../../../components/activity';
 
 
 const Tailor = () => {
@@ -20,7 +20,6 @@ const Tailor = () => {
 	if (profile?.isTailor) {
 		useEffect(() => {
 			const loadActivity = async () => {
-				try {
 					const bookData = await fetchBookedHistory(userId);
 					// console.log(bookData);
 					setBooks(bookData);
@@ -29,11 +28,6 @@ const Tailor = () => {
 					// console.log(bookData);
 					setSubs(subData);
 					console.log(subs);
-
-				} catch (err) {
-					console.error(err.message);
-				} finally {
-				}
 			};
 
 			loadActivity();
