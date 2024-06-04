@@ -1,6 +1,6 @@
 export interface reviewType {
     // orderId: number | null;
     // bookId: number | null;
-    rating: number | null;
+    rating: string;
     comment: string;
 }

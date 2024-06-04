@@ -4,7 +4,7 @@ import supabase from "../supabaseClient.js";
 export async function addTailorFeedback(tailorFeedbackData) {
     try {
         // Insert data into the specified table
-        const { tailorFeedbackData: insertedData, error } = await supabase
+        const { error } = await supabase
             .from('tailorFeedback') // Replace 'your_table_name' with your actual table name
             .insert(tailorFeedbackData);
 

@@ -4,11 +4,11 @@ import supabase from "../supabaseClient.js";
 export async function addCatalog(catalogData) {
     try {
         // Insert data into the specified table
-        const { catalogData: insertedData, error } = await supabase
+        const { error } = await supabase
             .from('catalog') // Replace 'your_table_name' with your actual table name
             .insert(catalogData);
 
-        console.log(catalogData);
+        // console.log(insertedData);
 
     } catch (error) {
         console.error('Error inserting data:', error.message);

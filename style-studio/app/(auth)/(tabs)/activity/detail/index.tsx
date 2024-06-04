@@ -2,7 +2,7 @@ import { router, useLocalSearchParams } from "expo-router";
 import { useState } from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { bookType, orderType } from "../../../../components/activity";
+import { bookType, orderType } from "../../../../../components/activity";
 
 interface ActDetailProps {
     name: string;
@@ -61,7 +61,7 @@ const ActDetail = ({ }: ActDetailProps) => {
                             Reviewed
                         </Text>
                         :
-                        <Pressable style={{ justifyContent: 'flex-end', }} onPress={() => router.push(`./addReview?page=${page === "Thrift" ? "Product" : "Tailor"}&name=${'Name'}&id=${orderDetail.id}`)}>
+                        <Pressable style={{ justifyContent: 'flex-end', }} onPress={() => router.push(`./addReview?page=Product&name=${orderDetail.cat_name}&id=${orderDetail.id}`)}>
                             <Text style={{ padding: 10, textAlign: 'center', margin: 10, width: 120, fontSize: 16, backgroundColor: '#616219', color: 'white', borderRadius: 10, alignSelf: 'flex-end' }}>
                                 Review
                             </Text>
@@ -100,7 +100,7 @@ const ActDetail = ({ }: ActDetailProps) => {
                             Reviewed
                         </Text>
                         :
-                        <Pressable style={{ justifyContent: 'flex-end', }} onPress={() => router.push(`./addReview?type=${page === "Thrift" ? "Product" : "Tailor"}&name=${'Name'}` as any)}>
+                        <Pressable style={{ justifyContent: 'flex-end', }} onPress={() => router.push(`./addReview?page=Tailor&name=${bookDetail.tailor_name}` as any)}>
                             <Text style={{ padding: 10, textAlign: 'center', margin: 10, width: 120, fontSize: 16, backgroundColor: '#616219', color: 'white', borderRadius: 10, alignSelf: 'flex-end' }}>
                                 Review
                             </Text>

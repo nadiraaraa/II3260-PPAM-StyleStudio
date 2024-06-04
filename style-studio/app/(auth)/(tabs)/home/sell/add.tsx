@@ -32,7 +32,7 @@ const Add = () => {
         setForm((prevFrom) => ({ ...prevFrom, [name]: value }));
     };
 
-    const handleSubmit = async () => {
+    const checkSubmit = () => {
         if (form.name === '' || form.size === '' || form.category === '' || form.price === null) {
             Alert.alert(
                 'Error',
@@ -46,13 +46,16 @@ const Add = () => {
             );
             console.log(form);
         } else {
-                console.log(form);
+            handleSubmit();
+            setForm((prevFrom) => ({ name: '', size: '', brand: null, condition: null, material: null, description: null, price: null, photo: '', category: 'Top', sellerId: userId})); 
+            router.push('/home/sell');
+        }
+    }
 
+    const handleSubmit = async () => {
+                console.log(form);
                 const addedData = await addCatalog(form);
                 console.log(addedData);
-
-                router.push('./');
-        }
 
     }
 
@@ -62,36 +65,43 @@ const Add = () => {
                 <View style={styles.formContainer}>
                     <Text>Name: *</Text>
                     <TextInput
+                        value={form.name}
                         style={styles.input}
                         onChangeText={(e) => handleInputChange('name', e)}
                     />
                     <Text>Size: *</Text>
                     <TextInput
+                        value={form.size}
                         style={styles.input}
                         onChangeText={(e) => handleInputChange('size', e)}
                     />
                     <Text>Brand:</Text>
                     <TextInput
+                        value={form.brand || ''}
                         style={styles.input}
                         onChangeText={(e) => handleInputChange('brand', e)}
                     />
                     <Text>Condition:</Text>
                     <TextInput
+                        value={form.condition || ''}
                         style={styles.input}
                         onChangeText={(e) => handleInputChange('condition', e)}
                     />
                     <Text>Material:</Text>
                     <TextInput
+                        value={form.material || ''}
                         style={styles.input}
                         onChangeText={(e) => handleInputChange('material', e)}
                     />
                     <Text>Description:</Text>
                     <TextInput
+                        value= {form.description || ''}
                         style={styles.input}
                         onChangeText={(e) => handleInputChange('description', e)}
                     />
                     <Text>Price: *</Text>
                     <TextInput
+                        value= {form.price?.toString() || ''}
                         style={styles.input}
                         keyboardType="numeric"
                         placeholderTextColor="#8C8C8C" // Light gray color for placeholder text
@@ -118,7 +128,7 @@ const Add = () => {
                         </Picker>
                     </View>
                     <View>
-                        <Pressable onPress={() => handleSubmit()}>
+                        <Pressable onPress={() => {checkSubmit(); }}>
                             <Text style={{ fontSize: 18, paddingVertical: 10, paddingHorizontal: 60, backgroundColor: '#616219', textAlign: 'center', color: 'white', borderRadius: 5, marginTop: 20, alignSelf: 'center' }}>Add Item</Text>
                         </Pressable>
                     </View>
