@@ -3,16 +3,16 @@ import { View, Text, TextInput, StyleSheet, Pressable, AppState, ScrollView, Ale
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router, useLocalSearchParams } from 'expo-router';
 import { Picker } from '@react-native-picker/picker';
-import { addThriftFeedback } from '../../../../routes/addThriftFeedback'
-import { addTailorFeedback } from '../../../../routes/addTailorFeedback'
-import { reviewType } from '../../../../components/review';
+import { addThriftFeedback } from '../../../../../../routes/addThriftFeedback'
+import { addTailorFeedback } from '../../../../../../routes/addTailorFeedback'
+import { reviewType } from '../../../../../../components/review';
 
 
 const AddReview = () => {
     const { page, name, id } = useLocalSearchParams()
     const intId = parseInt(id as string);
     const [form, setForm] = useState<reviewType>({
-        rating: 1,
+        rating: "1",
         comment: '',
     });
 
@@ -23,33 +23,22 @@ const AddReview = () => {
     };
 
     const handleSubmit = async () => {
-        if (form.rating == null || form.rating<1 || form.rating>5) {
-            Alert.alert(
-                'Error',
-                "Rating must be between 1 and 5",
-                [
-                    {
-                        text: 'OK',
-                    },
-                ],
-                { cancelable: false }
-            );
-            console.log(form);
-        } else {
-            if (page==="Thrift"){
-                const thriftForm={orderId: intId,
-                    rating: 1,
-                    comment: '',}
+            if (page=="Product"){
+                const thriftForm=
+                    {orderId: intId,
+                    rating: parseInt(form.rating),
+                    comment: form.comment}
                 const addedData = await addThriftFeedback(thriftForm);
                 console.log(addedData);
             } else {
-                const tailorForm={bookId: intId,
-                    rating: 1,
-                    comment: '',}
+                const tailorForm=
+                    {bookId: intId,
+                    rating: parseInt(form.rating),
+                    comment: form.comment}
+                    
                 const addedData = await addTailorFeedback(tailorForm);
                 console.log(addedData);
             }
-        }
 
     }
 
@@ -68,11 +57,11 @@ const AddReview = () => {
                             selectedValue={form.rating?.toString()}
                             onValueChange={(itemValue: string, itemIndex) => handleInputChange('rating', itemValue)}
                         >
-                            <Picker.Item label="1" value={1} />
-                            <Picker.Item label="2" value={2} />
-                            <Picker.Item label="3" value={3} />
-                            <Picker.Item label="4" value={4} />
-                            <Picker.Item label="5" value={5} />
+                            <Picker.Item label="1" value="1" />
+                            <Picker.Item label="2" value="2" />
+                            <Picker.Item label="3" value="3" />
+                            <Picker.Item label="4" value="4" />
+                            <Picker.Item label="5" value="5" />
                         </Picker>
                     </View>
                     <Text>Comment:</Text>
@@ -83,7 +72,7 @@ const AddReview = () => {
 
                 </View>
                 <View>
-                    <Pressable onPress={() => handleSubmit()}>
+                    <Pressable onPress={() => {handleSubmit(); router.push('/activity');}}>
                         <Text style={{ fontSize: 18, paddingVertical: 10, paddingHorizontal: 60, backgroundColor: '#616219', textAlign: 'center', color: 'white', borderRadius: 5, marginTop: 20, alignSelf: 'center' }}>Add Review</Text>
                     </Pressable>
                 </View>

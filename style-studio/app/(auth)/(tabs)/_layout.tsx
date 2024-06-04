@@ -320,7 +320,7 @@ const Layout = () => {
 			/>
 
 			<Tabs.Screen
-				name="activity/detail"
+				name="activity/detail/index"
 				options={{
 					headerTintColor: '#FFFFFF',
 					headerTitleAlign: 'center',
@@ -339,7 +339,7 @@ const Layout = () => {
 				}}
 			/>
 			<Tabs.Screen
-				name="activity/addReview"
+				name="activity/detail/addReview/index"
 				options={{
 					headerTintColor: '#FFFFFF',
 					headerTitleAlign: 'center',

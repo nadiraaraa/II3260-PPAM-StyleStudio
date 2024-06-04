@@ -61,7 +61,7 @@ const Thrift = () => {
         };
 
         loadCatalog();
-    }, []);
+    }, [search, category, location]);
 
 	const handleSearch = () => {};
 
@@ -81,6 +81,7 @@ const Thrift = () => {
 			<View style={styles.bar}>
 				<View style={styles.input}>
 					<TextInput
+						style={{width: 300}}
 						// style={styles.input}
 						placeholder="Search..."
 						value={search}
@@ -89,12 +90,12 @@ const Thrift = () => {
 						autoCapitalize="none"
 						placeholderTextColor="#8C8C8C" // Light gray color for placeholder text
 					/>
-					<Pressable onPress={()=>handleSearch()}>
+					{/* <Pressable onPress={()=>handleSearch()}> */}
 						<Image
 							source={require('../../../../../assets/images/search.png')}
-							style={styles.icon}
+							// style={styles.icon}
 						/>
-					</Pressable>
+					{/* </Pressable> */}
 				</View>
 				<Pressable
 					onPress={() => {
@@ -104,7 +105,7 @@ const Thrift = () => {
 				>
 					<Image
 						source={require('../../../../../assets/images/category.png')}
-						style={styles.icon}
+						// style={styles.icon}
 					/>
 				</Pressable>
 			</View>
@@ -211,7 +212,6 @@ const styles = StyleSheet.create({
 		// borderRadius: 10,
 		marginBottom: 10,
 	},
-	icon: {},
 	card: {
 		width: 180, // Adjusted width
 		height: 280, // Adjusted height

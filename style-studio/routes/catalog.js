@@ -11,7 +11,7 @@ export async function fetchCatalog(type, userId, inName, inCategory, inCity) {
             .select('*, user(uid, name, city)')
 
         if(inName !== ''){
-            query.ilike('name', inName);
+            query.ilike('name', `%${inName}%`);
         }
         if(inCategory !== ''){
             query.ilike('category', inCategory);

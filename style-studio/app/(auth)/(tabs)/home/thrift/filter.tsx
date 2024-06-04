@@ -20,6 +20,7 @@ const Filter: React.FC<filterProps> = ({category, setCategory, location, setLoca
                 <Pressable onPress={() => setCategory('Accessory')}><Text style={[styles.filterOption, category == "Accessory" ? { backgroundColor: '#BABA72', color: 'white' } : { backgroundColor: '#E6E4BF' }]}>Accessory</Text></Pressable>
                 <Pressable onPress={() => setCategory('Footwear')}><Text style={[styles.filterOption, category == "Footwear" ? { backgroundColor: '#BABA72', color: 'white' } : { backgroundColor: '#E6E4BF' }]}>Footwear</Text></Pressable>
                 <Pressable onPress={() => setCategory('Set')}><Text style={[styles.filterOption, category == "Set" ? { backgroundColor: '#BABA72', color: 'white' } : { backgroundColor: '#E6E4BF' }]}>Set</Text></Pressable>
+                <Pressable onPress={() => setCategory('')}><Text style={[styles.filterOption, category == "" ? { backgroundColor: '#BABA72', color: 'white' } : { backgroundColor: '#E6E4BF' }]}>None</Text></Pressable>
             </View>
         </View>
         <View>
@@ -31,6 +32,7 @@ const Filter: React.FC<filterProps> = ({category, setCategory, location, setLoca
                 <Pressable onPress={() => setLocation('Jawa Tengah')}><Text style={[styles.filterOption, location == "Jawa Tengah" ? { backgroundColor: '#BABA72', color: 'white' } : { backgroundColor: '#E6E4BF' }]}>Jawa Tengah</Text></Pressable>
                 <Pressable onPress={() => setLocation('Jawa Timur')}><Text style={[styles.filterOption, location == "Jawa Timur" ? { backgroundColor: '#BABA72', color: 'white' } : { backgroundColor: '#E6E4BF' }]}>Jawa Timur</Text></Pressable>
                 <Pressable onPress={() => setLocation('Yogyakarta')}><Text style={[styles.filterOption, location == "Yogyakarta" ? { backgroundColor: '#BABA72', color: 'white' } : { backgroundColor: '#E6E4BF' }]}>Yogyakarta</Text></Pressable>
+                <Pressable onPress={() => setLocation('')}><Text style={[styles.filterOption, location == "" ? { backgroundColor: '#BABA72', color: 'white' } : { backgroundColor: '#E6E4BF' }]}>None</Text></Pressable>
             </View>
         </View>
         <View>

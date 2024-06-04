@@ -9,10 +9,6 @@ export async function order(user, orderData) {
             .from('order') // Replace 'your_table_name' with your actual table name
             .insert(orderData);
 
-        if (error) {
-            throw error;
-        }
-
         try {
             const { data: catalogData, error } = await supabase
                 .from('catalog') // Replace 'your_table_name' with your actual table name
