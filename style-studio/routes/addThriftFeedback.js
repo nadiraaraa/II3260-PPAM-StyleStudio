@@ -10,22 +10,24 @@ export async function addThriftFeedback(thriftFeedbackData) {
 
         console.log(thriftFeedbackData);
 
-    } catch (error) {
-        console.error('Error inserting data:', error.message);
-    }
 
-    try {
-        const { data: orderData, error } = await supabase
-            .from('order') // Replace 'your_table_name' with your actual table name
-            .update({reviewed: true })
-            .eq('orderId', orderData.orderId);
+        try {
+            const { error } = await supabase
+                .from('order') // Replace 'your_table_name' with your actual table name
+                .update({ reviewed: true })
+                .eq('id', thriftFeedbackData.orderId);
+                console.log(thriftFeedbackData.orderId);
 
-        if (error) {
+            if (error) {
+                throw error;
+            }
+        }
+        catch (error) {
             throw error;
         }
-    }
-    catch (error) {
-        throw error;
+
+    } catch (error) {
+        console.error('Error inserting data:', error.message);
     }
 
     return insertedData;

@@ -100,7 +100,7 @@ const ActDetail = ({ }: ActDetailProps) => {
                             Reviewed
                         </Text>
                         :
-                        <Pressable style={{ justifyContent: 'flex-end', }} onPress={() => router.push(`./addReview?page=Tailor&name=${bookDetail.tailor_name}` as any)}>
+                        <Pressable style={{ justifyContent: 'flex-end', }} onPress={() => router.push(`./addReview?page=Tailor&name=${bookDetail.tailor_name}&id=${bookDetail.id}` as any)}>
                             <Text style={{ padding: 10, textAlign: 'center', margin: 10, width: 120, fontSize: 16, backgroundColor: '#616219', color: 'white', borderRadius: 10, alignSelf: 'flex-end' }}>
                                 Review
                             </Text>

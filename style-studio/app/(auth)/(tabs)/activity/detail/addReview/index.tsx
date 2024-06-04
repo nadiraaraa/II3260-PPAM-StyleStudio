@@ -23,7 +23,7 @@ const AddReview = () => {
     };
 
     const handleSubmit = async () => {
-            if (page==="Thrift"){
+            if (page=="Product"){
                 const thriftForm=
                     {orderId: intId,
                     rating: parseInt(form.rating),
@@ -35,7 +35,9 @@ const AddReview = () => {
                     {bookId: intId,
                     rating: parseInt(form.rating),
                     comment: form.comment}
+                    
                 const addedData = await addTailorFeedback(tailorForm);
+                console.log(addedData);
             }
 
     }
