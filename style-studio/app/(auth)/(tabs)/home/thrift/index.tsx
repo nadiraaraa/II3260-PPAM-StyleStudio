@@ -81,7 +81,7 @@ const Thrift = () => {
 			<View style={styles.bar}>
 				<View style={styles.input}>
 					<TextInput
-						style={{width: 300}}
+						style={{width: 250}}
 						// style={styles.input}
 						placeholder="Search..."
 						value={search}
@@ -123,7 +123,7 @@ const Thrift = () => {
 							key={idx}
 							onPress={() =>
 								router.push(
-									`/home/thrift/product?detail=${JSON.stringify(catalog)}`
+									`/home/thrift/product?detail=${JSON.stringify(catalog)}&viewer=buyer`
 								)
 							}
 						>
