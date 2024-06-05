@@ -34,10 +34,9 @@ export const uploadImage = async (base64, fileName, mimeType) => {
     // }
 
     // Upload to Supabase storage
-    const { data, error } = await supabase
-      .storage
+    const { data, error } = await supabase.storage
       .from('images')
-      .upload(fileName, base64, {
+      .upload(fileName, decode(base64), {
         contentType: mimeType,
       });
 
