@@ -108,10 +108,11 @@ const Add = () => {
                         onChangeText={(e) => handleInputChange('price', parseInt(e))}
                     />
                     <Text>Photo:</Text>
-                    <TextInput
+                    
+                    {/* <TextInput
                         style={styles.input}
                         onChangeText={(e) => handleInputChange('photo', e)}
-                    />
+                    /> */}
                     <Text>Category: *</Text>
                     <View style={[styles.input, { paddingVertical: 0 }]}>
                         <Picker
