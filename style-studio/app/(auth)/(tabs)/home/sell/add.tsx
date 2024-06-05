@@ -1,11 +1,15 @@
 import React, { ChangeEvent, useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Pressable, AppState, ScrollView, Alert } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Pressable, AppState, ScrollView, Alert, Button } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { Picker } from '@react-native-picker/picker';
-import { newCatalogType } from '../../../../../components/catalog';
+import { newCatalogType } from '@/components/catalog';
 import { useSession } from '@/context/SessionContext';
-import { addCatalog } from '../../../../../routes/addCatalog'
+import { addCatalog } from '@/routes/addCatalog'
+import ImageItem from '@/components/ImageItem';
+import { Camera } from 'expo-camera';
+import { pickImage } from '@/components/PickImage';
+
 
 const Add = () => {
     const router = useRouter();
@@ -47,15 +51,15 @@ const Add = () => {
             console.log(form);
         } else {
             handleSubmit();
-            setForm((prevFrom) => ({ name: '', size: '', brand: null, condition: null, material: null, description: null, price: null, photo: '', category: 'Top', sellerId: userId})); 
+            setForm((prevFrom) => ({ name: '', size: '', brand: null, condition: null, material: null, description: null, price: null, photo: '', category: 'Top', sellerId: userId }));
             router.push('/home/sell');
         }
     }
 
     const handleSubmit = async () => {
-                console.log(form);
-                const addedData = await addCatalog(form);
-                console.log(addedData);
+        console.log(form);
+        const addedData = await addCatalog(form);
+        console.log(addedData);
 
     }
 
@@ -95,23 +99,32 @@ const Add = () => {
                     />
                     <Text>Description:</Text>
                     <TextInput
-                        value= {form.description || ''}
+                        value={form.description || ''}
                         style={styles.input}
                         onChangeText={(e) => handleInputChange('description', e)}
                     />
                     <Text>Price: *</Text>
                     <TextInput
-                        value= {form.price?.toString() || ''}
+                        value={form.price?.toString() || ''}
                         style={styles.input}
                         keyboardType="numeric"
                         placeholderTextColor="#8C8C8C" // Light gray color for placeholder text
                         onChangeText={(e) => handleInputChange('price', parseInt(e))}
                     />
                     <Text>Photo:</Text>
-                    <TextInput
+                    <View>
+                        <Button
+                            title="Pick Image"
+                            onPress={async () => {
+                                const uri = await pickImage();
+                                handleInputChange('photo', uri || '');
+                            }}
+                        />                    
+                    </View>
+                    {/* <TextInput
                         style={styles.input}
                         onChangeText={(e) => handleInputChange('photo', e)}
-                    />
+                    /> */}
                     <Text>Category: *</Text>
                     <View style={[styles.input, { paddingVertical: 0 }]}>
                         <Picker
@@ -128,7 +141,7 @@ const Add = () => {
                         </Picker>
                     </View>
                     <View>
-                        <Pressable onPress={() => {checkSubmit(); }}>
+                        <Pressable onPress={() => { checkSubmit(); }}>
                             <Text style={{ fontSize: 18, paddingVertical: 10, paddingHorizontal: 60, backgroundColor: '#616219', textAlign: 'center', color: 'white', borderRadius: 5, marginTop: 20, alignSelf: 'center' }}>Add Item</Text>
                         </Pressable>
                     </View>

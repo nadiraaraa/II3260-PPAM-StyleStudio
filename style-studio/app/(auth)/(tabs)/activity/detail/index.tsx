@@ -57,7 +57,7 @@ const ActDetail = ({ }: ActDetailProps) => {
                     <></>
 
                     : orderDetail.reviewed ?
-                        <Text style={{ padding: 10, textAlign: 'center', margin: 10, width: 120, fontSize: 16, borderWidth: 1, borderColor: '#616219', color: 'white', borderRadius: 10, alignSelf: 'flex-end' }}>
+                        <Text style={{ padding: 10, textAlign: 'center', margin: 10, width: 120, fontSize: 16, borderWidth: 1, borderColor: '#616219', color: '#616219', borderRadius: 10, alignSelf: 'flex-end' }}>
                             Reviewed
                         </Text>
                         :

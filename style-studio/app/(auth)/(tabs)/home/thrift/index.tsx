@@ -12,25 +12,15 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Filter from './filter';
-import { fetchCatalog } from '../../../../../routes/catalog';
-import { catalogType } from '../../../../../components/catalog';
+import { fetchCatalog } from '@/routes/catalog';
+import { catalogType } from '@/components/catalog';
 import { useSession } from '@/context/SessionContext';
+import {getImageUrl} from '@/routes/getImage';
+import ImageItem from '@/components/ImageItem';
 
-const images = [
-	require('../../../../../assets/images/contoh1.png'),
-	require('../../../../../assets/images/jumpsuit.jpg'),
-	require('../../../../../assets/images/kaftan.jpg'),
-	require('../../../../../assets/images/knit.jpg'),
-	require('../../../../../assets/images/dress.jpg'),
-	require('../../../../../assets/images/cardigan.jpg'),
-	require('../../../../../assets/images/hoodie.jpg'),
-
-	// tambahkan path gambar lain yang diinginkan
-];
 
 const Thrift = () => {
 	// const { initSearch } = useLocalSearchParams()
-	//hrs tambahin search sbg param
 	const router = useRouter();
 	const { user, isLoading } = useSession();
 	console.log('user:', user, user?.id);
@@ -44,10 +34,6 @@ const Thrift = () => {
 	const [viewCategory, setViewCategory] = useState(false);
 	const [catalogs, setCatalogs] = useState<catalogType[]>([]);
 
-	const getRandomImage = () => {
-        const randomIndex = Math.floor(Math.random() * images.length);
-        return images[randomIndex];
-      };
     
     useEffect(() => {
         const loadCatalog = async () => {
@@ -81,7 +67,7 @@ const Thrift = () => {
 			<View style={styles.bar}>
 				<View style={styles.input}>
 					<TextInput
-						style={{width: 300}}
+						style={{width: 250}}
 						// style={styles.input}
 						placeholder="Search..."
 						value={search}
@@ -123,14 +109,15 @@ const Thrift = () => {
 							key={idx}
 							onPress={() =>
 								router.push(
-									`/home/thrift/product?detail=${JSON.stringify(catalog)}`
+									`/home/thrift/product?detail=${JSON.stringify(catalog)}&viewer=buyer`
 								)
 							}
 						>
 							<View style={styles.card}>
-								<Image
-									source={require('../../../../../assets/images/contoh1.png')}
-									style={styles.cardImage}
+								<ImageItem
+									height={180}
+									item={catalog.photo}
+									// style={styles.cardImage}
 								/>
 								<Text style={{ color: '#616219', fontWeight: 'bold' }}>
 									{catalog.name}
@@ -205,18 +192,12 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 	},
-	cardImage: {
-		width: 150,
-		// height: 120, // Adjusted height
-		resizeMode: 'cover',
-		// borderRadius: 10,
-		marginBottom: 10,
-	},
 	card: {
 		width: 180, // Adjusted width
 		height: 280, // Adjusted height
 		backgroundColor: '#FDFDF9', // Light green background color
 		padding: 15,
+		paddingTop: 0,
 		borderRadius: 5,
 		// alignItems: 'center',
 		// justifyContent: 'center',

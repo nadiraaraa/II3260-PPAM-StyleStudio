@@ -8,7 +8,7 @@ export interface catalogType {
     material: string|null;
     description: string|null;
     price: number| null;
-    photo: string | null;
+    photo: string;
     category: string;
     sold: boolean;
     sellerId: string;

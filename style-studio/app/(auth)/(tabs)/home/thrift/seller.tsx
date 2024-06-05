@@ -32,8 +32,8 @@ const Seller = () => {
         <ScrollView>
             <View style={{ flexDirection: 'row' }}>
                 <Image
-                    source={require('../../../../../assets/images/profpic.png')}
-                    style={{ width: 120, height: 120, resizeMode: 'cover' }}
+                    source={require('../../../../../assets/images/profile.png')}
+                    style={{ width: 100, height: 100, resizeMode: 'cover', margin: 20 }}
                 />
                 <View style={{ padding: 10 }}>
                     <Text style={{ color: '#616219', fontWeight: 'bold', fontSize: 18 }}>Nadine</Text>
