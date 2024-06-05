@@ -1,44 +1,49 @@
-import { FileObject } from '@supabase/storage-js'
-import { Image, View, Text, TouchableOpacity } from 'react-native'
-import { supabase } from '../supabaseClient'
-import { useState } from 'react'
-import { Ionicons } from '@expo/vector-icons'
+import { Image, View, Text } from 'react-native'
+import { supabase } from '@/supabaseClient'
+import { useState, useEffect } from 'react'
 
-// Image item component that displays the image from Supabase Storage and a delte button
+// Image item component that displays the image from Supabase Storage and a delete button
 const ImageItem = ({
-  item,
-  userId,
-  onRemoveImage,
+  item, height
 }: {
-  item: FileObject
-  userId: string
-  onRemoveImage: () => void
+  item: string, height: number
 }) => {
-  const [image, setImage] = useState<string>('')
+  const [imageUri, setImageUri] = useState<string>('')
 
-  supabase.storage
-    .from('files')
-    .download(`${userId}/${item.name}`)
-    .then(({ data }) => {
-      const fr = new FileReader()
-      fr.readAsDataURL(data!)
-      fr.onload = () => {
-        setImage(fr.result as string)
-      }
-    })
+  useEffect(() => {
+    // Download the image from Supabase Storage
+    const downloadImage = async () => {
+      // try {
+        supabase.storage
+          .from('images')
+          .download(`${item}`)
+          .then(({ data }) => {
+            const fr = new FileReader()
+            fr.readAsDataURL(data!)
+            fr.onload = () => {
+              setImageUri(fr.result as string);
+            }
+          })
+      // } catch (error) {
+      //   console.error('Error downloading image:', error.message)
+      // }
+    }
+
+    downloadImage()
+  }, [item])
 
   return (
     <View style={{ flexDirection: 'row', margin: 1, alignItems: 'center', gap: 5 }}>
-      {image ? (
-        <Image style={{ width: 80, height: 80 }} source={{ uri: image }} />
+      {imageUri ? (
+        <Image source={{ uri: imageUri }} style={{ width: 80, height: height, flex: 1, padding: 0, resizeMode: 'cover', margin: 0 }} />
       ) : (
-        <View style={{ width: 80, height: 80, backgroundColor: '#1A1A1A' }} />
+        <View style={{ backgroundColor: '#1A1A1A', width: 120, height: height, flex: 1, padding: 0, margin: 0 }} />
       )}
-      <Text style={{ flex: 1, color: '#fff' }}>{item.name}</Text>
+      {/* <Text style={{ flex: 1, color: '#fff' }}>{item}</Text> */}
       {/* Delete image button */}
-      <TouchableOpacity onPress={onRemoveImage}>
+      {/* <TouchableOpacity onPress={onRemoveImage}>
         <Ionicons name="trash-outline" size={20} color={'#fff'} />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   )
 }

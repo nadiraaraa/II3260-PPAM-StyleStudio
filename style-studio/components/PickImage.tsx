@@ -20,26 +20,20 @@ export const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [4, 3],
+      aspect: [1, 1],
       quality: 1,
       base64: true,
     });
 
     if (!result.canceled) {
-      console.log("result", result);
       const { base64, type, fileName } = result.assets[0];
       const extension = fileName.split('.').pop();
       const mimeType = getMimeTypeFromExtension(extension);
 
-      uploadImage(result.assets[0].base64, fileName, mimeType)
-      // const { data, error } = await supabase
-      //   .storage
-      //   .from('images')
-      //   .upload(fileName, result.assets[0].base64, {
-      //     contentType: mimeType
-      //   })
+      uploadImage(result.assets[0].base64, fileName, mimeType);
+      console.log(fileName);
+      return(fileName);
 
-      // console.log(data);
     } else {
       console.log('User cancelled image picker');
     }

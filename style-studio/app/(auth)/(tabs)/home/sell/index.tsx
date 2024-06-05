@@ -6,6 +6,7 @@ import Filter from '../thrift/filter';
 import {fetchCatalog} from '../../../../../routes/catalog'
 import {catalogType} from '../../../../../components/catalog';
 import { useSession } from '@/context/SessionContext';
+import ImageItem from '@/components/ImageItem';
 
 const Sell = () => {
   const { user } = useSession();
@@ -91,10 +92,11 @@ const Sell = () => {
                         {catalogs.map((catalog, idx)=>
                             <Pressable key={idx} onPress={()=> router.push(`/home/thrift/product?detail=${JSON.stringify(catalog)}&viewer=seller`)}>
                                 <View style={styles.card}>
-                                    <Image
-                                        source={require('../../../../../assets/images/contoh1.png')}
-                                        style={styles.cardImage}
-                                    />
+                                <ImageItem
+									height={180}
+									item={catalog.photo}
+									// style={styles.cardImage}
+								/>
                                     <Text style={{ color: '#616219', fontWeight: 'bold' }}>{catalog.name}</Text>
                                     <Text style={{ color: '#1C1B1F' }}>Rp{catalog.price?.toString()}</Text>
                                     <View style={{flex: 1, justifyContent:'flex-end'}}>
