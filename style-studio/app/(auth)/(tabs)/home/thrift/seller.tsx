@@ -4,28 +4,37 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { feedbackType } from "../../../../../components/feedback";
 import { useState, useEffect } from "react";
 import { fetchFeedback } from '../../../../../routes/sellerFeedback'
+import { getUserById } from "@/api/user.api";
 
 const Seller = () => {
     const router = useRouter();
 
     const { userId } = useLocalSearchParams();
+    const uid = userId?.toString() || "";
 
     const [feedbacks, setFeedbacks] = useState<feedbackType[]>([]);
     const [loading, setLoading] = useState(true);
+    const [name, setName] = useState("");
+    const [location, setLocation] = useState("");
+
 
 
     useEffect(() => {
-        const loadFeedback = async () => {
-            setLoading(true);
- 
-                const feedbackData = await fetchFeedback(userId);
-                // console.log(feedbackData);
-                setFeedbacks(feedbackData);
-                setLoading(false);
+        const fetchData = async () => {
+          const data = await getUserById(uid);
+          if (!data) {
+            console.log('Tailor not found');
+            return;
+          }
+          setName(data.name);
+          setLocation(data.city);
+    
+          const dataFeedback = await fetchFeedback(uid);  // Assuming userId and uid are the same
+          setFeedbacks(dataFeedback);
         };
-
-        loadFeedback();
-    }, []);
+    
+        fetchData();
+      }, [uid]);
 
 
     return <View style={styles.container}>
@@ -36,8 +45,8 @@ const Seller = () => {
                     style={{ width: 100, height: 100, resizeMode: 'cover', margin: 20 }}
                 />
                 <View style={{ padding: 10 }}>
-                    <Text style={{ color: '#616219', fontWeight: 'bold', fontSize: 18 }}>Nadine</Text>
-                    <Text style={{ fontSize: 16 }}>Lokasi: Jakarta</Text>
+                    <Text style={{ color: '#616219', fontWeight: 'bold', fontSize: 18 }}>{name}</Text>
+                    <Text style={{ fontSize: 16 }}>Lokasi: {location}</Text>
                     <Pressable><Text style={{ paddingVertical: 10, paddingHorizontal: 40, marginTop: 10, marginHorizontal: 'auto', fontSize: 16, backgroundColor: '#616219', color: 'white', borderRadius: 10 }}>See Catalog</Text></Pressable>
                 </View>
             </View>

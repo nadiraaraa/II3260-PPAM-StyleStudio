@@ -12,12 +12,15 @@ import {
 import { useEffect, useState } from 'react';
 import { router, useLocalSearchParams } from 'expo-router';
 import { fetchTailorById, Tailor } from '@/api/tailor.api';
+import {fetchTailorFeedback} from '@/routes/tailorFeedback'
+import { tailorFeedbackType } from '@/components/feedback';
 
 const Book = () => {
 	const [alterCount, setAlterCount] = useState(0);
 	const [createCount, setCreateCount] = useState(0);
 	const [total, setTotal] = useState(0);
 	const [paymentMethod, setPaymentMethod] = useState('BCA');
+    const [feedbacks, setFeedbacks] = useState<tailorFeedbackType[]>([]);
 
 	const [tailor, setTailor] = useState<Tailor | null>(null);
 
@@ -28,6 +31,9 @@ const Book = () => {
 			const data = await fetchTailorById(tailorId as string);
 			if (!data) return console.log('Tailor not found');
 			setTailor(data);
+
+			const dataFeedback = await fetchTailorFeedback(tailorId as string);
+			setFeedbacks(dataFeedback);
 		})();
 	}, []);
 
@@ -94,7 +100,7 @@ const Book = () => {
 					>
 						<Image
 							source={require('../../../../../../assets/images/minus.png')}
-							// style={{ width: 40, height: 40, resizeMode: 'cover' }}
+						// style={{ width: 40, height: 40, resizeMode: 'cover' }}
 						/>
 					</Pressable>
 					<Text>{alterCount}</Text>
@@ -105,7 +111,7 @@ const Book = () => {
 					>
 						<Image
 							source={require('../../../../../../assets/images/plus.png')}
-							// style={{ width: 40, height: 40, resizeMode: 'cover' }}
+						// style={{ width: 40, height: 40, resizeMode: 'cover' }}
 						/>
 					</Pressable>
 				</View>
@@ -138,7 +144,7 @@ const Book = () => {
 					>
 						<Image
 							source={require('../../../../../../assets/images/minus.png')}
-							// style={{ width: 40, height: 40, resizeMode: 'cover' }}
+						// style={{ width: 40, height: 40, resizeMode: 'cover' }}
 						/>
 					</Pressable>
 					<Text>{createCount}</Text>
@@ -149,7 +155,7 @@ const Book = () => {
 					>
 						<Image
 							source={require('../../../../../../assets/images/plus.png')}
-							// style={{ width: 40, height: 40, resizeMode: 'cover' }}
+						// style={{ width: 40, height: 40, resizeMode: 'cover' }}
 						/>
 					</Pressable>
 				</View>
@@ -168,7 +174,7 @@ const Book = () => {
 					<Text style={{ textAlign: 'center' }}>Rp{total.toString() || '0'}</Text>
 				</View>
 
-				<Pressable onPress={()=>handleBook()}>
+				<Pressable onPress={() => handleBook()}>
 					<Text
 						style={{
 							paddingVertical: 10,
@@ -186,86 +192,42 @@ const Book = () => {
 				</Pressable>
 
 				{/* feedback */}
-				<View>
-					<Text
-						style={{
-							color: '#616219',
-							fontWeight: 'bold',
-							fontSize: 18,
-							padding: 15,
-							paddingBottom: 0,
-							marginTop: 20,
-						}}
-					>
-						Review Seller
-					</Text>
-					<View
-						style={{
-							backgroundColor: 'white',
-							padding: 10,
-							borderWidth: 1,
-							borderColor: '#616219',
-							marginHorizontal: 10,
-							marginVertical: 5,
-							borderRadius: 10,
-						}}
-					>
-						<Text style={{ color: '#616219', fontWeight: 'bold', fontSize: 18 }}>
-							Nadira
-						</Text>
-						<Text style={{ fontSize: 16 }}>23/12/2023</Text>
-						<View style={{ backgroundColor: '#D9D9D9', padding: 15, borderRadius: 10 }}>
-							<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-								<Text>Rating: </Text>
-								<Image
-									source={require('../../../../../../assets/images/star.png')}
-									style={{
-										width: 20,
-										height: 20,
-										padding: 0,
-										resizeMode: 'cover',
-									}}
-								/>
-							</View>
-							<Text>Komentar lorem ipsum dolores sit amet</Text>
-						</View>
-					</View>
+				<View style={styles.container}>
+					<ScrollView>
 
-					<View
-						style={{
-							backgroundColor: 'white',
-							padding: 10,
-							borderWidth: 1,
-							borderColor: '#616219',
-							marginHorizontal: 10,
-							marginVertical: 5,
-							borderRadius: 10,
-						}}
-					>
-						<Text style={{ color: '#616219', fontWeight: 'bold', fontSize: 18 }}>
-							Nadira
-						</Text>
-						<Text style={{ fontSize: 16 }}>23/12/2023</Text>
-						<View style={{ backgroundColor: '#D9D9D9', padding: 15, borderRadius: 10 }}>
-							<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-								<Text>Rating: </Text>
-								<Image
-									source={require('../../../../../../assets/images/star.png')}
-									style={{
-										width: 20,
-										height: 20,
-										padding: 0,
-										resizeMode: 'cover',
-									}}
-								/>
-							</View>
-							<Text>Komentar lorem ipsum dolores sit amet</Text>
+						<View >
+							<Text style={{ color: '#616219', fontWeight: 'bold', fontSize: 18, padding: 15, paddingBottom: 0, }}>Review Tailor</Text>
+
+							{feedbacks.map((feedback, idx) =>
+								<View key={idx} style={{ backgroundColor: 'white', padding: 10, borderWidth: 1, borderColor: '#616219', marginHorizontal: 10, marginVertical: 5, borderRadius: 10 }}>
+									<Text style={{ color: '#616219', fontWeight: 'bold', fontSize: 18 }}>{feedback.user_name}</Text>
+									<Text style={{ fontSize: 16 }}>Tanggal: {feedback.created_date}</Text>
+									<View style={{ backgroundColor: '#D9D9D9', padding: 15, borderRadius: 10 }}>
+										<View style={{ flexDirection: 'row', alignItems: 'center', }}>
+											<Text>Rating: </Text>
+											{[...Array(feedback.rating)].map((e, idx2) =>
+												<Image
+													key={idx2}
+													source={require('../../../../../../assets/images/star.png')}
+													style={{ width: 20, height: 20, padding: 0, resizeMode: 'cover' }}
+												/>
+											)}
+
+										</View>
+										<Text>{feedback.comment}</Text>
+									</View>
+
+
+								</View>
+							)}
+
 						</View>
-					</View>
+					</ScrollView>
+
 				</View>
 			</ScrollView>
 		</View>
-	);
+	)
 };
 
 const styles = StyleSheet.create({

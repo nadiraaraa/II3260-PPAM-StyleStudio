@@ -1,5 +1,5 @@
-import { Link, useLocalSearchParams, useRouter } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { Link, useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
+import { useCallback, useEffect, useState } from 'react';
 import { Button, StyleSheet, Text, TextInput, View, Image, ScrollView, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Filter from '../thrift/filter';
@@ -21,7 +21,8 @@ const Sell = () => {
     const [viewCategory, setViewCategory] = useState(false);
     const [catalogs, setCatalogs] = useState<catalogType[]>([]);
 
-    useEffect(() => {
+    useFocusEffect(
+		useCallback(() => {
         const loadCatalog = async () => {
             setLoading(true);
             setError(false);
@@ -34,10 +35,8 @@ const Sell = () => {
         };
 
         loadCatalog();
-    }, []);
-    const handleSearch = () => {
+    }, []));
 
-    }
 
     return (
             <View style={styles.container}>
@@ -62,7 +61,7 @@ const Sell = () => {
                             autoCapitalize="none"
                             placeholderTextColor="#8C8C8C" // Light gray color for placeholder text
                         />
-                        <Pressable onPress={() =>handleSearch()}>
+                        <Pressable onPress={() => {}}>
                             <Image
                                 source={require('../../../../../assets/images/search.png')}
                                 style={styles.icon}

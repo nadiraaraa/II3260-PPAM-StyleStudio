@@ -1,6 +1,6 @@
 import { useSession } from '@/context/SessionContext';
-import { Link, useRouter } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { Link, useFocusEffect, useRouter } from 'expo-router';
+import { useCallback, useEffect, useState } from 'react';
 import { Button, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { fetchBookedHistory } from '../../../../../routes/bookedHistory';
@@ -20,7 +20,8 @@ const Tailor = () => {
 	const [page, setPage] = useState("Incoming Orders");
 
 	if (isT) {
-		useEffect(() => {
+		useFocusEffect(
+			useCallback(() => {
 			const loadActivity = async () => {
 					const bookData = await fetchBookedHistory(userId);
 					// console.log(bookData);
@@ -33,7 +34,7 @@ const Tailor = () => {
 			};
 
 			loadActivity();
-		}, []);
+		}, []));
 
 		return (
 			<View style={styles.container}>

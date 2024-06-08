@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Text, View, Pressable, StyleSheet, ScrollView } from "react-native";
-import { useRouter } from "expo-router";
+import { useFocusEffect, useRouter } from "expo-router";
 import {fetchBuyHistory} from '../../../../routes/buyHistory';
 import {fetchBookHistory} from '../../../../routes/bookHistory';
 import {fetchBookedHistory} from '../../../../routes/bookedHistory';
@@ -22,7 +22,8 @@ const Activity = () => {
   const [sells, setSells] = useState<orderType[]>([]);
   const router = useRouter();
 
-  useEffect(() => {
+  useFocusEffect(
+		useCallback(() => {
     const loadActivity = async () => {
         setLoading(true);
 
@@ -44,7 +45,7 @@ const Activity = () => {
     };
 
     loadActivity();
-}, []);
+}, []));
 
   return (
     <View style={styles.container}>

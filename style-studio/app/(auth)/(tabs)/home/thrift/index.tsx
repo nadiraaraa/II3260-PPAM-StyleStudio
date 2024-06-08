@@ -1,5 +1,5 @@
-import { Link, useLocalSearchParams, useRouter } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { Link, useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
+import { useCallback, useEffect, useState } from 'react';
 import {
 	Button,
 	StyleSheet,
@@ -15,7 +15,7 @@ import Filter from './filter';
 import { fetchCatalog } from '@/routes/catalog';
 import { catalogType } from '@/components/catalog';
 import { useSession } from '@/context/SessionContext';
-import {getImageUrl} from '@/routes/getImage';
+import { getImageUrl } from '@/routes/getImage';
 import ImageItem from '@/components/ImageItem';
 
 
@@ -34,22 +34,23 @@ const Thrift = () => {
 	const [viewCategory, setViewCategory] = useState(false);
 	const [catalogs, setCatalogs] = useState<catalogType[]>([]);
 
-    
-    useEffect(() => {
-        const loadCatalog = async () => {
-            setLoading(true);
-            setError(false);
-                const catalogData = await fetchCatalog("browse", userId, search, category, location);
-                console.log(catalogData);
-                setCatalogs(catalogData);
 
-                setLoading(false);
-        };
+	useFocusEffect(
+		useCallback(() => {
+			const loadCatalog = async () => {
+				setLoading(true);
+				setError(false);
+				const catalogData = await fetchCatalog("browse", userId, search, category, location);
+				console.log(catalogData);
+				setCatalogs(catalogData);
 
-        loadCatalog();
-    }, [search, category, location]);
+				setLoading(false);
+			};
 
-	const handleSearch = () => {};
+			loadCatalog();
+		}, [search, category, location]));
+
+	const handleSearch = () => { };
 
 	return (
 		<View style={styles.container}>
@@ -67,7 +68,7 @@ const Thrift = () => {
 			<View style={styles.bar}>
 				<View style={styles.input}>
 					<TextInput
-						style={{width: 250}}
+						style={{ width: 250 }}
 						// style={styles.input}
 						placeholder="Search..."
 						value={search}
@@ -77,10 +78,10 @@ const Thrift = () => {
 						placeholderTextColor="#8C8C8C" // Light gray color for placeholder text
 					/>
 					{/* <Pressable onPress={()=>handleSearch()}> */}
-						<Image
-							source={require('../../../../../assets/images/search.png')}
-							// style={styles.icon}
-						/>
+					<Image
+						source={require('../../../../../assets/images/search.png')}
+					// style={styles.icon}
+					/>
 					{/* </Pressable> */}
 				</View>
 				<Pressable
@@ -91,7 +92,7 @@ const Thrift = () => {
 				>
 					<Image
 						source={require('../../../../../assets/images/category.png')}
-						// style={styles.icon}
+					// style={styles.icon}
 					/>
 				</Pressable>
 			</View>
@@ -117,7 +118,7 @@ const Thrift = () => {
 								<ImageItem
 									height={180}
 									item={catalog.photo}
-									// style={styles.cardImage}
+								// style={styles.cardImage}
 								/>
 								<Text style={{ color: '#616219', fontWeight: 'bold' }}>
 									{catalog.name}
